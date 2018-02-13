@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/mySessionsFolder"
+            android:layout_width="194dp"
+            android:layout_height="209dp"
+            app:srcCompat="@android:drawable/ic_lock_power_off" />
+
+        <ImageButton
+            android:id="@+id/myInvitedFolder"
+            android:layout_width="190dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@android:drawable/ic_lock_power_off" />
+
+    </LinearLayout>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <ImageButton
+            android:id="@+id/notifications"
+            android:layout_width="326dp"
+            android:layout_height="300dp"
+            app:srcCompat="@android:drawable/ic_lock_power_off" />
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="120dp"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/create"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@null"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/plus" />
+
+            <ImageButton
+                android:id="@+id/join"
+                android:layout_width="44dp"
+                android:layout_height="43dp"
+                android:background="@null"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/join" />
+
+            <ImageButton
+                android:id="@+id/profile"
+                android:layout_width="44dp"
+                android:layout_height="45dp"
+                android:background="@null"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/profile" />
+
+            <ImageButton
+                android:id="@+id/logout"
+                android:layout_width="44dp"
+                android:layout_height="43dp"
+                android:background="@null"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/logout" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>
