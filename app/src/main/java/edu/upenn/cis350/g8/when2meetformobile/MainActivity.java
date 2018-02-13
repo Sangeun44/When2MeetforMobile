@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -14,7 +15,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "When2MeetMain";
     private static final int RC_SIGN_IN = 123;
     private GoogleSignInAccount account;
@@ -26,10 +27,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         account = GoogleSignIn.getLastSignedInAccount(this);
         signInButton = findViewById(R.id.sign_in_button);
+        signInButton.setOnClickListener(this);
         updateUI();
     }
 
-    public void signIn(View v) {
+    @Override
+    public void onClick(View view) {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -37,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
-        updateUI();
     }
 
     @Override
@@ -51,9 +53,12 @@ public class MainActivity extends AppCompatActivity {
                 Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
             }
         }
+        updateUI();
     }
 
     private void updateUI() {
         signInButton.setVisibility(account == null ? View.VISIBLE : View.INVISIBLE);
     }
+
+
 }
