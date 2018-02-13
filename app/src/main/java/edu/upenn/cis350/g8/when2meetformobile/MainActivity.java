@@ -47,4 +47,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    private void updateUI() {
+        if (account == null) {
+        }
+    }
 }
