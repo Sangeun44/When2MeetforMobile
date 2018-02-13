@@ -7,7 +7,7 @@
     tools:context="edu.upenn.cis350.g8.when2meetformobile.JoinedSessionsActivity">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnSessionOne"
         android:layout_width="85dp"
         android:layout_height="105dp"
         android:layout_marginEnd="149dp"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnSessionTwo"
         android:layout_width="85dp"
         android:layout_height="105dp"
         android:layout_marginEnd="149dp"
@@ -30,18 +30,18 @@
         android:onClick="onSessionButtonClick"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/btnSessionOne" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/btnSessionThree"
         android:layout_width="85dp"
         android:layout_height="105dp"
         android:layout_marginEnd="149dp"
         android:layout_marginStart="150dp"
         android:layout_marginTop="50dp"
-        android:text="Session Three"
         android:onClick="onSessionButtonClick"
+        android:text="Session Three"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/btnSessionTwo" />
 </android.support.constraint.ConstraintLayout>
