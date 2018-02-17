@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void addUserToDb() {
         Map<String, Object> userData = new HashMap<>();
         userData.put("name",account.getDisplayName());
-        userData.put("meetings", new ArrayList<DocumentReference>());
         db.collection("users").document(account.getId())
                 .set(userData, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
