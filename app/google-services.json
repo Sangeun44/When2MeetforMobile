@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "373638458516",
+    "firebase_url": "https://when2meetformobile.firebaseio.com",
+    "project_id": "when2meetformobile",
+    "storage_bucket": "when2meetformobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:373638458516:android:f7e2bca89fd4129c",
+        "android_client_info": {
+          "package_name": "edu.upenn.cis350.g8.when2meetformobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "373638458516-qpc31797b2cs816sb6hl1j8906cgai8p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.upenn.cis350.g8.when2meetformobile",
+            "certificate_hash": "422d5a3f7017c11324bb8671724632ba430236e5"
+          }
+        },
+        {
+          "client_id": "373638458516-fbqvaiih6k7m2ln4n0m7obbdv0jp0qmg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.upenn.cis350.g8.when2meetformobile",
+            "certificate_hash": "d2d9546806290a590ca9949419c54c5772e9cdc5"
+          }
+        },
+        {
+          "client_id": "373638458516-b28rf88bgsfejpg16gi8p9ucdnvr3dje.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAuM6eRFo1c3hH4tCHCYi4lMgkubKV-sc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "373638458516-b28rf88bgsfejpg16gi8p9ucdnvr3dje.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
