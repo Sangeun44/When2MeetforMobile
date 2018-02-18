@@ -39,7 +39,7 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
     private String earliestStr;
     private String latestStr;
     private String typeStr;
-    private String codeStr;
+    private String meetingIDStr;
     private String eventName;
 
     //storage
@@ -119,7 +119,7 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
                     codedV.setVisibility(View.VISIBLE);
                     String code = createRandomCode();
                     ((TextView) codedV).setText(code);
-                    codeStr = code;
+                    meetingIDStr = code;
                 }
                 else {
                     //email
@@ -209,6 +209,24 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
             Toast.makeText(CreateSessionActivity.this,
                     "Remember to enter in emails!",
                     Toast.LENGTH_SHORT).show();
+        }
+        else {
+            sendEmail();
+        }
+    }
+
+    //send emails to the email list with the meeting id
+    public void sendEmail() {
+        String[] emails = emailList.toArray(new String[emailList.size()]);
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("message/rfc822");
+        i.putExtra(Intent.EXTRA_EMAIL  , emails);
+        i.putExtra(Intent.EXTRA_SUBJECT, "subject of email");
+        i.putExtra(Intent.EXTRA_TEXT   , "body of email");
+        try {
+            startActivity(Intent.createChooser(i, "Send mail..."));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(CreateSessionActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
         }
     }
 
