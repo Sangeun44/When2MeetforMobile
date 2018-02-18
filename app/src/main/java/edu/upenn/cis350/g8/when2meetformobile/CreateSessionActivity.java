@@ -145,13 +145,13 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
                 emailList = data.getStringArrayListExtra("result");
-                Log.d("first", "" + emailList.size());
             }
         }
     }
 
+    //if nothing is selected 4 spinners
     public void onNothingSelected(AdapterView<?> arg0) {
-        Log.d("try", "check it");
+        //do nothing
     }
 
     //select weekdays
@@ -180,10 +180,6 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
 
     //clicked on the create event button
     public void onClickCreateButton(View view) {
-        Log.d("first", "first");
-        Log.d("first", earliestStr);
-        Log.d("first", latestStr);
-        Log.d("first", codeStr);
 
         //check event name
         EditText eventN = (EditText) findViewById(R.id.eventName);
@@ -242,7 +238,6 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
             Resources res = getResources();
             String name = "btn" + i;
             int id = res.getIdentifier(name, "id", this.getPackageName());
-            Log.d("check id", "" + id);
             Button btn = findViewById(id);
             btn.setText(dt.toString().substring(4,10));
         }

@@ -19,14 +19,14 @@ import java.util.ArrayList;
  */
 
 public class EmailActivity extends AppCompatActivity {
-    ArrayList<String> emails;
+    ArrayList<String> emailsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email);
 
-        emails = new ArrayList<String>();
+        emailsList = new ArrayList<String>();
     }
 
     public void onClickOk(View view) {
@@ -40,12 +40,12 @@ public class EmailActivity extends AppCompatActivity {
         } else {
             //split the text field into new lines
             String emails = fill.getText().toString();
-            String[] array = emails.split("/n");
+            String[] array = emails.split("\\n");
             check(array);
 
             //return email list to main create activity
             Intent returnIntent = new Intent();
-            returnIntent.putExtra("result", emails);
+            returnIntent.putStringArrayListExtra("result", emailsList);
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
         }
@@ -58,7 +58,7 @@ public class EmailActivity extends AppCompatActivity {
     public void check(String[] array) {
         for (int i = 0; i < array.length; i++){
             if (array[i].contains("@")){
-                emails.add(array[i]);
+                emailsList.add(array[i]);
             }
         }
     }
