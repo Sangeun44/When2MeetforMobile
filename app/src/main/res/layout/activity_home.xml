@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="189dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/mySessionsFolder"
+                android:layout_width="match_parent"
+                android:layout_height="179dp"
+                android:background="null"
+                android:onClick="onMySessionsButtonClick"
+                app:srcCompat="@drawable/folder" />
+
+            <TextView
+                android:id="@+id/mySessionsText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="My Sessions"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/myInvitedFolder"
+                    android:layout_width="190dp"
+                    android:layout_height="179dp"
+                    android:background="null"
+                    android:onClick="onJoinedSessionsButtonClick"
+                    app:srcCompat="@drawable/folder" />
+
+                <TextView
+                    android:id="@+id/joinedSessionsText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Joined Sessions"
+                    android:textAlignment="center" />
+
+            </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="245dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/notificationsText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Notifications:"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+
+            <TextView
+                android:id="@+id/notifications"
+                android:layout_width="match_parent"
+                android:layout_height="260dp"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg"
+                android:ems="10"
+                android:inputType="textMultiLine" />
+
+
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="100dp"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/create"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_marginLeft="30dp"
+                android:background="@null"
+                android:onClick="onCreateButtonClick"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/plus" />
+
+            <ImageButton
+                android:id="@+id/join"
+                android:layout_width="44dp"
+                android:layout_height="43dp"
+                android:layout_marginLeft="30dp"
+                android:background="@null"
+                android:onClick="onJoinButtonClick"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/join" />
+
+            <ImageButton
+                android:id="@+id/profile"
+                android:layout_width="44dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="30dp"
+                android:background="@null"
+                android:onClick="onProfileButtonClick"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/profile" />
+
+            <ImageButton
+                android:id="@+id/logout"
+                android:layout_width="44dp"
+                android:layout_height="43dp"
+                android:layout_marginLeft="30dp"
+                android:background="@null"
+                android:onClick="onLogoutButtonClick"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/logout" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>
