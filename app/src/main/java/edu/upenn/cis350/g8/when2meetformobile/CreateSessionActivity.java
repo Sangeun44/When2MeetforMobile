@@ -3,6 +3,7 @@ package edu.upenn.cis350.g8.when2meetformobile;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -17,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -43,13 +45,13 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
     private String eventName;
 
     //storage
-    ArrayList<View> daysSelected;
-    ArrayList<View> datesSelected;
+    ArrayList<String> daysSelected;
+    ArrayList<String> datesSelected;
     ArrayList<String> emailList;
 
     public CreateSessionActivity() {
-        daysSelected = new ArrayList<View>();
-        datesSelected = new ArrayList<View>();
+        daysSelected = new ArrayList<String>();
+        datesSelected = new ArrayList<String>();
         emailList = new ArrayList<String>();
     }
 
@@ -156,25 +158,33 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
 
     //select weekdays
     public void onSelectWeekdays(View view) {
-        if(daysSelected.contains(view)) {
-            daysSelected.remove(view);
-            view.setBackgroundColor(Color.LTGRAY);
+
+        Button n = (Button) view;
+        String name = n.getText().toString();
+        if(daysSelected.contains(name)){
+            daysSelected.remove(name);
+            view.getBackground().setColorFilter(Color.parseColor("#66999999"), PorterDuff.Mode.DARKEN);
         }
         else {
-            daysSelected.add(view);
-            view.setBackgroundColor(Color.GREEN);
+            daysSelected.add(name);
+            view.getBackground().setColorFilter(Color.parseColor("#9900ff00"), PorterDuff.Mode.DARKEN);
         }
     }
 
     //select dates
     public void onSelectDates(View view) {
-        if(datesSelected.contains(view)) {
-            datesSelected.remove(view);
-            view.setBackgroundColor(Color.LTGRAY);
+        Date dt = new Date();
+        String monthDay = ((Button)view).getText().toString();
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        String monthDayYear = monthDay + "/" + year;
+
+        if(datesSelected.contains(monthDayYear)) {
+            datesSelected.remove(monthDayYear);
+            view.getBackground().setColorFilter(Color.parseColor("#66999999"), PorterDuff.Mode.DARKEN);
         }
         else {
-            datesSelected.add(view);
-            view.setBackgroundColor(Color.GREEN);
+            datesSelected.add(monthDayYear);
+            view.getBackground().setColorFilter(Color.parseColor("#9900ff00"), PorterDuff.Mode.DARKEN);
         }
     }
 
@@ -221,8 +231,8 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("message/rfc822");
         i.putExtra(Intent.EXTRA_EMAIL  , emails);
-        i.putExtra(Intent.EXTRA_SUBJECT, "subject of email");
-        i.putExtra(Intent.EXTRA_TEXT   , "body of email");
+        i.putExtra(Intent.EXTRA_SUBJECT, "When2Meet Session");
+        i.putExtra(Intent.EXTRA_TEXT   , "Please check your invitation to fill out the new When2Meet \n" + "Meeting code: " + meetingIDStr);
         try {
             startActivity(Intent.createChooser(i, "Send mail..."));
         } catch (android.content.ActivityNotFoundException ex) {
@@ -248,16 +258,19 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
     public void setUpDates() {
         for(int i = 0; i < 35; i++) {
             Date dt = new Date();
+            SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd");
+
             Calendar c = Calendar.getInstance();
             c.setTime(dt);
             c.add(Calendar.DATE, i);
             dt = c.getTime();
+            String date = DATE_FORMAT.format(dt);
 
             Resources res = getResources();
             String name = "btn" + i;
             int id = res.getIdentifier(name, "id", this.getPackageName());
             Button btn = findViewById(id);
-            btn.setText(dt.toString().substring(4,10));
+            btn.setText(date.toString());
         }
     }
 

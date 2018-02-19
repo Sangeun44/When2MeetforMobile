@@ -25,7 +25,8 @@
             android:inputType="text"
             android:selectAllOnFocus="false"
             android:singleLine="true"
-            android:text="New Event Name" />
+            android:text="New Event Name"
+            android:textAppearance="@style/TextAppearance.AppCompat" />
 
         <LinearLayout
             android:id="@+id/intro"
@@ -41,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="What dates might work?"
-                android:textAppearance="@android:style/TextAppearance.Holo.Large"
+                android:textAppearance="@style/TextAppearance.AppCompat"
                 tools:layout_editor_absoluteX="99dp"
                 tools:layout_editor_absoluteY="16dp" />
 
@@ -50,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" Click dates to choose possibilities."
-                android:textAppearance="@android:style/TextAppearance.Holo.Small"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 tools:layout_editor_absoluteX="54dp"
                 tools:layout_editor_absoluteY="43dp" />
 
@@ -59,14 +60,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Survey With:"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Widget.DropDownItem"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 tools:layout_editor_absoluteX="54dp"
                 tools:layout_editor_absoluteY="90dp" />
 
             <Spinner
                 android:id="@+id/mode"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="wrap_content"
                 tools:layout_editor_absoluteX="146dp"
                 tools:layout_editor_absoluteY="90dp" />
         </LinearLayout>
@@ -98,11 +99,13 @@
 
                         <Button
                             android:id="@+id/btn0"
+                            style="@style/Widget.AppCompat.Button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:onClick="onSelectDates"
-                            android:text="1" />
+                            android:text="1"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn1"
@@ -111,52 +114,63 @@
                             android:layout_weight="1"
                             android:onClick="onSelectDates"
 
-                            android:text="2" />
+                            android:text="2"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="3" />
+                            android:text="3"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="3" />
+                            android:text="3"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="3" />
+                            android:text="3"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn5"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="3" />
+                            android:text="3"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn6"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="3" />
+                            android:text="3"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                     </LinearLayout>
 
@@ -171,63 +185,77 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="3" />
+                            android:text="3"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn8"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="3" />
+                            android:text="3"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn9"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="3" />
+                            android:text="3"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn10"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="3" />
+                            android:text="3"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn11"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="4" />
+                            android:text="4"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn12"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="5" />
+                            android:text="5"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn13"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="7" />
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -241,63 +269,77 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="7" />
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn15"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="7" />
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn16"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="7" />
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn17"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="7" />
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn18"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="7" />
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn19"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="7" />
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn20"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="7" />
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                     </LinearLayout>
 
@@ -312,63 +354,77 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="7" />
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn22"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="7" />
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn23"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="7" />
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn24"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="7" />
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn25"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="7" />
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn26"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="7" />
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn27"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="7" />
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                     </LinearLayout>
 
@@ -383,63 +439,77 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="7" />
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn29"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="7" />
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn30"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="7" />
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn31"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="7" />
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn32"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="7" />
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn33"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="7" />
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
                             android:id="@+id/btn34"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+
                             android:onClick="onSelectDates"
 
-                            android:text="7" />
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                     </LinearLayout>
 
@@ -459,7 +529,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:background="@android:color/white"
                         android:onClick="onSelectWeekdays"
                         android:text="Sun" />
 
@@ -468,7 +537,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:background="@android:color/white"
                         android:onClick="onSelectWeekdays"
                         android:text="Mon" />
 
@@ -477,7 +545,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:background="@android:color/white"
                         android:onClick="onSelectWeekdays"
                         android:text="Tue" />
 
@@ -486,7 +553,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:background="@android:color/white"
                         android:onClick="onSelectWeekdays"
                         android:text="Wed" />
 
@@ -495,7 +561,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:background="@android:color/white"
                         android:onClick="onSelectWeekdays"
                         android:text="Thu" />
 
@@ -504,7 +569,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:background="@android:color/white"
                         android:onClick="onSelectWeekdays"
                         android:text="Fri" />
 
@@ -513,7 +577,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:background="@android:color/white"
                         android:onClick="onSelectWeekdays"
                         android:text="Sat" />
 
@@ -529,7 +592,7 @@
             android:visibility="invisible">
 
             <TextView
-                android:id="@+id/textView7"
+                android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -550,7 +613,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="What times might work?"
-                android:textAppearance="@android:style/TextAppearance.Holo.Large" />
+                android:textAppearance="@style/TextAppearance.AppCompat" />
 
             <LinearLayout
                 android:id="@+id/earlier"
@@ -561,14 +624,15 @@
                 <TextView
                     android:id="@+id/earlier"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="24dp"
                     android:layout_weight="1"
-                    android:text="No earlier than: " />
+                    android:text="No earlier than: "
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                 <Spinner
                     android:id="@+id/earliest"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1" />
             </LinearLayout>
 
@@ -581,14 +645,15 @@
                 <TextView
                     android:id="@+id/later"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="No later than: " />
+                    android:text="No later than: "
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                 <Spinner
                     android:id="@+id/latest"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1" />
             </LinearLayout>
 
@@ -601,40 +666,42 @@
                 <TextView
                     android:id="@+id/send"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="24dp"
                     android:layout_weight="1"
                     android:text="Send: "
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     tools:layout_editor_absoluteX="134dp"
                     tools:layout_editor_absoluteY="541dp" />
 
                 <Spinner
                     android:id="@+id/choice"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1" />
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/code"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:visibility="invisible">
-
-                <TextView
+                <LinearLayout
                     android:id="@+id/code"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Code: " />
+                    android:orientation="horizontal"
+                    android:visibility="invisible">
 
-                <TextView
-                    android:id="@+id/coded"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="0" />
+                    <TextView
+                        android:id="@+id/code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Code: " />
+
+                    <TextView
+                        android:id="@+id/coded"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="0" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
