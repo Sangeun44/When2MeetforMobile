@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class JoinedSessionsActivity extends AppCompatActivity {
 
-    public static final int JoinedSessionDisplayActivity_ID = 1;
+    public static final int JoinedSessionDisplayActivity_ID = 3;
     private Map<String, String> nameToID;
 
     @Override

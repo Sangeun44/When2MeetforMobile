@@ -1,8 +1,10 @@
 package edu.upenn.cis350.g8.when2meetformobile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 /**
@@ -10,6 +12,8 @@ import android.widget.TextView;
  */
 
 public class HomeScreenActivity extends AppCompatActivity {
+
+    public static final int JoinedSessionActivity_ID = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +31,8 @@ public class HomeScreenActivity extends AppCompatActivity {
     }
 
     public void onJoinedSessionsButtonClick(View view) {
-
+        Intent i = new Intent(this, JoinedSessionsActivity.class);
+        startActivityForResult(i, JoinedSessionActivity_ID);
     }
 
     public void onLogoutButtonClick(View view) {
