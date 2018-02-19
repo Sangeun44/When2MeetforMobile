@@ -1,6 +1,9 @@
 package edu.upenn.cis350.g8.when2meetformobile;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -35,5 +38,35 @@ public class Meeting {
 
     public int getNumUsers() {
         return users.size();
+    }
+
+    public Map<Integer, HashSet<String>> getBestTimes() {
+        Map<String, Integer> allTimes = new HashMap<String, Integer>();
+        for (String date : dates) {
+            for (int i = low_time; i < high_time; i++) {
+                allTimes.put(date + " " + i, 0);
+            }
+        }
+
+        for (User u: users) {
+            for (String time : u.getMyTimes()) {
+                allTimes.put(time, allTimes.get(time) + 1);
+            }
+        }
+
+        Map<Integer, HashSet<String>> invertedTimes = new HashMap<Integer, HashSet<String>>();
+        for (String key : allTimes.keySet()) {
+            Integer value = allTimes.get(key);
+            if (invertedTimes.containsKey(value)) {
+                HashSet<String> times = invertedTimes.get(value);
+                times.add(key);
+            } else {
+                HashSet<String> newSet = new HashSet<String>();
+                newSet.add(key);
+                invertedTimes.put(value, newSet);
+            }
+        }
+
+        return invertedTimes;
     }
 }

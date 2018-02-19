@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashSet;
+import java.util.Map;
 
 
 public class JoinedSessionDisplayActivity extends AppCompatActivity {
@@ -65,7 +67,22 @@ public class JoinedSessionDisplayActivity extends AppCompatActivity {
             TextView txtNumPeople = findViewById(R.id.txtNumPeople);
             txtNumPeople.setText(meeting.getNumUsers() + " people in this group.");
 
-            // TODO: add best times info
+            TextView txtBestTimes = findViewById(R.id.txtBestTimes);
+            String bestTimes = "Best Times To Meet: \n\n";
+            Map<Integer, HashSet<String>> allTimes = meeting.getBestTimes();
+
+            int numUsers = meeting.getNumUsers();
+            for (int i = numUsers; i < numUsers / 2; i--) {
+                if (allTimes.containsKey(i)) {
+                    String bestTime = (double) i * 100 / numUsers + "% Free:\n";
+                    for (String time : allTimes.get(i)) {
+                        bestTime += time + "\n";
+                    }
+                    bestTimes += bestTime + "\n";
+                }
+            }
+
+            txtBestTimes.setText(bestTimes);
         }
     }
 }
