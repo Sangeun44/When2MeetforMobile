@@ -6,21 +6,36 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.Map;
+
 public class JoinedSessionsActivity extends AppCompatActivity {
 
     public static final int JoinedSessionDisplayActivity_ID = 1;
+    private Map<String, String> nameToID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joined_sessions);
+        populateMap();
+
+    }
+
+    public void populateMap() {
+        //asynchronously retrieve all documents
+        //ApiFuture<QuerySnapshot> future = db.collection("meetings").get();
+        //List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        //for (QueryDocumentSnapshot document : documents) {
+            //String name = document.getData().get("name");
+            //nameToID.put(name, document.getId())
+        //}
     }
 
     public void onSessionButtonClick(View v) {
         Intent i = new Intent(this, JoinedSessionDisplayActivity.class);
         Button btn = findViewById(v.getId());
         String session = btn.getText().toString();
-        i.putExtra("SESSION", session);
+        i.putExtra("SESSION", nameToID.get(session));
         startActivityForResult(i, JoinedSessionDisplayActivity_ID);
     }
 }
