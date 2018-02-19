@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.upenn.cis350.g8.when2meetformobile.JoinedSessionDisplayActivity">
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp"
+        android:layout_marginStart="16dp"
+        android:onClick="onBackButtonClick"
+        android:text="Back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scrollPeople"
+        android:layout_width="137dp"
+        android:layout_height="210dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtPeople"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Respondents:\n1. Bob \n2. Alice \n3. Tim\n4. Carol\n5. Debbie" />
+
+            <TextView
+                android:id="@+id/txtNumPeople"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="6 people in this group" />
+        </LinearLayout>
+
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/scrollBestTimes"
+        android:layout_width="204dp"
+        android:layout_height="211dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/txtBestTimes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Best Times To Meet: \n\nAll Free:\n1. Feb 28, 3 pm \n2. Mar 1, 10 am\n\n80% free: \n1. Feb 27, 1 pm" />
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnEnterTimes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp"
+        android:layout_marginEnd="16dp"
+        android:text="Enter Times"
+        android:onClick="onEnterTimesButtonClick"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

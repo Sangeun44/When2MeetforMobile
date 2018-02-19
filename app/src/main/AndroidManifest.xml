@@ -17,6 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".HomeScreenActivity" />
+        <activity android:name=".JoinedSessionsActivity" />
+        <activity android:name=".JoinedSessionDisplayActivity"></activity>
     </application>
 
 </manifest>
