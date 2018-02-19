@@ -1,10 +1,12 @@
 package edu.upenn.cis350.g8.when2meetformobile;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import java.util.Map;
 
@@ -18,7 +20,7 @@ public class JoinedSessionsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joined_sessions);
         populateMap();
-
+        createButtons();
     }
 
     public void populateMap() {
@@ -29,6 +31,27 @@ public class JoinedSessionsActivity extends AppCompatActivity {
             //String name = document.getData().get("name");
             //nameToID.put(name, document.getId())
         //}
+    }
+
+    public void createButtons() {
+        final Context context = this;
+        LinearLayout main = findViewById(R.id.mainLinear);
+        for (String s: nameToID.keySet()) {
+            Button b = new Button(this);
+            b.setText(s);
+            b.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(context, JoinedSessionDisplayActivity.class);
+                    Button btn = findViewById(view.getId());
+                    String session = btn.getText().toString();
+                    i.putExtra("SESSION", nameToID.get(session));
+                    startActivityForResult(i, JoinedSessionDisplayActivity_ID);
+                }
+            });
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            main.addView(b, lp);
+        }
     }
 
     public void onSessionButtonClick(View v) {

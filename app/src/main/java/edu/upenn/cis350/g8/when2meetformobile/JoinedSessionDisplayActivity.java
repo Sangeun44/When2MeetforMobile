@@ -22,7 +22,7 @@ public class JoinedSessionDisplayActivity extends AppCompatActivity {
         updateUI(readSessionData(meetingID));
     }
 
-    public void onHomeButtonClick(View v) {
+    public void onBackButtonClick(View v) {
         Intent i = new Intent(this, JoinedSessionsActivity.class);
         setResult(RESULT_OK, i);
         finish();
