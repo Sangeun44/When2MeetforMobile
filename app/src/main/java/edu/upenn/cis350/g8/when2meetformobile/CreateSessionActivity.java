@@ -5,7 +5,9 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,11 +17,21 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * Created by Sang on 2/15/18.
@@ -27,7 +39,7 @@ import java.util.Random;
 
 public class CreateSessionActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     final static int createSession_ID = 1; //main id
-
+    final static String TAG = "CreateSessionAct";
     private Spinner mode; //dates or days
     private Spinner earliest;
     private Spinner latest;
@@ -114,8 +126,8 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
                 View codedV = findViewById(R.id.coded);
                 if(typeStr.equals("code")) {
                     //code
-                    codeV.setVisibility(View.VISIBLE);
-                    codedV.setVisibility(View.VISIBLE);
+                    //codeV.setVisibility(View.VISIBLE);
+                    //codedV.setVisibility(View.VISIBLE);
                     String code = createRandomCode();
                     ((TextView) codedV).setText(code);
                     meetingIDStr = code;
@@ -183,6 +195,7 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
             datesSelected.add(monthDayYear);
             view.getBackground().setColorFilter(Color.parseColor("#9900ff00"), PorterDuff.Mode.DARKEN);
         }
+        Collections.sort(datesSelected);
     }
 
     //clicked on the create event button
@@ -190,36 +203,81 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
 
         //check event name
         EditText eventN = (EditText) findViewById(R.id.eventName);
-        if(eventN.getText().toString().length() > 0) {
-            eventName = eventN.getText().toString();
-        }
-        else if (eventN.getText().toString().length() == 0){
+        if (eventN.getText().toString().length() == 0){
             Toast.makeText(CreateSessionActivity.this,
                     "Remember to enter in the event name!",
                     Toast.LENGTH_SHORT).show();
-        }
-
-        //check number of dates selected if
-        if(modeStr.equals("Specific Date") && datesSelected.isEmpty()) {
+        } else if(modeStr.equals("Specific Date") && datesSelected.isEmpty()) {
             Toast.makeText(CreateSessionActivity.this,
                     "Remember to select dates!",
                     Toast.LENGTH_SHORT).show();
-        }
-        else if(modeStr.equals("Days of the Week") && daysSelected.isEmpty()) {
+        } else if(modeStr.equals("Days of the Week") && daysSelected.isEmpty()) {
             //check number of days selected if
             Toast.makeText(CreateSessionActivity.this,
                     "Remember to select days!",
                     Toast.LENGTH_SHORT).show();
-        }
-        //check if the email list is filled if
-        if(typeStr.equals("email") && emailList.isEmpty() || emailList.size() < 0) {
+        } else if(typeStr.equals("email") && emailList.isEmpty() || emailList.size() < 0) {
             Toast.makeText(CreateSessionActivity.this,
                     "Remember to enter in emails!",
                     Toast.LENGTH_SHORT).show();
+        } else if(typeStr.equals("email") && emailList.isEmpty() || emailList.size() > 0) {
+            sendEmail();
+            Toast.makeText(CreateSessionActivity.this,
+                    "Now send the emails",
+                    Toast.LENGTH_SHORT).show();
+            eventName = eventN.getText().toString();
+            updateDB();
+            finish();
+
         }
         else {
-            sendEmail();
+            eventName = eventN.getText().toString();
+            updateDB();
+            finish();
         }
+
+
+    }
+
+    public void updateDB() {
+        int time1 = changeTime(earliestStr);
+        int time2 = changeTime(latestStr);
+        int high_time = Math.max(time1, time2);
+        int low_time = Math.min(time1, time2);
+        Intent i = getIntent();
+        int user_id = i.getIntExtra("accountNum", 0);
+        ArrayList<User> users = new ArrayList<User>();
+        Meeting meet = new Meeting(users, datesSelected, high_time, low_time, eventName, user_id);
+
+        DocumentReference ref =  FirebaseFirestore.getInstance().collection("meetings").document();
+        meetingIDStr = ref.getId();
+        Toast.makeText(CreateSessionActivity.this,
+                "Meeting ID:" + meetingIDStr,
+                Toast.LENGTH_LONG).show();
+        FirebaseFirestore.getInstance().collection("meetings").add(meet);
+//                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                        @Override
+//                        public void onSuccess(Void aVoid) {
+//                            Log.d(TAG, "DocumentSnapshot successfully written!");
+//                        }
+//                    })
+//                    .addOnFailureListener(new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception e) {
+//                            Log.w(TAG, "Error writing document", e);
+//                        }
+//                    });
+    }
+
+    public int changeTime(String time) {
+        int t = Integer.parseInt(time.substring(0,2));
+        if(time.contains("pm") && t < 12) {
+            return t + 12;
+        }
+        else if(time.contains("am") && t == 12) {
+            return t + 12;
+        }
+        return t;
     }
 
     //send emails to the email list with the meeting id

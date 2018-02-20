@@ -43,8 +43,11 @@ public class HomeScreenActivity extends AppCompatActivity {
 
     public void onCreateButtonClick(View view) {
         //Sang's page
+        Intent intent = getIntent();
+        int user_id = intent.getIntExtra("accountNum", 0);
         //CreateSessionActivity
         Intent i = new Intent(this, CreateSessionActivity.class);
+        i.putExtra("accountNum", user_id);
         startActivityForResult(i, CreateSessionActivity_ID);
     }
 

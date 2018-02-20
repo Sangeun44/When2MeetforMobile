@@ -14,7 +14,7 @@ import java.util.Set;
 
 public class Meeting {
 
-    private Set<User> users;
+    private ArrayList<User> users;
     private ArrayList<String> dates;
     private int high_time;
     private int low_time;
@@ -23,7 +23,7 @@ public class Meeting {
 
     public Meeting() {}
 
-    public Meeting(Set<User> users, ArrayList<String> dates, int high_time, int low_time, String name, int owner) {
+    public Meeting(ArrayList<User> users, ArrayList<String> dates, int high_time, int low_time, String name, int owner) {
         this.users = users;
         this.dates = dates;
         this.high_time = high_time;
@@ -32,15 +32,35 @@ public class Meeting {
         this.owner = owner;
     }
 
-    public Set<User> getUsers() {
+    public ArrayList<String> getDates() {
+        return dates;
+    }
+
+    public int getHigh_time() {
+        return high_time;
+    }
+
+    public int getLow_time() {
+        return low_time;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getOwner() {
+        return owner;
+    }
+
+    public ArrayList<User> getUsers() {
         return users;
     }
 
-    public int getNumUsers() {
+    protected int getNumUsers() {
         return users.size();
     }
 
-    public Map<Integer, HashSet<String>> getBestTimes() {
+    protected Map<Integer, HashSet<String>> getBestTimes() {
         Map<String, Integer> allTimes = new HashMap<String, Integer>();
         for (String date : dates) {
             for (int i = low_time; i < high_time; i++) {

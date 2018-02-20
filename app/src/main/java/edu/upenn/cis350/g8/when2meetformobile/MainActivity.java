@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "When2MeetMain";
     private static final int RC_SIGN_IN = 123;
     private GoogleSignInClient mGoogleSignInClient;
+    private int account_Num = 01;
     public static boolean signedIn = false;
 
     @Override
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (view.getId() == R.id.sign_in_button) {
             signedIn = true;
             Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+            signInIntent.putExtra("accountNum", account_Num);
             startActivityForResult(signInIntent, RC_SIGN_IN);
         } else if (view.getId() == R.id.sign_out_button) {
             signedIn = false;
