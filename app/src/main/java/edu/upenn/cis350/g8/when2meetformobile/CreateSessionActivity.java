@@ -295,19 +295,19 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
         }
     }
 
-    //code making for code sending
-    public String createRandomCode() {
-        String str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-        StringBuilder build = new StringBuilder();
-        while(build.toString().length() < 4) {
-            Random rand = new Random();
-            int value = rand.nextInt(36);
-            char c = str.charAt(value);
-            build.append(c);
-        }
-        return build.toString();
-    }
+//    //code making for code sending
+//    public String createRandomCode() {
+//        String str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+//
+//        StringBuilder build = new StringBuilder();
+//        while(build.toString().length() < 4) {
+//            Random rand = new Random();
+//            int value = rand.nextInt(36);
+//            char c = str.charAt(value);
+//            build.append(c);
+//        }
+//        return build.toString();
+//    }
 
     //set up dates
     public void setUpDates() {
