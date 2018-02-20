@@ -60,10 +60,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     });
         } else if (view.getId() == R.id.home_page_button) {
-            if (signedIn) {
-                Intent i = new Intent(this, HomeScreenActivity.class);
-                startActivity(i);
-            }
+            Intent i = new Intent(this, HomeScreenActivity.class);
+            startActivity(i);
         }
     }
 
@@ -115,11 +113,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * @param account user account to update UI with, {@code null} if no such user
      */
     private void updateUI(GoogleSignInAccount account) {
+        if (account != null) {
+            signedIn = true;
+        }
         findViewById(R.id.sign_in_button)
-                .setVisibility(account == null ? View.VISIBLE : View.INVISIBLE);
+                .setVisibility(signedIn ? View.VISIBLE : View.INVISIBLE);
         findViewById(R.id.sign_out_button)
-                .setVisibility(account == null ? View.INVISIBLE : View.VISIBLE);
+                .setVisibility(signedIn ? View.INVISIBLE : View.VISIBLE);
         findViewById(R.id.home_page_button)
-                .setVisibility(account == null ? View.INVISIBLE : View.VISIBLE);
+                .setVisibility(signedIn ? View.INVISIBLE : View.VISIBLE);
     }
 }
