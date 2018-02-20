@@ -3,6 +3,7 @@ package edu.upenn.cis350.g8.when2meetformobile;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,27 +13,19 @@ import java.util.Set;
 
 public class User {
 
-    private Map<String, ArrayList<Integer>> times;
+    private ArrayList<String> availability;
 
     public User() {}
 
-    public User(Map<String, ArrayList<Integer>> times) {
-        this.times = times;
+    public User(ArrayList<String> availability) {
+        this.availability = availability;
     }
 
     public boolean enteredTimes() {
-        return (this.times != null && !this.times.isEmpty());
+        return (this.availability != null && !this.availability.isEmpty());
     }
 
-    public Set<String> getMyTimes() {
-        Set<String> allTimes = new HashSet<String>();
-
-        for (String date : times.keySet()) {
-            for (int i : times.get(date)) {
-                allTimes.add(date + " " + i);
-            }
-        }
-
-        return allTimes;
+    public List<String> getMyTimes() {
+       return availability;
     }
 }

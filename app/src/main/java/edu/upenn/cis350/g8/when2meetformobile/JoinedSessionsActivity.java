@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.Map;
 
 public class JoinedSessionsActivity extends AppCompatActivity {
@@ -25,7 +28,7 @@ public class JoinedSessionsActivity extends AppCompatActivity {
 
     public void populateMap() {
         //asynchronously retrieve all documents
-        //ApiFuture<QuerySnapshot> future = db.collection("meetings").get();
+        //ApiFuture<QuerySnapshot> future = FirebaseFirestore.getInstance().collection("meetings").get();
         //List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         //for (QueryDocumentSnapshot document : documents) {
             //String name = document.getData().get("name");

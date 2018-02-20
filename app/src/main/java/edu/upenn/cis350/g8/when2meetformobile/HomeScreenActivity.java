@@ -14,6 +14,7 @@ import android.widget.TextView;
 public class HomeScreenActivity extends AppCompatActivity {
 
     public static final int JoinedSessionActivity_ID = 1;
+    public static final int CreateSessionActivity_ID = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,8 @@ public class HomeScreenActivity extends AppCompatActivity {
     public void onCreateButtonClick(View view) {
         //Sang's page
         //CreateSessionActivity
+        Intent i = new Intent(this, CreateSessionActivity.class);
+        startActivityForResult(i, CreateSessionActivity_ID);
     }
 
     public void onProfileButtonClick(View view) {

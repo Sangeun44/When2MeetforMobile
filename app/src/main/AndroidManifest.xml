@@ -19,6 +19,8 @@
         <activity android:name=".HomeScreenActivity" />
         <activity android:name=".JoinedSessionsActivity" />
         <activity android:name=".JoinedSessionDisplayActivity"></activity>
+        <activity android:name=".CreateSessionActivity" />
+        <activity android:name=".EmailActivity" />
     </application>
 
 </manifest>
