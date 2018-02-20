@@ -270,7 +270,7 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
     }
 
     public int changeTime(String time) {
-        int t = Integer.parseInt(time.substring(0,2));
+        int t = Integer.parseInt(time.substring(0,2).trim());
         if(time.contains("pm") && t < 12) {
             return t + 12;
         }

@@ -1,5 +1,7 @@
 package edu.upenn.cis350.g8.when2meetformobile;
 
+import com.google.firebase.firestore.Exclude;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -56,11 +58,13 @@ public class Meeting {
         return users;
     }
 
-    protected int getNumUsers() {
+    @Exclude
+    public int getNumUsers() {
         return users.size();
     }
 
-    protected Map<Integer, HashSet<String>> getBestTimes() {
+    @Exclude
+    public Map<Integer, HashSet<String>> getBestTimes() {
         Map<String, Integer> allTimes = new HashMap<String, Integer>();
         for (String date : dates) {
             for (int i = low_time; i < high_time; i++) {

@@ -2,24 +2,50 @@ package edu.upenn.cis350.g8.when2meetformobile;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 
 public class JoinedSessionDisplayActivity extends AppCompatActivity {
+
+    private static final String TAG = "When2MeetJoinedSessDisp";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joined_session_display);
         Intent i = this.getIntent();
-        String meetingID = i.getStringExtra("SESSION");
-        updateUI(readSessionData(meetingID));
+        String meetingName = i.getStringExtra("MEETING");
+        //readSessionData(meetingName);
+        List<User> users = new ArrayList<User>();
+        users.add(new User("Sang"));
+        users.add(new User("Diana"));
+        users.add(new User("Saniyah"));
+        users.add(new User("Evie"));
+        Map<Integer, HashSet<String>> allTimes = new HashMap<Integer, HashSet<String>>();
+        HashSet<String> everyone = new HashSet<String>();
+        everyone.add("2018/02/20 17");
+        allTimes.put(4, everyone);
+        HashSet<String> most = new HashSet<String>();
+        most.add("2018/02/21 12");
+        most.add("2018/02/22 18");
+        allTimes.put(3, most);
+        updateUI(users, allTimes);
     }
 
     public void onBackButtonClick(View v) {
@@ -33,50 +59,53 @@ public class JoinedSessionDisplayActivity extends AppCompatActivity {
                 Toast.LENGTH_SHORT).show();
     }
 
-    public Meeting readSessionData(String meetingID) {
-        //DocumentReference docRef = db.collection("meetings").document(meetingID);
-        // asynchronously retrieve the document
-        //ApiFuture<DocumentSnapshot> future = docRef.get();
-        // block on response
-        //DocumentSnapshot document = future.get();
-        //Meeting meeting = null;
-        //if (document.exists()) {
-            // convert document to Meeting object
-            //meeting = document.toObject(Meeting.class);
-            //return meeting;
-        //} else {
-            //return null;
-        //}
-        return null;
+    private void readSessionData(String meetingName) {
+        FirebaseFirestore.getInstance().collection("meetings").whereEqualTo("name", meetingName).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot documentSnapshots) {
+                        if (documentSnapshots.isEmpty()) {
+                            Log.d(TAG, "onSuccess: No such meeting");
+                        } else {
+                            Meeting m = documentSnapshots.toObjects(Meeting.class).get(0);
+                            Log.d(TAG, "onSuccess: Found your meeting!");
+                            updateUI(m.getUsers(), m.getBestTimes());
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Error getting meeting data!!!", Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
-    public void updateUI(Meeting meeting) {
-        if (meeting != null) {
+    public void updateUI(List<User> users, Map<Integer, HashSet<String>> allTimes) {
             TextView txtPeople = findViewById(R.id.txtPeople);
             String people = "Respondents:";
             int counter = 1;
-            for (User u : meeting.getUsers()) {
-                if (u.enteredTimes()) {
-                    String name = ""; //FirebaseFirestore.getInstance().collection("users").document()
-                    people += "\n" + counter +  " " + name;
+            for (User u : users) {
+                //if (u.enteredTimes()) {
+                    String name = u.getName(); //FirebaseFirestore.getInstance().collection("users").document()
+                    people += "\n" + counter +  ". " + name;
                     counter++;
-                }
+                //}
             }
             txtPeople.setText(people);
 
             TextView txtNumPeople = findViewById(R.id.txtNumPeople);
-            txtNumPeople.setText(meeting.getNumUsers() + " people in this group.");
+            int numUsers = users.size();
+            txtNumPeople.setText(numUsers + " people in this group.");
 
             TextView txtBestTimes = findViewById(R.id.txtBestTimes);
             String bestTimes = "Best Times To Meet: \n\n";
-            Map<Integer, HashSet<String>> allTimes = meeting.getBestTimes();
 
-            int numUsers = meeting.getNumUsers();
-            for (int i = numUsers; i < numUsers / 2; i--) {
+            for (int i = numUsers; i > numUsers / 2; i--) {
                 if (allTimes.containsKey(i)) {
                     String bestTime = (double) i * 100 / numUsers + "% Free:\n";
                     for (String time : allTimes.get(i)) {
-                        bestTime += time + "\n";
+                        bestTime += time + ":00 \n";
                     }
                     bestTimes += bestTime + "\n";
                 }
@@ -84,5 +113,4 @@ public class JoinedSessionDisplayActivity extends AppCompatActivity {
 
             txtBestTimes.setText(bestTimes);
         }
-    }
 }

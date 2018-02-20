@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int account_Num = 01;
     public static boolean signedIn = false;
 
+    public static final int HomeActivity_ID = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +65,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     });
         } else if (view.getId() == R.id.home_page_button) {
             Intent i = new Intent(this, HomeScreenActivity.class);
-            startActivity(i);
+            i.putExtra("accountNum", account_Num);
+            startActivityForResult(i, HomeActivity_ID);
         }
     }
 

@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 public class HomeScreenActivity extends AppCompatActivity {
 
-    public static final int JoinedSessionActivity_ID = 1;
-    public static final int CreateSessionActivity_ID = 2;
+    public static final int JoinedSessionActivity_ID = 3;
+    public static final int CreateSessionActivity_ID = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +33,8 @@ public class HomeScreenActivity extends AppCompatActivity {
 
     public void onJoinedSessionsButtonClick(View view) {
         Intent i = new Intent(this, JoinedSessionsActivity.class);
+        int user_id = i.getIntExtra("accountNum", 0);
+        i.putExtra("accountNum", user_id);
         startActivityForResult(i, JoinedSessionActivity_ID);
     }
 
