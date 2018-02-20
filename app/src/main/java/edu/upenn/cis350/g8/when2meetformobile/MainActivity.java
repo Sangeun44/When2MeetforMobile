@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final int RC_SIGN_IN = 123;
     private GoogleSignInClient mGoogleSignInClient;
     private int account_Num = 01;
-    public static boolean signedIn = false;
 
     public static final int HomeActivity_ID = 1;
 
@@ -50,12 +49,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.sign_in_button) {
-            signedIn = true;
             Intent signInIntent = mGoogleSignInClient.getSignInIntent();
             signInIntent.putExtra("accountNum", account_Num);
             startActivityForResult(signInIntent, RC_SIGN_IN);
         } else if (view.getId() == R.id.sign_out_button) {
-            signedIn = false;
             mGoogleSignInClient.signOut()
                     .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                         @Override
@@ -118,14 +115,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * @param account user account to update UI with, {@code null} if no such user
      */
     private void updateUI(GoogleSignInAccount account) {
-        if (account != null) {
-            signedIn = true;
-        }
         findViewById(R.id.sign_in_button)
-                .setVisibility(signedIn ? View.VISIBLE : View.INVISIBLE);
+                .setVisibility(account == null ? View.VISIBLE : View.INVISIBLE);
         findViewById(R.id.sign_out_button)
-                .setVisibility(signedIn ? View.INVISIBLE : View.VISIBLE);
+                .setVisibility(account == null ? View.INVISIBLE : View.VISIBLE);
         findViewById(R.id.home_page_button)
-                .setVisibility(signedIn ? View.INVISIBLE : View.VISIBLE);
+                .setVisibility(account == null ? View.INVISIBLE : View.VISIBLE);
     }
 }
