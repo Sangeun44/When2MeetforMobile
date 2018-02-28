@@ -26,6 +26,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "When2MeetMain";
     private static final int RC_SIGN_IN = 123;
     private GoogleSignInClient mGoogleSignInClient;
+    private int account_Num = 01;
+
+    public static final int HomeActivity_ID = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         if (view.getId() == R.id.sign_in_button) {
             Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+            signInIntent.putExtra("accountNum", account_Num);
             startActivityForResult(signInIntent, RC_SIGN_IN);
         } else if (view.getId() == R.id.sign_out_button) {
             mGoogleSignInClient.signOut()
@@ -56,6 +60,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             updateUI(null);
                         }
                     });
+        } else if (view.getId() == R.id.home_page_button) {
+            Intent i = new Intent(this, HomeScreenActivity.class);
+            i.putExtra("accountNum", account_Num);
+            startActivityForResult(i, HomeActivity_ID);
         }
     }
 
@@ -110,6 +118,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.sign_in_button)
                 .setVisibility(account == null ? View.VISIBLE : View.INVISIBLE);
         findViewById(R.id.sign_out_button)
+                .setVisibility(account == null ? View.INVISIBLE : View.VISIBLE);
+        findViewById(R.id.home_page_button)
                 .setVisibility(account == null ? View.INVISIBLE : View.VISIBLE);
     }
 }
