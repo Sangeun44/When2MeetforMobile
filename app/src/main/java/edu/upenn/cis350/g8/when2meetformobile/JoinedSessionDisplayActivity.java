@@ -22,15 +22,16 @@ import java.util.Map;
 
 
 public class JoinedSessionDisplayActivity extends AppCompatActivity {
-
+    public static final int JoinedSessionDisplayActivity2_ID = 39171;
     private static final String TAG = "When2MeetJoinedSessDisp";
+    String meetingName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joined_session_display);
         Intent i = this.getIntent();
-        String meetingName = i.getStringExtra("MEETING");
+        meetingName = i.getStringExtra("MEETING");
         //readSessionData(meetingName);
         List<User> users = new ArrayList<User>();
         users.add(new User("Sang"));
@@ -55,8 +56,11 @@ public class JoinedSessionDisplayActivity extends AppCompatActivity {
     }
 
     public void onEnterTimesButtonClick(View v) {
-        Toast.makeText(getApplicationContext(), "Going to Enter Times Page...",
-                Toast.LENGTH_SHORT).show();
+        Intent i = new Intent (this, EnterTimesActivity.class);
+        i.putExtra("MEETING", meetingName);
+        startActivityForResult(i, JoinedSessionDisplayActivity2_ID);
+//        Toast.makeText(getApplicationContext(), "Going to Enter Times Page...",
+//                Toast.LENGTH_SHORT).show();
     }
 
     private void readSessionData(String meetingName) {
