@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.upenn.cis350.g8.when2meetformobile.JoinedSessionDisplayActivity">
+    tools:context="edu.upenn.cis350.g8.when2meetformobile.SessionDisplayActivity">
 
     <Button
         android:id="@+id/btnBack"
@@ -20,13 +20,16 @@
     <ScrollView
         android:id="@+id/scrollPeople"
         android:layout_width="137dp"
-        android:layout_height="210dp"
+        android:layout_height="348dp"
+        android:layout_marginEnd="11dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/scrollBestTimes"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/lnll1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -49,22 +52,26 @@
     <ScrollView
         android:id="@+id/scrollBestTimes"
         android:layout_width="204dp"
-        android:layout_height="211dp"
+        android:layout_height="349dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginStart="11dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/scrollPeople"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/lnl2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/txtBestTimes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Best Times To Meet: \n\nAll Free:\n1. Feb 28, 3 pm \n2. Mar 1, 10 am\n\n80% free: \n1. Feb 27, 1 pm" />
+
         </LinearLayout>
     </ScrollView>
 
@@ -78,5 +85,65 @@
         android:onClick="onEnterTimesButtonClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <HorizontalScrollView
+        android:id="@+id/scrollOwner"
+        android:layout_width="368dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnSelectTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:layout_row="0"
+                android:layout_weight="1"
+                android:text="Select Time" />
+
+            <Button
+                android:id="@+id/btnAddTimes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="3"
+                android:layout_row="0"
+                android:layout_weight="1"
+                android:text="Add Times" />
+
+            <Button
+                android:id="@+id/btnViewUsers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_row="0"
+                android:layout_weight="1"
+                android:text="View Users" />
+
+            <Button
+                android:id="@+id/btnAddUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Add User" />
+
+            <Button
+                android:id="@+id/btnRemoveUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Remove User" />
+        </LinearLayout>
+
+    </HorizontalScrollView>
 
 </android.support.constraint.ConstraintLayout>

@@ -24,20 +24,21 @@ public class JoinedSessionsActivity extends AppCompatActivity {
     public static final int JoinedSessionDisplayActivity_ID = 2;
     private static final String TAG = "When2MeetJoinedSessions";
     private List<Meeting> myMeetings;
+    String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joined_sessions);
         Intent i = new Intent(this, JoinedSessionDisplayActivity.class);
-        int userID = i.getIntExtra("accountNum", 0);
+        userID = i.getStringExtra("accountNum");
         //populateMap(userID);
         myMeetings = new ArrayList<Meeting>();
-        myMeetings.add(new Meeting(null, null, 8, 20, "Test Event", 10));
+        myMeetings.add(new Meeting(null, null, 8, 20, "Test Event", "10"));
         createButtons();
     }
 
-    private void populateMap(int ownerID) {
+    private void populateMap(String ownerID) {
         FirebaseFirestore.getInstance().collection("meetings").whereEqualTo("owner", ownerID).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
