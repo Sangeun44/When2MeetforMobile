@@ -128,9 +128,9 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
                     //code
                     //codeV.setVisibility(View.VISIBLE);
                     //codedV.setVisibility(View.VISIBLE);
-                    String code = createRandomCode();
-                    ((TextView) codedV).setText(code);
-                    meetingIDStr = code;
+//                    String code = createRandomCode();
+//                    ((TextView) codedV).setText(code);
+//                    meetingIDStr = code;
                 }
                 else {
                     //email
