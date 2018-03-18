@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "When2MeetMain";
     private static final int RC_SIGN_IN = 123;
     private GoogleSignInClient mGoogleSignInClient;
-    private int account_Num = 01;
+    private String account_Num = "";
 
     public static final int HomeActivity_ID = 1;
 
@@ -92,7 +92,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void updateDB(GoogleSignInAccount account) {
         Map<String, Object> userData = new HashMap<>();
         userData.put("name",account.getDisplayName());
-        FirebaseFirestore.getInstance().collection("users").document(account.getId())
+        String userID = account.getId();
+        FirebaseFirestore.getInstance().collection("users").document(userID)
                 .set(userData, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

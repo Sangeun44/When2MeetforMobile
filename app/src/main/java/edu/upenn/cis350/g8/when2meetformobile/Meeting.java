@@ -21,11 +21,11 @@ public class Meeting {
     private int high_time;
     private int low_time;
     private String name;
-    private int owner;
+    private String owner;
 
     public Meeting() {}
 
-    public Meeting(ArrayList<User> users, ArrayList<String> dates, int high_time, int low_time, String name, int owner) {
+    public Meeting(ArrayList<User> users, ArrayList<String> dates, int high_time, int low_time, String name, String owner) {
         this.users = users;
         this.dates = dates;
         this.high_time = high_time;
@@ -50,7 +50,7 @@ public class Meeting {
         return name;
     }
 
-    public int getOwner() {
+    public String getOwner() {
         return owner;
     }
 

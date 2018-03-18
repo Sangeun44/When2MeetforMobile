@@ -142,6 +142,10 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
         }
     }
 
+    private String createRandomCode() {
+        return "code";
+    }
+
     //start emailActivity to insert emails when user chooses email
     public void startEmailActivity() {
         Intent i = new Intent(this, EmailActivity.class);
@@ -245,7 +249,7 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
         int high_time = Math.max(time1, time2);
         int low_time = Math.min(time1, time2);
         Intent i = getIntent();
-        int user_id = i.getIntExtra("accountNum", 0);
+        String user_id = i.getStringExtra("accountNum");
         ArrayList<User> users = new ArrayList<User>();
         Meeting meet = new Meeting(users, datesSelected, high_time, low_time, eventName, user_id);
 

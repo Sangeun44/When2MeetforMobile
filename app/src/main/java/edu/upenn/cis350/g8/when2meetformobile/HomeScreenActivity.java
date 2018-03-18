@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 /**
@@ -13,7 +12,7 @@ import android.widget.TextView;
 
 public class HomeScreenActivity extends AppCompatActivity {
 
-    public static final int JoinedSessionActivity_ID = 3;
+    public static final int SessionsActivity_ID = 3;
     public static final int CreateSessionActivity_ID = 4;
 
     @Override
@@ -28,14 +27,19 @@ public class HomeScreenActivity extends AppCompatActivity {
     }
 
     public void onMySessionsButtonClick(View view) {
-
+        Intent i = new Intent(this, SessionsActivity.class);
+        String user_id = i.getStringExtra("accountNum");
+        i.putExtra("accountNum", user_id);
+        i.putExtra("display", "created");
+        startActivityForResult(i, SessionsActivity_ID);
     }
 
     public void onJoinedSessionsButtonClick(View view) {
-        Intent i = new Intent(this, JoinedSessionsActivity.class);
-        int user_id = i.getIntExtra("accountNum", 0);
+        Intent i = new Intent(this, SessionsActivity.class);
+        String user_id = i.getStringExtra("accountNum");
         i.putExtra("accountNum", user_id);
-        startActivityForResult(i, JoinedSessionActivity_ID);
+        i.putExtra("display", "joined");
+        startActivityForResult(i, SessionsActivity_ID);
     }
 
     public void onLogoutButtonClick(View view) {
@@ -46,7 +50,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     public void onCreateButtonClick(View view) {
         //Sang's page
         Intent intent = getIntent();
-        int user_id = intent.getIntExtra("accountNum", 0);
+        String user_id = intent.getStringExtra("accountNum");
         //CreateSessionActivity
         Intent i = new Intent(this, CreateSessionActivity.class);
         i.putExtra("accountNum", user_id);

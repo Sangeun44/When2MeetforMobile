@@ -21,14 +21,14 @@ import java.util.List;
 import java.util.Map;
 
 
-public class JoinedSessionDisplayActivity extends AppCompatActivity {
+public class SessionDisplayActivity extends AppCompatActivity {
 
     private static final String TAG = "When2MeetJoinedSessDisp";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_joined_session_display);
+        setContentView(R.layout.activity_session_display);
         Intent i = this.getIntent();
         String meetingName = i.getStringExtra("MEETING");
         //readSessionData(meetingName);
@@ -49,7 +49,7 @@ public class JoinedSessionDisplayActivity extends AppCompatActivity {
     }
 
     public void onBackButtonClick(View v) {
-        Intent i = new Intent(this, JoinedSessionsActivity.class);
+        Intent i = new Intent(this, SessionsActivity.class);
         setResult(RESULT_OK, i);
         finish();
     }
