@@ -20,11 +20,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 public class SessionDisplayActivity extends AppCompatActivity {
 
-    private static final String TAG = "When2MeetJoinedSessDisp";
+    private static final String TAG = "When2MeetSessDisp";
     private Meeting meeting;
     String type;
 
@@ -35,11 +36,11 @@ public class SessionDisplayActivity extends AppCompatActivity {
         Intent i = this.getIntent();
         String meetingName = i.getStringExtra("MEETING");
         //readSessionData(meetingName);
-        List<User> users = new ArrayList<User>();
-        users.add(new User("Sang"));
-        users.add(new User("Diana"));
-        users.add(new User("Saniyah"));
-        users.add(new User("Evie"));
+        Map<String, User> users = new HashMap<String, User>();
+        users.put("1", new User("Sang"));
+        users.put("2", new User("Diana"));
+        users.put("3", new User("Saniyah"));
+        users.put("3", new User("Evie"));
         Map<Integer, HashSet<String>> allTimes = new HashMap<Integer, HashSet<String>>();
         HashSet<String> everyone = new HashSet<String>();
         everyone.add("2018/02/20 17");
@@ -93,11 +94,11 @@ public class SessionDisplayActivity extends AppCompatActivity {
                 });
     }
 
-    public void updateUI(List<User> users, Map<Integer, HashSet<String>> allTimes) {
+    public void updateUI(Map<String, User> users, Map<Integer, HashSet<String>> allTimes) {
             TextView txtPeople = findViewById(R.id.txtPeople);
             String people = "Respondents:";
             int counter = 1;
-            for (User u : users) {
+            for (User u : users.values()) {
                 //if (u.enteredTimes()) {
                     String name = u.getName(); //FirebaseFirestore.getInstance().collection("users").document()
                     people += "\n" + counter +  ". " + name;

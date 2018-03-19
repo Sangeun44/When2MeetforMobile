@@ -35,21 +35,28 @@ public class SessionsActivity extends AppCompatActivity {
         userID = i.getStringExtra("accountNum");
         type = i.getStringExtra("display");
         myMeetings = new ArrayList<Meeting>();
-        populateMap(userID);
+        populateMap();
         //myMeetings.add(new Meeting(null, null, 8, 20, "Test Event", "10"));
         createButtons();
     }
 
-    private void populateMap(String ownerID) {
+    private void populateMap() {
         if (type.equals("joined")) {
-            FirebaseFirestore.getInstance().collection("meetings").whereEqualTo("owner", ownerID).get()
+            FirebaseFirestore.getInstance().collection("meetings").get()
                     .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot documentSnapshots) {
                             if (documentSnapshots.isEmpty()) {
                                 Log.d(TAG, "onSuccess: LIST EMPTY");
                             } else {
-                                myMeetings = documentSnapshots.toObjects(Meeting.class);
+                                List<Meeting> allMeetings = documentSnapshots.toObjects(Meeting.class);
+                                myMeetings = new ArrayList<Meeting>();
+                                for (Meeting m : allMeetings) {
+                                    if (m.containsUserNotAsOwner(userID)) {
+                                        myMeetings.add(m);
+                                    }
+                                }
+
                                 Log.d(TAG, "onSuccess: Found " + myMeetings.size() + " meetings!");
                             }
                         }
@@ -63,7 +70,7 @@ public class SessionsActivity extends AppCompatActivity {
         }
 
         if (type.equals("created")) {
-            FirebaseFirestore.getInstance().collection("meetings").whereEqualTo("owner", ownerID).get()
+            FirebaseFirestore.getInstance().collection("meetings").whereEqualTo("owner", userID).get()
                     .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot documentSnapshots) {

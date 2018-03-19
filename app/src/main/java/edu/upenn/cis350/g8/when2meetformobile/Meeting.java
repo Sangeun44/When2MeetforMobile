@@ -59,6 +59,19 @@ public class Meeting {
     }
 
     @Exclude
+    public boolean containsUserNotAsOwner(String userID) {
+        if (userID.equals(owner)) {
+            return false;
+        }
+
+        if (users.keySet().contains(userID)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    @Exclude
     public int getNumUsers() {
         return users.size();
     }
