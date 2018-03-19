@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -250,7 +251,9 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
         int low_time = Math.min(time1, time2);
         Intent i = getIntent();
         String user_id = i.getStringExtra("accountNum");
-        ArrayList<User> users = new ArrayList<User>();
+        HashMap<String, User> users = new HashMap<String, User>();
+        String username = "owner";
+        users.put(user_id, new User(username));
         Meeting meet = new Meeting(users, datesSelected, high_time, low_time, eventName, user_id);
 
         DocumentReference ref =  FirebaseFirestore.getInstance().collection("meetings").document();

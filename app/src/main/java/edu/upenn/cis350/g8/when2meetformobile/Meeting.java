@@ -16,7 +16,7 @@ import java.util.Set;
 
 public class Meeting {
 
-    private ArrayList<User> users;
+    private HashMap<String, User> users;
     private ArrayList<String> dates;
     private int high_time;
     private int low_time;
@@ -25,7 +25,7 @@ public class Meeting {
 
     public Meeting() {}
 
-    public Meeting(ArrayList<User> users, ArrayList<String> dates, int high_time, int low_time, String name, String owner) {
+    public Meeting(HashMap<String, User> users, ArrayList<String> dates, int high_time, int low_time, String name, String owner) {
         this.users = users;
         this.dates = dates;
         this.high_time = high_time;
@@ -54,7 +54,7 @@ public class Meeting {
         return owner;
     }
 
-    public ArrayList<User> getUsers() {
+    public HashMap<String, User> getUsers() {
         return users;
     }
 
@@ -72,7 +72,7 @@ public class Meeting {
             }
         }
 
-        for (User u: users) {
+        for (User u: users.values()) {
             for (String time : u.getMyTimes()) {
                 allTimes.put(time, allTimes.get(time) + 1);
             }

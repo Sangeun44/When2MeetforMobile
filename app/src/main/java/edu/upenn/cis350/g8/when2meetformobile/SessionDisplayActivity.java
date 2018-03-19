@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,8 @@ import java.util.Map;
 public class SessionDisplayActivity extends AppCompatActivity {
 
     private static final String TAG = "When2MeetJoinedSessDisp";
+    private Meeting meeting;
+    String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,15 @@ public class SessionDisplayActivity extends AppCompatActivity {
         most.add("2018/02/22 18");
         allTimes.put(3, most);
         updateUI(users, allTimes);
+
+        type = i.getStringExtra("display");
+        HorizontalScrollView scrollOwner = findViewById(R.id.scrollOwner);
+        if (type.equals("joined")) {
+            scrollOwner.setVisibility(View.INVISIBLE);
+        }
+        if (type.equals("created")) {
+            scrollOwner.setVisibility(View.VISIBLE);
+        }
     }
 
     public void onBackButtonClick(View v) {
@@ -67,9 +79,9 @@ public class SessionDisplayActivity extends AppCompatActivity {
                         if (documentSnapshots.isEmpty()) {
                             Log.d(TAG, "onSuccess: No such meeting");
                         } else {
-                            Meeting m = documentSnapshots.toObjects(Meeting.class).get(0);
+                            meeting = documentSnapshots.toObjects(Meeting.class).get(0);
                             Log.d(TAG, "onSuccess: Found your meeting!");
-                            updateUI(m.getUsers(), m.getBestTimes());
+                            updateUI(meeting.getUsers(), meeting.getBestTimes());
                         }
                     }
                 })
