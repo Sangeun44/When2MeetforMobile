@@ -22,7 +22,7 @@ import java.util.List;
 public class SessionsActivity extends AppCompatActivity {
 
     public static final int SessionDisplayActivity_ID = 2;
-    private static final String TAG = "When2MeetJoinedSessions";
+    private static final String TAG = "When2MeetSessions";
     private List<Meeting> myMeetings;
     String userID;
     String type;
@@ -35,12 +35,16 @@ public class SessionsActivity extends AppCompatActivity {
         userID = i.getStringExtra("accountNum");
         type = i.getStringExtra("display");
         myMeetings = new ArrayList<Meeting>();
-        populateMap();
+        populateMeetings();
         //myMeetings.add(new Meeting(null, null, 8, 20, "Test Event", "10"));
         createButtons();
     }
 
-    private void populateMap() {
+    /**
+     * Populates the list of Meetings that is used to generate buttons
+     * based on the type of sessions folder
+     */
+    private void populateMeetings() {
         if (type.equals("joined")) {
             FirebaseFirestore.getInstance().collection("meetings").get()
                     .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -49,28 +53,31 @@ public class SessionsActivity extends AppCompatActivity {
                             if (documentSnapshots.isEmpty()) {
                                 Log.d(TAG, "onSuccess: LIST EMPTY");
                             } else {
-                                List<Meeting> allMeetings = documentSnapshots.toObjects(Meeting.class);
+                                List<Meeting> allMeetings =
+                                        documentSnapshots.toObjects(Meeting.class);
                                 myMeetings = new ArrayList<Meeting>();
                                 for (Meeting m : allMeetings) {
                                     if (m.containsUserNotAsOwner(userID)) {
                                         myMeetings.add(m);
                                     }
                                 }
-
-                                Log.d(TAG, "onSuccess: Found " + myMeetings.size() + " meetings!");
+                                int numMeetings =  myMeetings.size();
+                                Log.d(TAG,"onSuccess: Found " + numMeetings + " meetings!");
                             }
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getApplicationContext(), "Error getting data!!!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Error getting data!!!",
+                                    Toast.LENGTH_LONG).show();
                         }
                     });
         }
 
         if (type.equals("created")) {
-            FirebaseFirestore.getInstance().collection("meetings").whereEqualTo("owner", userID).get()
+            FirebaseFirestore.getInstance().collection("meetings")
+                    .whereEqualTo("owner", userID).get()
                     .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot documentSnapshots) {
@@ -78,19 +85,25 @@ public class SessionsActivity extends AppCompatActivity {
                                 Log.d(TAG, "onSuccess: LIST EMPTY");
                             } else {
                                 myMeetings = documentSnapshots.toObjects(Meeting.class);
-                                Log.d(TAG, "onSuccess: Found " + myMeetings.size() + " meetings!");
+                                int numMeetings =  myMeetings.size();
+                                Log.d(TAG,"onSuccess: Found " + numMeetings + " meetings!");
                             }
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getApplicationContext(), "Error getting data!!!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(),
+                                    "Error getting data!!!", Toast.LENGTH_LONG).show();
                         }
                     });
         }
     }
 
+    /**
+     * Creates a button for every Meeting in myMeetings and
+     * sets it up to pass on the name of the meeting to the display Activity
+     */
     public void createButtons() {
         final Context context = this;
         LinearLayout main = findViewById(R.id.mainLinear);
@@ -108,7 +121,9 @@ public class SessionsActivity extends AppCompatActivity {
                         startActivityForResult(i, SessionDisplayActivity_ID);
                     }
                 });
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                LinearLayout.LayoutParams lp =
+                        new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT);
                 main.addView(b, lp);
             }
         }

@@ -51,6 +51,7 @@ public class SessionDisplayActivity extends AppCompatActivity {
         allTimes.put(3, most);
         updateUI(users, allTimes);
 
+        // sets visibility of special owner buttons based on mode
         type = i.getStringExtra("display");
         HorizontalScrollView scrollOwner = findViewById(R.id.scrollOwner);
         if (type.equals("joined")) {
@@ -61,19 +62,33 @@ public class SessionDisplayActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * returns to previous screen on back
+     * @param v current View
+     */
     public void onBackButtonClick(View v) {
         Intent i = new Intent(this, SessionsActivity.class);
         setResult(RESULT_OK, i);
         finish();
     }
 
+    /**
+     * Goes to the EnterTimes Activity
+     * @param v current View
+     */
     public void onEnterTimesButtonClick(View v) {
         Toast.makeText(getApplicationContext(), "Going to Enter Times Page...",
                 Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * reads the data for this meeting based on the meetingName
+     * if successful, meeting will hold the read data
+     * @param meetingName the Name of the Meeting to read
+     */
     private void readSessionData(String meetingName) {
-        FirebaseFirestore.getInstance().collection("meetings").whereEqualTo("name", meetingName).get()
+        FirebaseFirestore.getInstance().collection("meetings")
+                .whereEqualTo("name", meetingName).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot documentSnapshots) {
@@ -89,21 +104,27 @@ public class SessionDisplayActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Error getting meeting data!!!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),
+                                "Error getting meeting data!!!", Toast.LENGTH_LONG).show();
                     }
                 });
     }
 
+    /**
+     * Updates the UI to reflect the data from the associated Meeting
+     * @param users the map of users in this meeting
+     * @param allTimes all the possible meeting times
+     */
     public void updateUI(Map<String, User> users, Map<Integer, HashSet<String>> allTimes) {
             TextView txtPeople = findViewById(R.id.txtPeople);
             String people = "Respondents:";
             int counter = 1;
             for (User u : users.values()) {
-                //if (u.enteredTimes()) {
-                    String name = u.getName(); //FirebaseFirestore.getInstance().collection("users").document()
+                if (u.enteredTimes()) {
+                    String name = u.getName();
                     people += "\n" + counter +  ". " + name;
                     counter++;
-                //}
+                }
             }
             txtPeople.setText(people);
 
