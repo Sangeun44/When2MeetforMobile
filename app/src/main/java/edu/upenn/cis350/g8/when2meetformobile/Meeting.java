@@ -5,6 +5,7 @@ import com.google.firebase.firestore.Exclude;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -16,16 +17,28 @@ import java.util.Set;
 
 public class Meeting {
 
-    private HashMap<String, User> users;
-    private ArrayList<String> dates;
+    private Map<String, User> users;
+    private List<String> dates;
     private int high_time;
     private int low_time;
     private String name;
     private String owner;
 
+    /**
+     * Generic constructor
+     */
     public Meeting() {}
 
-    public Meeting(HashMap<String, User> users, ArrayList<String> dates, int high_time, int low_time, String name, String owner) {
+    /**
+     * Constructs a meeting with all parameters
+     * @param users the Map of User objects
+     * @param dates the List of dates as Strings
+     * @param high_time the max times
+     * @param low_time the min time
+     * @param name the name associated with the meeting
+     * @param owner the owner's ID
+     */
+    public Meeting(Map<String, User> users, List<String> dates, int high_time, int low_time, String name, String owner) {
         this.users = users;
         this.dates = dates;
         this.high_time = high_time;
@@ -34,30 +47,59 @@ public class Meeting {
         this.owner = owner;
     }
 
-    public ArrayList<String> getDates() {
+    /**
+     * Gets the dates
+     * @return dates
+     */
+    public List<String> getDates() {
         return dates;
     }
 
+    /**
+     * gets the High time
+     * @return high_time
+     */
     public int getHigh_time() {
         return high_time;
     }
 
+    /**
+     * gets the low_time
+     * @return low_time
+     */
     public int getLow_time() {
         return low_time;
     }
 
+    /**
+     * gets the Name
+     * @return name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * returns the Owner
+     * @return owner
+     */
     public String getOwner() {
         return owner;
     }
 
-    public HashMap<String, User> getUsers() {
+    /**
+     * gets the Map of Users
+     * @return users
+     */
+    public Map<String, User> getUsers() {
         return users;
     }
 
+    /**
+     * determines if the Meeting contains a particular user when the user is not the owner
+     * @param userID the ID of the user to find
+     * @return true if the user has joined the meeting but isn't the creator
+     */
     @Exclude
     public boolean containsUserNotAsOwner(String userID) {
         if (userID.equals(owner)) {
@@ -71,11 +113,21 @@ public class Meeting {
         return false;
     }
 
+    /**
+     * finds the number of uses
+     * @return int representing the number of users
+     */
     @Exclude
     public int getNumUsers() {
         return users.size();
     }
 
+    /**
+     * gets a Map that helps to determine the best times to meet
+     * by showing how many people are available at each time
+     * @return Map<Integer, HashSet<String>> of the number of appearances to all dates that appear
+     * that many times in the database as free
+     */
     @Exclude
     public Map<Integer, HashSet<String>> getBestTimes() {
         Map<String, Integer> allTimes = new HashMap<String, Integer>();
