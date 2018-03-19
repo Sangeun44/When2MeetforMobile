@@ -38,7 +38,8 @@ public class Meeting {
      * @param name the name associated with the meeting
      * @param owner the owner's ID
      */
-    public Meeting(Map<String, User> users, List<String> dates, int high_time, int low_time, String name, String owner) {
+    public Meeting(Map<String, User> users, List<String> dates, int high_time, int low_time,
+                   String name, String owner) {
         this.users = users;
         this.dates = dates;
         this.high_time = high_time;
