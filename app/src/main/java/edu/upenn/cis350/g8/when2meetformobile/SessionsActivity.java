@@ -13,28 +13,32 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class SessionsActivity extends AppCompatActivity {
 
     public static final int SessionDisplayActivity_ID = 2;
     private static final String TAG = "When2MeetSessions";
-    private List<Meeting> myMeetings;
-    String userID;
-    String type;
+    private Map<String, Meeting> myMeetings;
+    String userID = "110859387616197731453";
+    String type = "created";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sessions);
         Intent i = new Intent(this, SessionDisplayActivity.class);
-        userID = i.getStringExtra("accountNum");
-        type = i.getStringExtra("display");
-        myMeetings = new ArrayList<Meeting>();
+        //userID = i.getStringExtra("accountNum");
+        //type = i.getStringExtra("display");
+        myMeetings = new HashMap<String, Meeting>();
         populateMeetings();
         //myMeetings.add(new Meeting(null, null, 8, 20, "Test Event", "10"));
         createButtons();
@@ -53,14 +57,13 @@ public class SessionsActivity extends AppCompatActivity {
                             if (documentSnapshots.isEmpty()) {
                                 Log.d(TAG, "onSuccess: LIST EMPTY");
                             } else {
-                                List<Meeting> allMeetings =
-                                        documentSnapshots.toObjects(Meeting.class);
-                                myMeetings = new ArrayList<Meeting>();
-                                for (Meeting m : allMeetings) {
+                                for (DocumentSnapshot thisDoc : documentSnapshots.getDocuments()) {
+                                    Meeting m = thisDoc.toObject(Meeting.class);
                                     if (m.containsUserNotAsOwner(userID)) {
-                                        myMeetings.add(m);
+                                        myMeetings.put(thisDoc.getId(), m);
                                     }
                                 }
+
                                 int numMeetings =  myMeetings.size();
                                 Log.d(TAG,"onSuccess: Found " + numMeetings + " meetings!");
                             }
@@ -84,7 +87,10 @@ public class SessionsActivity extends AppCompatActivity {
                             if (documentSnapshots.isEmpty()) {
                                 Log.d(TAG, "onSuccess: LIST EMPTY");
                             } else {
-                                myMeetings = documentSnapshots.toObjects(Meeting.class);
+                                for (DocumentSnapshot thisDoc : documentSnapshots.getDocuments()) {
+                                    Meeting m = thisDoc.toObject(Meeting.class);
+                                    myMeetings.put(thisDoc.getId(), m);
+                                }
                                 int numMeetings =  myMeetings.size();
                                 Log.d(TAG,"onSuccess: Found " + numMeetings + " meetings!");
                             }
@@ -102,23 +108,25 @@ public class SessionsActivity extends AppCompatActivity {
 
     /**
      * Creates a button for every Meeting in myMeetings and
-     * sets it up to pass on the name of the meeting to the display Activity
+     * sets it up to pass on the ID of the meeting to the display Activity
      */
     public void createButtons() {
         final Context context = this;
         LinearLayout main = findViewById(R.id.mainLinear);
 
         if (myMeetings != null) {
-            for (int i = 0; i < myMeetings.size(); i++) {
-                final Meeting m = myMeetings.get(i);
+            for (final String id: myMeetings.keySet()) {
+                final Meeting m = myMeetings.get(id);
                 Button b = new Button(this);
                 b.setText(m.getName());
+                Log.d(TAG,"button created: " + m.getName());
+
                 b.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent i = new Intent(context, SessionDisplayActivity.class);
-                        i.putExtra("MEETING", m.getName());
-                        startActivityForResult(i, SessionDisplayActivity_ID);
+                        Intent intent = new Intent(context, SessionDisplayActivity.class);
+                        intent.putExtra("MEETING", id);
+                        startActivityForResult(intent, SessionDisplayActivity_ID);
                     }
                 });
                 LinearLayout.LayoutParams lp =

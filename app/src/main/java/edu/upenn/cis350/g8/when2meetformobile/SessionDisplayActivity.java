@@ -34,22 +34,8 @@ public class SessionDisplayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_session_display);
         Intent i = this.getIntent();
-        String meetingName = i.getStringExtra("MEETING");
-        //readSessionData(meetingName);
-        Map<String, User> users = new HashMap<String, User>();
-        users.put("1", new User("Sang"));
-        users.put("2", new User("Diana"));
-        users.put("3", new User("Saniyah"));
-        users.put("3", new User("Evie"));
-        Map<Integer, HashSet<String>> allTimes = new HashMap<Integer, HashSet<String>>();
-        HashSet<String> everyone = new HashSet<String>();
-        everyone.add("2018/02/20 17");
-        allTimes.put(4, everyone);
-        HashSet<String> most = new HashSet<String>();
-        most.add("2018/02/21 12");
-        most.add("2018/02/22 18");
-        allTimes.put(3, most);
-        updateUI(users, allTimes);
+        String meetingID = i.getStringExtra("MEETING");
+        readSessionData(meetingID);
 
         // sets visibility of special owner buttons based on mode
         type = i.getStringExtra("display");
@@ -84,30 +70,12 @@ public class SessionDisplayActivity extends AppCompatActivity {
     /**
      * reads the data for this meeting based on the meetingName
      * if successful, meeting will hold the read data
-     * @param meetingName the Name of the Meeting to read
+     * @param meetingID the ID of the Meeting to read
      */
-    private void readSessionData(String meetingName) {
-        FirebaseFirestore.getInstance().collection("meetings")
-                .whereEqualTo("name", meetingName).get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot documentSnapshots) {
-                        if (documentSnapshots.isEmpty()) {
-                            Log.d(TAG, "onSuccess: No such meeting");
-                        } else {
-                            meeting = documentSnapshots.toObjects(Meeting.class).get(0);
-                            Log.d(TAG, "onSuccess: Found your meeting!");
-                            updateUI(meeting.getUsers(), meeting.getBestTimes());
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(),
-                                "Error getting meeting data!!!", Toast.LENGTH_LONG).show();
-                    }
-                });
+    private void readSessionData(String meetingID) {
+        meeting = FirebaseFirestore.getInstance().collection("meetings")
+                .document(meetingID).get().getResult().toObject(Meeting.class);
+        updateUI(meeting.getUsers(), meeting.getBestTimes());
     }
 
     /**

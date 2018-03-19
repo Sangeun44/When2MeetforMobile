@@ -16,7 +16,7 @@ import java.util.Set;
 public class User {
 
     private String name;
-    private ArrayList<String> availability;
+    private ArrayList<String> myTimes;
 
 
     /**
@@ -30,7 +30,7 @@ public class User {
      */
     public User(String name) {
         this.name = name;
-        availability = new ArrayList<String>();
+        myTimes = new ArrayList<String>();
     }
 
     /**
@@ -45,10 +45,10 @@ public class User {
     /**
      * Creates a User given their availability
      * Used for reading data from the database
-     * @param availability Availability as a List of Strings
+     * @param myTimes Availability as a List of Strings
      */
-    public User(ArrayList<String> availability) {
-        this.availability = availability;
+    public User(ArrayList<String> myTimes) {
+        this.myTimes = myTimes;
     }
 
     /**
@@ -57,7 +57,7 @@ public class User {
      */
     @Exclude
     public boolean enteredTimes() {
-        return (this.availability != null && !this.availability.isEmpty());
+        return (this.myTimes != null && !this.myTimes.isEmpty());
     }
 
     /**
@@ -65,6 +65,6 @@ public class User {
      * @return availability as a List of Strings
      */
     public List<String> getMyTimes() {
-       return availability;
+       return myTimes;
     }
 }
