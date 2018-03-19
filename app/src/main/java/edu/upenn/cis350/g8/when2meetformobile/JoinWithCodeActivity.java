@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.EditText;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class JoinWithCodeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_joiningwithcode);
     }
 
-    public void onClickOk() {
+    public void onClickOK2(View view) {
         EditText eventN = (EditText) findViewById(R.id.code);
         Intent resultIntent = new Intent();
         //TODO Add extras or a data URI to this intent as appropriate.
@@ -35,7 +36,7 @@ public class JoinWithCodeActivity extends AppCompatActivity {
         finish();
     }
 
-    public void onClickCancel() {
+    public void onClickCancel2(View view) {
         finish();
     }
 

@@ -19,6 +19,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="102dp"
             android:layout_marginTop="161dp"
+            android:onClick="onClickOK2"
             android:text="OK" />
 
         <Button
@@ -28,6 +29,7 @@
             android:layout_alignBaseline="@+id/ok"
             android:layout_alignBottom="@+id/ok"
             android:layout_toEndOf="@+id/ok"
+            android:onClick="onClickCancel2"
             android:text="Cancel" />
 
         <TextView
