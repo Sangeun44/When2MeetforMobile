@@ -71,7 +71,7 @@ public class User {
      * @return availability as a List of Strings
      */
     public List<String> getMyTimes() {
-        List<String> times = new ArrayList<String>();
+        /*List<String> times = new ArrayList<String>();
 
         String start = "";
 
@@ -92,8 +92,8 @@ public class User {
 
                 start = "";
             }
-        }
+        }*/
 
-        return times;
+        return myTimes;
     }
 }
