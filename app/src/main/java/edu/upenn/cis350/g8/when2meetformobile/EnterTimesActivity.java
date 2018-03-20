@@ -263,13 +263,13 @@ public class EnterTimesActivity extends AppCompatActivity {
                             Log.d(TAG, end.getSelectedItem().toString().trim());
                             if (!start.getSelectedItem().toString().equals("START")) {
                                 int startT = Integer.parseInt(start.getSelectedItem().toString().trim());
-                                startTime = days.get(j) + " S " + startT;
+                                startTime = days.get(j) + startT;
                                 enteredTimes.add(startTime);
                             }
 
                             if (!end.getSelectedItem().toString().equals("END")) {
                                 int endT = Integer.parseInt(end.getSelectedItem().toString().trim());
-                                endTime = days.get(j) + " E " + endT;
+                                endTime = days.get(j) + endT;
                                 enteredTimes.add(endTime);
                             }
 
