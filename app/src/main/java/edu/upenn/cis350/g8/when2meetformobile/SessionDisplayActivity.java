@@ -117,7 +117,6 @@ public class SessionDisplayActivity extends AppCompatActivity {
             for (String id : users.keySet()) {
                 User u = users.get(id);
                 if (u.enteredTimes()) {
-                    String name = FirebaseFirestore.getInstance().collection("users").document(id).get().getResult().get("name").toString();
                     people += "\n" + counter +  ". " + id;
                     counter++;
                 }
