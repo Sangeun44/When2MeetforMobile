@@ -133,9 +133,9 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
                     //code
                     //codeV.setVisibility(View.VISIBLE);
                     //codedV.setVisibility(View.VISIBLE);
-//                    String code = createRandomCode();
-//                    ((TextView) codedV).setText(code);
-//                    meetingIDStr = code;
+                    String code = createRandomCode();
+                    ((TextView) codedV).setText(code);
+                    meetingIDStr = code;
                 }
                 else {
                     //email
@@ -257,12 +257,10 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
         Intent i = getIntent();
         String owner_id = i.getStringExtra("accountKey");
 
-        String user_id = i.getStringExtra("accountNum");
         HashMap<String, User> users = new HashMap<String, User>();
-        String username = "owner";
-        users.put(user_id, new User(username));
 
         meet = new Meeting(users, datesSelected, high_time, low_time, eventName, owner_id);
+        meet.addUsers(owner_id);
 
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         DocumentReference ref = database.collection("my_collection").document();
