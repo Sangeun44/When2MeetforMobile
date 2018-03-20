@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
 import java.text.SimpleDateFormat;
@@ -58,6 +59,9 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
     ArrayList<String> daysSelected;
     ArrayList<String> datesSelected;
     ArrayList<String> emailList;
+
+    private List<Meeting> myMeetings = new ArrayList<Meeting>();
+    private Meeting meet;
 
     public CreateSessionActivity() {
         daysSelected = new ArrayList<String>();
@@ -241,39 +245,93 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
             finish();
         }
 
-
     }
 
     public void updateDB() {
+
         int time1 = changeTime(earliestStr);
         int time2 = changeTime(latestStr);
         int high_time = Math.max(time1, time2);
         int low_time = Math.min(time1, time2);
+
         Intent i = getIntent();
-        String user_id = i.getStringExtra("accountNum");
+        String owner_id = i.getStringExtra("accountKey");
+
         HashMap<String, User> users = new HashMap<String, User>();
         String username = "owner";
         users.put("test", new User("owner"));
-        Meeting meet = new Meeting(users, datesSelected, high_time, low_time, eventName, user_id);
+
+        meet = new Meeting(users, datesSelected, high_time, low_time, eventName, owner_id);
 
         FirebaseFirestore database = FirebaseFirestore.getInstance();
-        DocumentReference key = database.collection("meetings").add(meet).getResult();
+        DocumentReference ref = database.collection("my_collection").document();
+        FirebaseFirestore.getInstance().collection("meetings").document(ref.getId())
+                .set(meet, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
 
         Toast.makeText(CreateSessionActivity.this,
-                "Meeting ID:" + key.getId(),
+                "Meeting ID:" + ref.getId(),
                 Toast.LENGTH_LONG).show();
-//                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                        @Override
-//                        public void onSuccess(Void aVoid) {
-//                            Log.d(TAG, "DocumentSnapshot successfully written!");
+
+//        database.collection("meetings").document()
+//                .set(meet, SetOptions.merge())
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        Log.d(TAG, "DocumentSnapshot successfully written!");
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.w(TAG, "Error writing document", e);
+//                    }
+//                });
+//
+//                FirebaseFirestore.getInstance().collection("meetings").whereEqualTo("owner", owner_id).get()
+//                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onSuccess(QuerySnapshot documentSnapshots) {
+//                        if (documentSnapshots.isEmpty()) {
+//                            Log.d(TAG, "onSuccess: LIST EMPTY");
+//                        } else {
+//                            myMeetings = documentSnapshots.toObjects(Meeting.class);
+//                            if(myMeetings.contains(meet)) {
+//
+//                            }
 //                        }
-//                    })
-//                    .addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception e) {
-//                            Log.w(TAG, "Error writing document", e);
-//                        }
-//                    });
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(getApplicationContext(), "Error getting data!!!", Toast.LENGTH_LONG).show();
+//                    }
+//                });
+////
+////                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+////                        @Override
+////                        public void onSuccess(Void aVoid) {
+////                            Log.d(TAG, "DocumentSnapshot successfully written!");
+////                        }
+////                    })
+////                    .addOnFailureListener(new OnFailureListener() {
+////                        @Override
+////                        public void onFailure(@NonNull Exception e) {
+////                            Log.w(TAG, "Error writing document", e);
+////                        }
+////                    });
     }
 
     public int changeTime(String time) {

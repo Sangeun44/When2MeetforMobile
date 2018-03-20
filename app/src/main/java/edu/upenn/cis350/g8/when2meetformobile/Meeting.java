@@ -58,6 +58,13 @@ public class Meeting {
         return users;
     }
 
+    public void addUsers(String id) {
+        if(users == null) {
+            users = new HashMap<String, User>();
+        }
+        users.put(id, new User());
+    }
+
     @Exclude
     public int getNumUsers() {
         return users.size();

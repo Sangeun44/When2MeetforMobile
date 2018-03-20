@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +24,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
@@ -41,6 +44,9 @@ import java.util.Map;
  */
 
 public class HomeScreenActivity extends AppCompatActivity {
+    private List<Meeting> myMeetings = new ArrayList<Meeting>();
+    private Meeting meet;
+    private Meeting curr_meet = new Meeting();
 
     public static final int JoinedSessionActivity_ID = 3;
     public static final int CreateSessionActivity_ID = 4;
@@ -77,10 +83,11 @@ public class HomeScreenActivity extends AppCompatActivity {
     public void onCreateButtonClick(View view) {
         //Sang's page
         Intent intent = getIntent();
-        int user_id = intent.getIntExtra("accountNum", 0);
+        String user_id = intent.getStringExtra("accountKey");
+        Log.d(TAG, user_id);
         //CreateSessionActivity
         Intent i = new Intent(this, CreateSessionActivity.class);
-        i.putExtra("accountNum", user_id);
+        i.putExtra("accountKey", user_id);
         startActivityForResult(i, CreateSessionActivity_ID);
     }
 
@@ -115,9 +122,8 @@ public class HomeScreenActivity extends AppCompatActivity {
     }
 
     //check if the code exists in the database
-    private void checkForCode(String m) {
-        Log.d(TAG, m);
-        final String meetingName = "m";
+    private void checkForCode(String meeting_ID) {
+        final String meetingName = meeting_ID;
 
         //db
         FirebaseFirestore database = FirebaseFirestore.getInstance();
@@ -141,61 +147,76 @@ public class HomeScreenActivity extends AppCompatActivity {
     }
 
     //update the database with the user into the meeting session
-    private void updateDB(String m) {
+    private void updateDB(String meeting_ID) {
+        Intent he = getIntent();
+        String account_id = he.getStringExtra("accountKey");
+
         final ArrayList<User> users = new ArrayList<User>();
         final GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
 
         FirebaseFirestore database = FirebaseFirestore.getInstance();
-        DocumentReference meetingDocRef = database.collection("meetings").document(m);
-        String meetingIDStr = meetingDocRef.getId();
-        Log.d(TAG, meetingIDStr);
 
-        DocumentReference docRef = database.collection("meetings").document(m);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document != null && document.exists()) {
-                        //document
-                        String documentStr = document.getData().toString();
+        // get the meeting in the database
 
-                        int firstBracket = documentStr.indexOf("[");
-                        int secondBracket = documentStr.indexOf("]");
-                        String usersList = documentStr.substring(firstBracket + 1, secondBracket);
-
-                        String[] userArray = usersList.split(",");
-
-                        List<String> listOfUsers = new ArrayList<String>(Arrays.asList(userArray));
-
-                        User newUser = new User();
-                        //get user's id from sign in activity
-                        if (acct != null) {
-                            String personName = acct.getDisplayName();
-                            newUser = new User(personName);
+        FirebaseFirestore.getInstance().collection("meetings").document(meeting_ID).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshots) {
+                        if (!documentSnapshots.exists()) {
+                            Log.d(TAG, "onSuccess: LIST EMPTY");
+                        } else {
+                            curr_meet = documentSnapshots.toObject(Meeting.class);
+                            int numMeetings =  myMeetings.size();
+                            Log.d(TAG,"onSuccess: Found " + numMeetings + " meetings!");
                         }
-
-                        //add new user to the list of users in the meeting
-                        listOfUsers.add(newUser.getName());
-
-                        //update the list on firebase
-                        document.getReference().update(
-                                "users", listOfUsers
-                        );
-
-                        //exclaim that it works
-                        Toast.makeText(HomeScreenActivity.this,
-                                "Your Meeting has been added",
-                                Toast.LENGTH_LONG).show();
-
-                    } else {
-                        Log.d(TAG, "No such document");
                     }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Error getting data!!!",
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
 
+//        Meeting curr_meet = readSessionData(meeting_ID);
+        curr_meet.addUsers(account_id);
+
+        //add back to database
+        FirebaseFirestore.getInstance().collection("meetings").document(meeting_ID)
+                .set(curr_meet, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+        //Exclaim that it works
+        Toast.makeText(HomeScreenActivity.this,
+                "Added the meeting to your joined sessions",
+                Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * reads the data for this meeting based on the meetingName
+     * if successful, meeting will hold the read data
+     * @param meetingID the ID of the Meeting to read
+     */
+    private Meeting readSessionData(String meetingID) {
+        DocumentSnapshot docSnap = FirebaseFirestore.getInstance().collection("meetings")
+                .document(meetingID).get().getResult();
+        if (docSnap.exists()) {
+            return docSnap.toObject(Meeting.class);
+        } else {
+            Log.d(TAG, "Meeting does not exist");
+            return null;
+        }
     }
 }
