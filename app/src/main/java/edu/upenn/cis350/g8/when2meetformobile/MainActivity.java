@@ -23,12 +23,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    public static final int HomeActivity_ID = 1;
     private static final String TAG = "When2MeetMain";
+
     private static final int RC_SIGN_IN = 123;
     private GoogleSignInClient mGoogleSignInClient;
     private String account_Num = "01";
-
-    public static final int HomeActivity_ID = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

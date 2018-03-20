@@ -22,7 +22,6 @@
         <activity android:name=".EnterTimesActivity" />
         <activity android:name=".SessionDisplayActivity"></activity>
         <activity android:name=".CreateSessionActivity" />
-        <activity android:name=".EmailActivity" />
     </application>
 
 </manifest>

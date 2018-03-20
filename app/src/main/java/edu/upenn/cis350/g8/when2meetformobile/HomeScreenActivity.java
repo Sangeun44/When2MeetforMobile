@@ -4,54 +4,29 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-/**
- * Created by Evie on 2/18/18.
- */
 
 public class HomeScreenActivity extends AppCompatActivity {
-    private List<Meeting> myMeetings = new ArrayList<Meeting>();
-    private Meeting meet;
-    private Meeting curr_meet = new Meeting();
-
+    static final int joinwithcode_ID = 1;  // The request code for joining with a code
     public static final int SessionActivity_ID = 3;
     public static final int CreateSessionActivity_ID = 4;
     final String TAG = "FireBase";
-    static final int joinwithcode_ID = 1;  // The request code for joining with a code
+
+    private List<Meeting> myMeetings = new ArrayList<>();
+    private Meeting curr_meet = new Meeting();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,70 +34,81 @@ public class HomeScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
     }
 
-    public void updateNotifications (String message) {
-        TextView text = findViewById(R.id.notifications);
-        text.append(message);
+    /**
+     * Runs the activity to view meetings.
+     *
+     * @param isOwner true if viewing owned meetings, false otherwise
+     */
+    private void viewMeetings(boolean isOwner) {
+        Intent i = getIntent();
+        String user_id = i.getStringExtra("accountKey");
+
+        Intent i2 = new Intent(this, SessionsActivity.class);
+        i2.putExtra("isOwner", isOwner);
+        i2.putExtra("accountKey", user_id);
+
+        startActivityForResult(i2, SessionActivity_ID);
     }
 
+    /**
+     * Runs the activity to view owned meetings.
+     *
+     * @param view current {@code View}
+     */
     public void onMySessionsButtonClick(View view) {
-
-        Intent i = getIntent();
-        String user_id = i.getStringExtra("accountKey");
-
-        Intent i2 = new Intent(this, SessionsActivity.class);
-        i2.putExtra("type", "created");
-        i2.putExtra("accountKey", user_id);
-
-        startActivityForResult(i2, SessionActivity_ID);
+        viewMeetings(true);
     }
 
+    /**
+     * Runs the activity to view unowned meetings.
+     *
+     * @param view current {@code View}
+     */
     public void onJoinedSessionsButtonClick(View view) {
-        Intent i = getIntent();
-        String user_id = i.getStringExtra("accountKey");
-
-        Intent i2 = new Intent(this, SessionsActivity.class);
-        i2.putExtra("type", "joined");
-        i2.putExtra("accountKey", user_id);
-
-        startActivityForResult(i2, SessionActivity_ID);
+        viewMeetings(false);
     }
 
-    public void onLogoutButtonClick(View view) {
-        //return to login page
-        finish();
-    }
+//    /**
+//     * Logs the current user out of the platform.
+//     *
+//     * @param view current {@code View}
+//     */
+//    public void onLogoutButtonClick(View view) {
+//        finish();
+//    }
 
+    /**
+     * Runs the activity to create a new meeting.
+     *
+     * @param view current {@code View}
+     */
     public void onCreateButtonClick(View view) {
-        //Sang's page
         Intent intent = getIntent();
         String user_id = intent.getStringExtra("accountKey");
         Log.d(TAG, user_id);
-        //CreateSessionActivity
+
         Intent i = new Intent(this, CreateSessionActivity.class);
         i.putExtra("accountKey", user_id);
         startActivityForResult(i, CreateSessionActivity_ID);
     }
 
-    public void onProfileButtonClick(View view) {
-
-    }
-
-    //Sang iteration #2
-    //join with a code calls code entering activity
+    /**
+     * Runs the activity to join a new meeting.
+     *
+     * @param view current {@code View}
+     */
     public void onJoinButtonClick(View view) {
         Intent intent = getIntent();
         int user_id = intent.getIntExtra("code", 0);
-        //joinSessionActivity
+
         Intent i = new Intent(this, JoinWithCodeActivity.class);
         i.putExtra("code", user_id);
         startActivityForResult(i, joinwithcode_ID);
     }
 
-    //after code is entered and pressed ok
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check which request we're responding to
-        switch(requestCode) {
+        switch (requestCode) {
             case (joinwithcode_ID) : {
                 if (resultCode == Activity.RESULT_OK) {
                     String returnCode = data.getStringExtra("code");
@@ -133,15 +119,15 @@ public class HomeScreenActivity extends AppCompatActivity {
         }
     }
 
-    //check if the code exists in the database
+    /**
+     * Attempts to add the current user to the specified meeting via a code.
+     *
+     * @param meeting_ID ID of meeting to update
+     */
     private void checkForCode(String meeting_ID) {
         final String meetingName = meeting_ID;
-
-        //db
         FirebaseFirestore database = FirebaseFirestore.getInstance();
-        //meeting doc
         DocumentReference usersRef = database.collection("meetings").document(meetingName);
-        //check if doc is there
         usersRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -150,23 +136,21 @@ public class HomeScreenActivity extends AppCompatActivity {
                     updateDB(meetingName);
                 } else {
                     Toast.makeText(HomeScreenActivity.this,
-                            "Meeting is not available",
-                            Toast.LENGTH_LONG).show();
+                            "Meeting is not available", Toast.LENGTH_LONG).show();
                     Log.d(TAG, "Meeting does not exist");
                 }
             }
         });
     }
 
-    //update the database with the user into the meeting session
+    /**
+     * Updates the meeting in the database, merging the new user data with the old.
+     *
+     * @param meeting_ID ID of the meeting to update in the database
+     */
     private void updateDB(String meeting_ID) {
         Intent he = getIntent();
         String account_id = he.getStringExtra("accountKey");
-
-        final ArrayList<User> users = new ArrayList<User>();
-        final GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
-
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
 
         // get the meeting in the database
         FirebaseFirestore.getInstance().collection("meetings").document(meeting_ID).get()
@@ -190,10 +174,10 @@ public class HomeScreenActivity extends AppCompatActivity {
                     }
                 });
 
-//        Meeting curr_meet = readSessionData(meeting_ID);
+        // add users
         curr_meet.addUsers(account_id);
 
-        //add back to database
+        // add back to database
         FirebaseFirestore.getInstance().collection("meetings").document(meeting_ID)
                 .set(curr_meet, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -209,25 +193,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                     }
                 });
 
-        //Exclaim that it works
         Toast.makeText(HomeScreenActivity.this,
-                "Added the meeting to your joined sessions",
-                Toast.LENGTH_LONG).show();
-    }
-
-    /**
-     * reads the data for this meeting based on the meetingName
-     * if successful, meeting will hold the read data
-     * @param meetingID the ID of the Meeting to read
-     */
-    private Meeting readSessionData(String meetingID) {
-        DocumentSnapshot docSnap = FirebaseFirestore.getInstance().collection("meetings")
-                .document(meetingID).get().getResult();
-        if (docSnap.exists()) {
-            return docSnap.toObject(Meeting.class);
-        } else {
-            Log.d(TAG, "Meeting does not exist");
-            return null;
-        }
+                "Added the meeting to your joined sessions", Toast.LENGTH_LONG).show();
     }
 }

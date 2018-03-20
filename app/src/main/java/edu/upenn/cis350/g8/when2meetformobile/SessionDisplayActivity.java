@@ -14,24 +14,18 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
 
 public class SessionDisplayActivity extends AppCompatActivity {
-
-    private static final String TAG = "When2MeetSessDisp";
-    private Meeting meeting;
-    String type;
-    String meetingID;
-    String userID;
     public static final int EnterTimesActivity_ID = 8;
+    private static final String TAG = "When2MeetSessDisp";
+
+    private Meeting meeting;
+    private boolean isOwner;
+    private String meetingID;
+    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,19 +37,15 @@ public class SessionDisplayActivity extends AppCompatActivity {
         readSessionData(meetingID);
 
         // sets visibility of special owner buttons based on mode
-        type = i.getStringExtra("type");
+        isOwner = i.getBooleanExtra("isOwner", false);
         HorizontalScrollView scrollOwner = findViewById(R.id.scrollOwner);
-        if (type.equals("joined")) {
-            scrollOwner.setVisibility(View.INVISIBLE);
-        }
-        if (type.equals("created")) {
-            scrollOwner.setVisibility(View.VISIBLE);
-        }
+        scrollOwner.setVisibility(isOwner ? View.VISIBLE : View.INVISIBLE);
     }
 
     /**
-     * returns to previous screen on back
-     * @param v current View
+     * Return to previous screen.
+     *
+     * @param v current {@code View}
      */
     public void onBackButtonClick(View v) {
         Intent i = new Intent(this, SessionsActivity.class);
@@ -64,8 +54,9 @@ public class SessionDisplayActivity extends AppCompatActivity {
     }
 
     /**
-     * Goes to the EnterTimes Activity
-     * @param v current View
+     * Navigate to the enter times page view.
+     *
+     * @param v current {@code View}
      */
     public void onEnterTimesButtonClick(View v) {
         Toast.makeText(getApplicationContext(), "Going to Enter Times Page...",
@@ -77,9 +68,9 @@ public class SessionDisplayActivity extends AppCompatActivity {
     }
 
     /**
-     * reads the data for this meeting based on the meetingName
-     * if successful, meeting will hold the read data
-     * @param meetingID the ID of the Meeting to read
+     * Read the data from a meeting, loading any parsed data into {@code meeting}.
+     *
+     * @param meetingID ID of the meeting to be read
      */
     private void readSessionData(String meetingID) {
         // get the meeting in the database
@@ -106,7 +97,8 @@ public class SessionDisplayActivity extends AppCompatActivity {
     }
 
     /**
-     * Updates the UI to reflect the data from the associated Meeting
+     * Update the UI to reflect the data loaded into {@code meeting}.
+     *
      * @param users the map of users in this meeting
      * @param allTimes all the possible meeting times
      */

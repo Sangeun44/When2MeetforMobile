@@ -41,6 +41,8 @@ import java.util.Map;
 public class EnterTimesActivity extends AppCompatActivity {
     public static final int EnterTimesActivity_ID = 3917;
     private static final String TAG = "When2MeetJoinedSessions";
+    private FirebaseFirestore database;
+
     private Meeting meeting;
     private String currentSession;
     private String userId = "";
@@ -49,6 +51,7 @@ public class EnterTimesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        database = FirebaseFirestore.getInstance();
         Intent i = getIntent();
         userId = i.getStringExtra("accountName");
         currentSession = i.getStringExtra("MEETING");
@@ -58,7 +61,7 @@ public class EnterTimesActivity extends AppCompatActivity {
 
     private void getMeetings() {
             // get the meeting in the database
-            FirebaseFirestore.getInstance().collection("meetings").document(currentSession).get()
+            database.collection("meetings").document(currentSession).get()
                     .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshots) {

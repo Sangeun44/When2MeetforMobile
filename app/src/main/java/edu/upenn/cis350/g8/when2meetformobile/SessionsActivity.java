@@ -17,114 +17,116 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.io.Console;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 public class SessionsActivity extends AppCompatActivity {
-
     public static final int SessionDisplayActivity_ID = 2;
     private static final String TAG = "When2MeetSessions";
+    private FirebaseFirestore database;
+
     private Map<String, Meeting> myMeetings;
-    String userID;
-    String type;
+    private String userID;
+    private boolean isOwner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sessions);
+        database = FirebaseFirestore.getInstance();
+
         Intent i = getIntent();
         userID = i.getStringExtra("accountKey");
-        type = i.getStringExtra("type");
-        myMeetings = new HashMap<String, Meeting>();
-        populateMeetings();
+        isOwner = i.getBooleanExtra("isOwner", false);
+        myMeetings = new HashMap<>();
 
-        //createButtons();
+        populateSessions(isOwner);
     }
 
     /**
-     * Populates the list of Meetings that is used to generate buttons
-     * based on the type of sessions folder
+     * Populates the list of {@code Meeting} objects that will be used to generate
+     * buttons within the sessions folder.
+     *
+     * @param isOwner true if viewing meetings owned by the user, false otherwise
      */
-    private void populateMeetings() {
-        if (type.equals("joined")) {
-            FirebaseFirestore.getInstance().collection("meetings").get()
-                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                        @Override
-                        public void onSuccess(QuerySnapshot documentSnapshots) {
-                            if (documentSnapshots.isEmpty()) {
-                                Log.d(TAG, "onSuccess: LIST EMPTY");
-                            } else {
-                                for (DocumentSnapshot thisDoc : documentSnapshots.getDocuments()) {
-                                    Meeting m = thisDoc.toObject(Meeting.class);
+    private void populateSessions(boolean isOwner) {
+        if (isOwner) {
+            populateCreated();
+        } else {
+            populateJoined();
+        }
+    }
 
-                                    if (m.containsUserNotAsOwner(userID)) {
-                                        myMeetings.put(thisDoc.getId(), m);
-
-                                    }
-                                }
-
-                                int numMeetings =  myMeetings.size();
-                                Log.d(TAG,"onSuccess: Found " + numMeetings + " meetings!");
-
-                                for (String id: myMeetings.keySet()) {
-                                    Log.d( TAG,"ID: " + id + "Meeting name: " + myMeetings.get(id).getName());
-                                }
-
-                                createButtons();
+    private void populateJoined() {
+        database.collection("meetings").get()
+            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot documentSnapshots) {
+                    if (documentSnapshots.isEmpty()) {
+                        Log.d(TAG, "onSuccess: LIST EMPTY");
+                    } else {
+                        for (DocumentSnapshot thisDoc : documentSnapshots.getDocuments()) {
+                            Meeting m = thisDoc.toObject(Meeting.class);
+                            if (m.containsUserNotAsOwner(userID)) {
+                                myMeetings.put(thisDoc.getId(), m);
                             }
                         }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getApplicationContext(), "Error getting data!!!",
-                                    Toast.LENGTH_LONG).show();
+
+                        int numMeetings =  myMeetings.size();
+                        Log.d(TAG,"onSuccess: Found " + numMeetings + " meetings!");
+
+                        for (String id: myMeetings.keySet()) {
+                            Log.d( TAG,"ID: " + id + "Meeting name: " + myMeetings.get(id).getName());
                         }
-                    });
-        }
 
-        if (type.equals("created")) {
-            FirebaseFirestore.getInstance().collection("meetings")
-                    .whereEqualTo("owner", userID).get()
-                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                        @Override
-                        public void onSuccess(QuerySnapshot documentSnapshots) {
-                            if (documentSnapshots.isEmpty()) {
-                                Log.d(TAG, "onSuccess: LIST EMPTY");
-                            } else {
-                                for (DocumentSnapshot thisDoc : documentSnapshots.getDocuments()) {
-                                    Meeting m = thisDoc.toObject(Meeting.class);
-                                    Log.d( TAG,"ID: " + thisDoc.getId() + "Meeting name: " + m.getName());
-                                    myMeetings.put(thisDoc.getId(), m);
-                                }
-                                int numMeetings =  myMeetings.size();
-                                Log.d(TAG,"onSuccess: Found " + numMeetings + " meetings!");
+                        createButtons();
+                    }
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(), "Error getting data!!!",
+                        Toast.LENGTH_LONG).show();
+                }
+            });
+    }
 
-                                createButtons();
+    private void populateCreated() {
+        database.collection("meetings")
+                .whereEqualTo("owner", userID).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot documentSnapshots) {
+                        if (documentSnapshots.isEmpty()) {
+                            Log.d(TAG, "onSuccess: LIST EMPTY");
+                        } else {
+                            for (DocumentSnapshot thisDoc : documentSnapshots.getDocuments()) {
+                                Meeting m = thisDoc.toObject(Meeting.class);
+                                Log.d( TAG,"ID: " + thisDoc.getId() + "Meeting name: " + m.getName());
+                                myMeetings.put(thisDoc.getId(), m);
                             }
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getApplicationContext(),
-                                    "Error getting data!!!", Toast.LENGTH_LONG).show();
-                        }
-                    });
-        }
+                            int numMeetings =  myMeetings.size();
+                            Log.d(TAG,"onSuccess: Found " + numMeetings + " meetings!");
 
-
+                            createButtons();
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(),
+                                "Error getting data!!!", Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
     /**
-     * Creates a button for every Meeting in myMeetings and
-     * sets it up to pass on the ID of the meeting to the display Activity
+     * Creates a button for every {@code Meeting} object in {@code myMeetings},
+     * passing the ID of each meeting to the display activity.
      */
-    public void createButtons() {
+    private void createButtons() {
         final Context context = this;
         LinearLayout main = findViewById(R.id.mainLinear);
 
@@ -140,7 +142,7 @@ public class SessionsActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         Intent intent = new Intent(context, SessionDisplayActivity.class);
                         intent.putExtra("MEETING", id);
-                        intent.putExtra("type", type);
+                        intent.putExtra("isOwner", isOwner);
                         intent.putExtra("accountKey", userID);
                         startActivityForResult(intent, SessionDisplayActivity_ID);
                     }
