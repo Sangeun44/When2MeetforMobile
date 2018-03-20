@@ -254,14 +254,14 @@ public class EnterTimesActivity extends AppCompatActivity {
             enteredTimes = new ArrayList<String>();
             ScrollView view1 = (ScrollView) selectorBar.getChildAt(i);
             for (int k = 0; k < view1.getChildCount(); k++) {
-                LinearLayout column = (LinearLayout) view1.getChildAt(i);
+                LinearLayout column = (LinearLayout) view1.getChildAt(k);
                 for (int j = 0; j < column.getChildCount() - 2; j += 3) {
                     if (column.getChildAt(j) instanceof Spinner) {
                         Spinner start = (Spinner) column.getChildAt(j);
                         if (column.getChildAt(j + 1) instanceof Spinner) {
                             Spinner end = (Spinner) column.getChildAt(j);
-                            startTime = days.get(i) + "S " + start.getSelectedItem().toString();
-                            endTime = days.get(i) + "E " + end.getSelectedItem().toString();
+                            startTime = days.get(j) + "S " + start.getSelectedItem().toString();
+                            endTime = days.get(j) + "E " + end.getSelectedItem().toString();
                             if (column.getChildAt(j + 2) instanceof CheckBox) {
                                 //TODO: Use this data to implement preferred times functionality
                                 CheckBox check = (CheckBox) column.getChildAt(j + 2);
