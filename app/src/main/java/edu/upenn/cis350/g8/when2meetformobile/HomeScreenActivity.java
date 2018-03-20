@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -68,14 +70,17 @@ public class HomeScreenActivity extends AppCompatActivity {
         viewMeetings(false);
     }
 
-//    /**
-//     * Logs the current user out of the platform.
-//     *
-//     * @param view current {@code View}
-//     */
-//    public void onLogoutButtonClick(View view) {
-//        finish();
-//    }
+    /**
+     * Logs the current user out of the platform.
+     *
+     * @param view current {@code View}
+     */
+    public void onLogoutButtonClick(View view) {
+        Intent data = new Intent();
+        data.putExtra("logout",true);
+        setResult(RESULT_OK, data);
+        finish();
+    }
 
     /**
      * Runs the activity to create a new meeting.

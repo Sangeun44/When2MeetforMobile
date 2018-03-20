@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent i = new Intent(this, HomeScreenActivity.class);
             i.putExtra("accountKey", user.getId());
             startActivityForResult(i, HomeActivity_ID);
+
         }
     }
 
@@ -82,6 +83,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d(TAG, "signInResult:success");
             } catch (ApiException e) {
                 Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+            }
+        } else if (requestCode == HomeActivity_ID) {
+            if (data.getBooleanExtra("logout", false)) {
+                onClick(findViewById(R.id.sign_out_button));
             }
         }
     }
