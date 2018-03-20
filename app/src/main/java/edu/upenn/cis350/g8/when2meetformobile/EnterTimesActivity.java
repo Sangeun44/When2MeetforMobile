@@ -260,12 +260,10 @@ public class EnterTimesActivity extends AppCompatActivity {
                         Spinner start = (Spinner) column.getChildAt(j);
                         if (column.getChildAt(j + 1) instanceof Spinner) {
                             Spinner end = (Spinner) column.getChildAt(j);
-
-                            Log.d(TAG, start.getSelectedItem().toString());
-                            Log.d(TAG, end.getSelectedItem().toString());
-                            
-                            startTime = days.get(j) + " S " + start.getSelectedItem().toString();
-                            endTime = days.get(j) + " E " + end.getSelectedItem().toString();
+                            int startT = Integer.parseInt(start.getSelectedItem().toString().trim());
+                            int endT = Integer.parseInt(end.getSelectedItem().toString().trim());
+                            startTime = days.get(j) + " S " + startT;
+                            endTime = days.get(j) + " E " + endT;
                             if (column.getChildAt(j + 2) instanceof CheckBox) {
                                 //TODO: Use this data to implement preferred times functionality
                                 CheckBox check = (CheckBox) column.getChildAt(j + 2);
