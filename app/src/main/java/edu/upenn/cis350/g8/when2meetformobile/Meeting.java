@@ -106,6 +106,14 @@ public class Meeting {
         users.put(id, new User());
     }
 
+    public void addUsers(String id, User use) {
+        if (users == null) {
+            users = new HashMap<String, User>();
+            users.put(id, use);
+        }
+        users.put(id, use);
+    }
+
     /**
      * determines if the Meeting contains a particular user when the user is not the owner
      * @param userID the ID of the user to find

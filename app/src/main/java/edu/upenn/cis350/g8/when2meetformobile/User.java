@@ -51,6 +51,11 @@ public class User {
         this.myTimes = myTimes;
     }
 
+    public User(String name, ArrayList<String> myTimes) {
+        this.name = name;
+        this.myTimes = myTimes;
+    }
+
     /**
      * Determines whether times have been entered for this user
      * @return true if times were entered
