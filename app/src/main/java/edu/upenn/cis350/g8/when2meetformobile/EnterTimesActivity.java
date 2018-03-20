@@ -284,7 +284,9 @@ public class EnterTimesActivity extends AppCompatActivity {
                 }
             }
         }
-
+        if (enteredTimes.isEmpty()) {
+            Log.d(TAG, "Empty!!");
+        }
         User users = new User(userId, enteredTimes);
         meeting.addUsers(userId, users);
         updateDB(meeting);
