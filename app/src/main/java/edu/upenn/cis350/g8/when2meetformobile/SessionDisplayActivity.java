@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -73,10 +74,27 @@ public class SessionDisplayActivity extends AppCompatActivity {
      * @param meetingID the ID of the Meeting to read
      */
     private void readSessionData(String meetingID) {
+        // get the meeting in the database
+        FirebaseFirestore.getInstance().collection("meetings").document(meetingID).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshots) {
+                        if (documentSnapshots.exists()) {
+                            meeting = documentSnapshots.toObject(Meeting.class);
+                            Log.d(TAG,"onSuccess: Found meeting!");
+                        } else {
+                            Log.d(TAG, "onSuccess: No Such meeting");
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Error getting data!!!",
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
 
-        //TODO: change to success listener
-        meeting = FirebaseFirestore.getInstance().collection("meetings")
-                .document(meetingID).get().getResult().toObject(Meeting.class);
         updateUI(meeting.getUsers(), meeting.getBestTimes());
     }
 

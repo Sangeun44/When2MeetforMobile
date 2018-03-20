@@ -28,23 +28,22 @@ public class SessionsActivity extends AppCompatActivity {
     public static final int SessionDisplayActivity_ID = 2;
     private static final String TAG = "When2MeetSessions";
     private Map<String, Meeting> myMeetings;
-    String userID = "110859387616197731453";
-    String type = "created";
+    String userID;
+    String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sessions);
         Intent i = new Intent(this, SessionDisplayActivity.class);
-        //userID = i.getStringExtra("accountNum");
-        //type = i.getStringExtra("display");
+        userID = i.getStringExtra("accountKey");
+        type = i.getStringExtra("display");
         myMeetings = new HashMap<String, Meeting>();
         populateMeetings();
-        //myMeetings.add(new Meeting(null, null, 8, 20, "Test Event", "10"));
-        for (String id: myMeetings.keySet()) {
-            Toast.makeText(getApplicationContext(), "ID: " + id + "Meeting name: " + myMeetings.get(id).getName(),
-                    Toast.LENGTH_LONG).show();
-        }
+        //for (String id: myMeetings.keySet()) {
+        //    Toast.makeText(getApplicationContext(), "ID: " + id + "Meeting name: " + myMeetings.get(id).getName(),
+        //            Toast.LENGTH_LONG).show();
+        //}
         createButtons();
     }
 

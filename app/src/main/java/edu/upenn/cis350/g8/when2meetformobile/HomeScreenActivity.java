@@ -48,7 +48,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     private Meeting meet;
     private Meeting curr_meet = new Meeting();
 
-    public static final int JoinedSessionActivity_ID = 3;
+    public static final int SessionActivity_ID = 3;
     public static final int CreateSessionActivity_ID = 4;
     final String TAG = "FireBase";
     static final int joinwithcode_ID = 1;  // The request code for joining with a code
@@ -68,12 +68,12 @@ public class HomeScreenActivity extends AppCompatActivity {
 
     }
 
-//    public void onJoinedSessionsButtonClick(View view) {
-//        Intent i = new Intent(this, JoinedSessionsActivity.class);
-//        int user_id = i.getIntExtra("accountNum", 0);
-//        i.putExtra("accountNum", user_id);
-//        startActivityForResult(i, JoinedSessionActivity_ID);
-//    }
+    public void onJoinedSessionsButtonClick(View view) {
+        Intent i = new Intent(this, SessionsActivity.class);
+        String user_id = i.getStringExtra("accountKey");
+        i.putExtra("accountNum", user_id);
+        startActivityForResult(i, SessionActivity_ID);
+    }
 
     public void onLogoutButtonClick(View view) {
         //return to login page
@@ -157,7 +157,6 @@ public class HomeScreenActivity extends AppCompatActivity {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
 
         // get the meeting in the database
-
         FirebaseFirestore.getInstance().collection("meetings").document(meeting_ID).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
