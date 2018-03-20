@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
@@ -144,11 +145,8 @@ public class EnterTimesActivity extends AppCompatActivity {
 
                     Spinner end = createSelector(spinnerArr, "END");
 
-
                     child.addView(start);
                     child.addView(end);
-
-
 
                     //checkbox
                     CheckBox preferred = new CheckBox(this);
@@ -185,6 +183,7 @@ public class EnterTimesActivity extends AppCompatActivity {
         final ImageButton plus = new ImageButton(this);
         plus.setImageResource(R.drawable.plus);
         plus.setId(ID*100);
+        plus.setScaleType(ImageView.ScaleType.FIT_XY);
         //add more selectors when pressed
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -233,7 +232,7 @@ public class EnterTimesActivity extends AppCompatActivity {
                 r.append(meeting.getHigh_time());
                 spinnerArr.add(r.toString());
 
-                Spinner end = createSelector(spinnerArray, "END");
+                Spinner end = createSelector(spinnerArr, "END");
 
                 myLayout.addView(start, myLayout.getChildCount() - 1);
                 myLayout.addView(end, myLayout.getChildCount() - 1);
