@@ -260,7 +260,8 @@ public class EnterTimesActivity extends AppCompatActivity {
                         Spinner start = (Spinner) column.getChildAt(j);
                         if (column.getChildAt(j + 1) instanceof Spinner) {
                             Spinner end = (Spinner) column.getChildAt(j + 1);
-
+                            Log.d(TAG, start.getSelectedItem().toString().trim());
+                            Log.d(TAG, end.getSelectedItem().toString().trim());
                             if (!start.getSelectedItem().toString().equals("START")) {
                                 int startT = Integer.parseInt(start.getSelectedItem().toString().trim());
                                 startTime = days.get(j) + " S " + startT;
