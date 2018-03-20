@@ -15,31 +15,56 @@ import java.util.Set;
 
 public class User {
 
-    private ArrayList<String> availability;
     private String name;
+    private ArrayList<String> myTimes;
 
+
+    /**
+     * basic constructor
+     */
     public User() {}
 
+    /**
+     * Makes a new user given their name
+     * @param name the String of the name of the user
+     */
     public User(String name) {
         this.name = name;
-        availability = new ArrayList<String>();
+        myTimes = new ArrayList<String>();
     }
 
+    /**
+     * Get the name of this User
+     * @return name as String
+     */
     @Exclude
     public String getName() {
         return this.name;
     }
 
-    public User(ArrayList<String> availability) {
-        this.availability = availability;
+    /**
+     * Creates a User given their availability
+     * Used for reading data from the database
+     * @param myTimes Availability as a List of Strings
+     */
+    public User(ArrayList<String> myTimes) {
+        this.myTimes = myTimes;
     }
 
+    /**
+     * Determines whether times have been entered for this user
+     * @return true if times were entered
+     */
     @Exclude
     public boolean enteredTimes() {
-        return (this.availability != null && !this.availability.isEmpty());
+        return (this.myTimes != null && !this.myTimes.isEmpty());
     }
 
+    /**
+     * Gets the Availability
+     * @return availability as a List of Strings
+     */
     public List<String> getMyTimes() {
-       return availability;
+       return myTimes;
     }
 }
