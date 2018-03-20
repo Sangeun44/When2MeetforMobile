@@ -252,34 +252,39 @@ public class EnterTimesActivity extends AppCompatActivity {
         ArrayList<String> enteredTimes = new ArrayList<>();
         for (int i = 0; i < selectorBar.getChildCount(); i++) {
             enteredTimes = new ArrayList<String>();
-            LinearLayout column = (LinearLayout) selectorBar.getChildAt(i);
-            for (int j = 0 ; j < column.getChildCount() - 2; j+=3) {
-                if (column.getChildAt(j) instanceof Spinner) {
-                    Spinner start = (Spinner) column.getChildAt(j);
-                    if (column.getChildAt(j + 1) instanceof Spinner) {
-                        Spinner end = (Spinner) column.getChildAt(j);
-                        startTime = days.get(i) + " " + start.getSelectedItem().toString();
-                        endTime = days.get(i) + " " + end.getSelectedItem().toString();
-                        if (column.getChildAt(j + 2) instanceof CheckBox) {
-                            //TODO: Use this data to implement preferred times functionality
-                            CheckBox check = (CheckBox) column.getChildAt(j + 2);
-                            if (check.isChecked()) { } else { }
-                        }
+            ScrollView view1 = (ScrollView) selectorBar.getChildAt(i);
+            for (int k = 0; k < view1.getChildCount(); k++) {
+                LinearLayout column = (LinearLayout) view1.getChildAt(i);
+                for (int j = 0; j < column.getChildCount() - 2; j += 3) {
+                    if (column.getChildAt(j) instanceof Spinner) {
+                        Spinner start = (Spinner) column.getChildAt(j);
+                        if (column.getChildAt(j + 1) instanceof Spinner) {
+                            Spinner end = (Spinner) column.getChildAt(j);
+                            startTime = days.get(i) + "S " + start.getSelectedItem().toString();
+                            endTime = days.get(i) + "E " + end.getSelectedItem().toString();
+                            if (column.getChildAt(j + 2) instanceof CheckBox) {
+                                //TODO: Use this data to implement preferred times functionality
+                                CheckBox check = (CheckBox) column.getChildAt(j + 2);
+                                if (check.isChecked()) {
+                                } else {
+                                }
+                            }
 
-                        enteredTimes.add(startTime);
-                        enteredTimes.add(endTime);
+                            enteredTimes.add(startTime);
+                            enteredTimes.add(endTime);
 
-                        if (startTime.compareTo(endTime) > 0) {
-                            Toast.makeText(this, "Start times can not be greater" +
-                                            " than end times. Please fix it and resubmit.",
-                                    Toast.LENGTH_SHORT).show();
-                            break;
-                        } else if (startTime.equals("START") ||
-                                endTime.equals("END")) {
-                            Toast.makeText(this, "Please fill in available times" +
-                                            " before submitting.",
-                                    Toast.LENGTH_SHORT).show();
-                            break;
+                            if (startTime.compareTo(endTime) > 0) {
+                                Toast.makeText(this, "Start times can not be greater" +
+                                                " than end times. Please fix it and resubmit.",
+                                        Toast.LENGTH_SHORT).show();
+                                break;
+                            } else if (startTime.equals("START") ||
+                                    endTime.equals("END")) {
+                                Toast.makeText(this, "Please fill in available times" +
+                                                " before submitting.",
+                                        Toast.LENGTH_SHORT).show();
+                                break;
+                            }
                         }
                     }
                 }
