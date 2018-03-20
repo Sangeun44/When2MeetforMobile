@@ -265,18 +265,19 @@ public class EnterTimesActivity extends AppCompatActivity {
                             if (!start.getSelectedItem().toString().equals("START") &&
                                     !end.getSelectedItem().toString().equals("END")) {
                                 int startT = Integer.parseInt(start.getSelectedItem().toString().trim());
-                                startTime = days.get(j) + " " + startT;
-                                enteredTimes.add(startTime);
 
                                 int endT = Integer.parseInt(end.getSelectedItem().toString().trim());
-                                endTime = days.get(j) + " " + endT;
-                                enteredTimes.add(endTime);
 
                                 if (startT >= endT) {
                                     Toast.makeText(this, "Start times can not be greater" +
                                                     " than end times. Please fix it and resubmit.",
                                             Toast.LENGTH_SHORT).show();
                                     break;
+                                }
+
+                                for (int y = startT; y < endT; y++) {
+                                    String time = days.get(j) + " " + y;
+                                    enteredTimes.add(time);
                                 }
 
                             }
