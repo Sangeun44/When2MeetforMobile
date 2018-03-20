@@ -276,7 +276,7 @@ public class EnterTimesActivity extends AppCompatActivity {
                                 }
 
                                 for (int y = startT; y < endT; y++) {
-                                    String time = days.get(j) + " " + y;
+                                    String time = days.get(i) + " " + y;
                                     enteredTimes.add(time);
                                 }
 
