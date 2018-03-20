@@ -77,12 +77,12 @@ public class User {
 
         for (String s: myTimes) {
             String[] parts = s.split(" ");
-            if (parts[0].equals("s")) {
+            if (parts[1].equals("S")) {
                 start = s;
             }
 
-            if (parts[0].equals("e")) {
-                String date = parts[1];
+            if (parts[1].equals("E")) {
+                String date = parts[0];
 
                 String[] startParts = start.split(" ");
                 for (int i = Integer.parseInt(startParts[2].trim());
