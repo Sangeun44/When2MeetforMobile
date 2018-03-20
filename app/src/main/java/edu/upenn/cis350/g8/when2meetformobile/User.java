@@ -86,7 +86,7 @@ public class User {
 
                 String[] startParts = start.split(" ");
                 for (int i = Integer.parseInt(startParts[2].trim());
-                        i < Integer.parseInt(parts[3].trim()); i++) {
+                        i < Integer.parseInt(parts[2].trim()); i++) {
                     times.add(date + " " + i);
                 }
 
