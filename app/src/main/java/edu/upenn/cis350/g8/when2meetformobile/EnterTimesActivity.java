@@ -259,24 +259,25 @@ public class EnterTimesActivity extends AppCompatActivity {
                     if (column.getChildAt(j) instanceof Spinner) {
                         Spinner start = (Spinner) column.getChildAt(j);
                         if (column.getChildAt(j + 1) instanceof Spinner) {
-                            Spinner end = (Spinner) column.getChildAt(j);
-                            int startT = Integer.parseInt(start.getSelectedItem().toString().trim());
-                            int endT = Integer.parseInt(end.getSelectedItem().toString().trim());
-                            startTime = days.get(j) + " S " + startT;
-                            endTime = days.get(j) + " E " + endT;
+                            Spinner end = (Spinner) column.getChildAt(j + 1);
+
+                            if (!start.getSelectedItem().toString().equals("START")) {
+                                int startT = Integer.parseInt(start.getSelectedItem().toString().trim());
+                                startTime = days.get(j) + " S " + startT;
+                                enteredTimes.add(startTime);
+                            }
+                            if (!end.getSelectedItem().toString().equals("END")) {
+                                int endT = Integer.parseInt(end.getSelectedItem().toString().trim());
+                                endTime = days.get(j) + " E " + endT;
+                                enteredTimes.add(endTime);
+                            }
+
                             if (column.getChildAt(j + 2) instanceof CheckBox) {
                                 //TODO: Use this data to implement preferred times functionality
                                 CheckBox check = (CheckBox) column.getChildAt(j + 2);
                                 if (check.isChecked()) {
                                 } else {
                                 }
-                            }
-
-                            if (!start.getSelectedItem().toString().equals("START")) {
-                                enteredTimes.add(startTime);
-                            }
-                            if (!end.getSelectedItem().toString().equals("END")) {
-                                enteredTimes.add(endTime);
                             }
 
                             if (start.getSelectedItem().toString()
