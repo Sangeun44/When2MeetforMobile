@@ -256,6 +256,8 @@ public class EnterTimesActivity extends AppCompatActivity {
             for (int k = 0; k < view1.getChildCount(); k++) {
                 LinearLayout column = (LinearLayout) view1.getChildAt(k);
                 for (int j = 0; j < column.getChildCount() - 2; j += 3) {
+                    startTime = "";
+                    endTime = "";
                     if (column.getChildAt(j) instanceof Spinner) {
                         Spinner start = (Spinner) column.getChildAt(j);
                         if (column.getChildAt(j + 1) instanceof Spinner) {
@@ -270,19 +272,17 @@ public class EnterTimesActivity extends AppCompatActivity {
                                 }
                             }
 
-                            enteredTimes.add(startTime);
-                            enteredTimes.add(endTime);
+                            if (!start.getSelectedItem().toString().equals("START")) {
+                                enteredTimes.add(startTime);
+                            }
+                            if (!end.getSelectedItem().toString().equals("END")) {
+                                enteredTimes.add(endTime);
+                            }
 
                             if (start.getSelectedItem().toString()
                                     .compareTo(end.getSelectedItem().toString()) > 0) {
                                 Toast.makeText(this, "Start times can not be greater" +
                                                 " than end times. Please fix it and resubmit.",
-                                        Toast.LENGTH_SHORT).show();
-                                break;
-                            } else if (start.getSelectedItem().toString().equals("START") ||
-                                    end.getSelectedItem().toString().equals("END")) {
-                                Toast.makeText(this, "Please fill in available times" +
-                                                " before submitting.",
                                         Toast.LENGTH_SHORT).show();
                                 break;
                             }
