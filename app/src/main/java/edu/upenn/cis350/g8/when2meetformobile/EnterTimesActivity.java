@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,12 +48,11 @@ public class EnterTimesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userId = getIntent().getStringExtra("accountName");
+        Intent i = getIntent();
+        userId = i.getStringExtra("accountName");
+        currentSession = i.getStringExtra("MEETING");
         getMeetings();
-        currentSession = getIntent().getStringExtra("MEETING");
         setContentView(R.layout.activity_enter_times);
-        loadDates();
-        loadSpinners();
     }
 
     private void getMeetings() {
@@ -64,6 +64,8 @@ public class EnterTimesActivity extends AppCompatActivity {
                             if (documentSnapshots.exists()) {
                                 meeting = documentSnapshots.toObject(Meeting.class);
                                 Log.d(TAG,"onSuccess: Found meeting!");
+                                loadDates();
+                                loadSpinners();
                             } else {
                                 Log.d(TAG, "onSuccess: No Such meeting");
                             }
@@ -104,6 +106,7 @@ public class EnterTimesActivity extends AppCompatActivity {
                     LinearLayout myLayout = findViewById(R.id.selectorBar);
                     //layout for new selector/plus button pair
                     LinearLayout child = new LinearLayout(this);
+                    ScrollView sView  = new ScrollView(this);
                     child.setOrientation(LinearLayout.VERTICAL);
                     child.setLayoutParams(new LinearLayout.LayoutParams(
                             200,
@@ -139,10 +142,13 @@ public class EnterTimesActivity extends AppCompatActivity {
                     r.append(meeting.getHigh_time());
                     spinnerArr.add(r.toString());
 
-                    Spinner end = createSelector(spinnerArray, "END");
+                    Spinner end = createSelector(spinnerArr, "END");
+
 
                     child.addView(start);
                     child.addView(end);
+
+
 
                     //checkbox
                     CheckBox preferred = new CheckBox(this);
@@ -153,7 +159,8 @@ public class EnterTimesActivity extends AppCompatActivity {
 
                     ImageButton btn = createPlus(i);
                     child.addView(btn);
-                    myLayout.addView(child);
+                    sView.addView(child);
+                    myLayout.addView(sView);
                 }
     }
 
@@ -169,7 +176,7 @@ public class EnterTimesActivity extends AppCompatActivity {
 
         timesSelector.setLayoutParams(new LinearLayout.LayoutParams(
                 400,
-                200));
+                100));
         return timesSelector;
     }
 
@@ -188,8 +195,8 @@ public class EnterTimesActivity extends AppCompatActivity {
         });
 
         plus.setLayoutParams(new LinearLayout.LayoutParams(
-                200,
-                200));
+                75,
+                75));
 
         return plus;
     }
