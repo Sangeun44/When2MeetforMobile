@@ -132,10 +132,10 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
                 if(typeStr.equals("code")) {
                     //code
                     //codeV.setVisibility(View.VISIBLE);
-                    //codedV.setVisibility(View.VISIBLE);
-                    String code = createRandomCode();
-                    ((TextView) codedV).setText(code);
-                    meetingIDStr = code;
+//                    //codedV.setVisibility(View.VISIBLE);
+//                    String code = createRandomCode();
+//                    ((TextView) codedV).setText(code);
+//                    meetingIDStr = code;
                 }
                 else {
                     //email
@@ -230,12 +230,13 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
                     "Remember to enter in emails!",
                     Toast.LENGTH_SHORT).show();
         } else if(typeStr.equals("email") && emailList.isEmpty() || emailList.size() > 0) {
-            sendEmail();
             Toast.makeText(CreateSessionActivity.this,
                     "Now send the emails",
                     Toast.LENGTH_SHORT).show();
             eventName = eventN.getText().toString();
             updateDB();
+            sendEmail();
+
             finish();
 
         }
@@ -244,7 +245,6 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
             updateDB();
             finish();
         }
-
     }
 
     public void updateDB() {
@@ -279,58 +279,10 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
                     }
                 });
 
+        meetingIDStr = ref.getId();
         Toast.makeText(CreateSessionActivity.this,
                 "Meeting ID:" + ref.getId(),
                 Toast.LENGTH_LONG).show();
-
-//        database.collection("meetings").document()
-//                .set(meet, SetOptions.merge())
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        Log.d(TAG, "DocumentSnapshot successfully written!");
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.w(TAG, "Error writing document", e);
-//                    }
-//                });
-//
-//                FirebaseFirestore.getInstance().collection("meetings").whereEqualTo("owner", owner_id).get()
-//                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onSuccess(QuerySnapshot documentSnapshots) {
-//                        if (documentSnapshots.isEmpty()) {
-//                            Log.d(TAG, "onSuccess: LIST EMPTY");
-//                        } else {
-//                            myMeetings = documentSnapshots.toObjects(Meeting.class);
-//                            if(myMeetings.contains(meet)) {
-//
-//                            }
-//                        }
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Toast.makeText(getApplicationContext(), "Error getting data!!!", Toast.LENGTH_LONG).show();
-//                    }
-//                });
-////
-////                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-////                        @Override
-////                        public void onSuccess(Void aVoid) {
-////                            Log.d(TAG, "DocumentSnapshot successfully written!");
-////                        }
-////                    })
-////                    .addOnFailureListener(new OnFailureListener() {
-////                        @Override
-////                        public void onFailure(@NonNull Exception e) {
-////                            Log.w(TAG, "Error writing document", e);
-////                        }
-////                    });
     }
 
     public int changeTime(String time) {
@@ -359,7 +311,7 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
         }
     }
 
-//    //code making for code sending
+//    //Random code making for code sending
 //    public String createRandomCode() {
 //        String str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 //

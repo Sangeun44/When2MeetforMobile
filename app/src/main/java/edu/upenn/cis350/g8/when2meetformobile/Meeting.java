@@ -156,7 +156,6 @@ public class Meeting {
                     allTimes.put(time, allTimes.get(time) + 1);
                 }
             }
-
         }
 
         Map<Integer, HashSet<String>> invertedTimes = new HashMap<Integer, HashSet<String>>();
