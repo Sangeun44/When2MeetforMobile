@@ -39,7 +39,7 @@ public class SessionDisplayActivity extends AppCompatActivity {
         readSessionData(meetingID);
 
         // sets visibility of special owner buttons based on mode
-        type = i.getStringExtra("display");
+        type = i.getStringExtra("type");
         HorizontalScrollView scrollOwner = findViewById(R.id.scrollOwner);
         if (type.equals("joined")) {
             scrollOwner.setVisibility(View.INVISIBLE);
@@ -82,6 +82,7 @@ public class SessionDisplayActivity extends AppCompatActivity {
                         if (documentSnapshots.exists()) {
                             meeting = documentSnapshots.toObject(Meeting.class);
                             Log.d(TAG,"onSuccess: Found meeting!");
+                            updateUI(meeting.getUsers(), meeting.getBestTimes());
                         } else {
                             Log.d(TAG, "onSuccess: No Such meeting");
                         }
@@ -94,8 +95,6 @@ public class SessionDisplayActivity extends AppCompatActivity {
                                 Toast.LENGTH_LONG).show();
                     }
                 });
-
-        updateUI(meeting.getUsers(), meeting.getBestTimes());
     }
 
     /**

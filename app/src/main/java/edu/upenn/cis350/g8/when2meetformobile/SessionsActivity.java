@@ -17,6 +17,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -35,16 +36,13 @@ public class SessionsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sessions);
-        Intent i = new Intent(this, SessionDisplayActivity.class);
+        Intent i = getIntent();
         userID = i.getStringExtra("accountKey");
-        type = i.getStringExtra("display");
+        type = i.getStringExtra("type");
         myMeetings = new HashMap<String, Meeting>();
         populateMeetings();
-        //for (String id: myMeetings.keySet()) {
-        //    Toast.makeText(getApplicationContext(), "ID: " + id + "Meeting name: " + myMeetings.get(id).getName(),
-        //            Toast.LENGTH_LONG).show();
-        //}
-        createButtons();
+
+        //createButtons();
     }
 
     /**
@@ -62,13 +60,21 @@ public class SessionsActivity extends AppCompatActivity {
                             } else {
                                 for (DocumentSnapshot thisDoc : documentSnapshots.getDocuments()) {
                                     Meeting m = thisDoc.toObject(Meeting.class);
+
                                     if (m.containsUserNotAsOwner(userID)) {
                                         myMeetings.put(thisDoc.getId(), m);
+
                                     }
                                 }
 
                                 int numMeetings =  myMeetings.size();
                                 Log.d(TAG,"onSuccess: Found " + numMeetings + " meetings!");
+
+                                for (String id: myMeetings.keySet()) {
+                                    Log.d( TAG,"ID: " + id + "Meeting name: " + myMeetings.get(id).getName());
+                                }
+
+                                createButtons();
                             }
                         }
                     })
@@ -92,10 +98,13 @@ public class SessionsActivity extends AppCompatActivity {
                             } else {
                                 for (DocumentSnapshot thisDoc : documentSnapshots.getDocuments()) {
                                     Meeting m = thisDoc.toObject(Meeting.class);
+                                    Log.d( TAG,"ID: " + thisDoc.getId() + "Meeting name: " + m.getName());
                                     myMeetings.put(thisDoc.getId(), m);
                                 }
                                 int numMeetings =  myMeetings.size();
                                 Log.d(TAG,"onSuccess: Found " + numMeetings + " meetings!");
+
+                                createButtons();
                             }
                         }
                     })
@@ -107,6 +116,8 @@ public class SessionsActivity extends AppCompatActivity {
                         }
                     });
         }
+
+
     }
 
     /**
@@ -129,6 +140,7 @@ public class SessionsActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         Intent intent = new Intent(context, SessionDisplayActivity.class);
                         intent.putExtra("MEETING", id);
+                        intent.putExtra("type", type);
                         startActivityForResult(intent, SessionDisplayActivity_ID);
                     }
                 });

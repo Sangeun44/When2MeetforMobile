@@ -66,13 +66,25 @@ public class HomeScreenActivity extends AppCompatActivity {
 
     public void onMySessionsButtonClick(View view) {
 
+        Intent i = getIntent();
+        String user_id = i.getStringExtra("accountKey");
+
+        Intent i2 = new Intent(this, SessionsActivity.class);
+        i2.putExtra("type", "created");
+        i2.putExtra("accountKey", user_id);
+
+        startActivityForResult(i2, SessionActivity_ID);
     }
 
     public void onJoinedSessionsButtonClick(View view) {
-        Intent i = new Intent(this, SessionsActivity.class);
+        Intent i = getIntent();
         String user_id = i.getStringExtra("accountKey");
-        i.putExtra("accountNum", user_id);
-        startActivityForResult(i, SessionActivity_ID);
+
+        Intent i2 = new Intent(this, SessionsActivity.class);
+        i2.putExtra("type", "joined");
+        i2.putExtra("accountKey", user_id);
+
+        startActivityForResult(i2, SessionActivity_ID);
     }
 
     public void onLogoutButtonClick(View view) {

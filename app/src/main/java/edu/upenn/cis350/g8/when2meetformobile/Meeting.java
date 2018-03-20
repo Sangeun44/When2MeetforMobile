@@ -113,6 +113,7 @@ public class Meeting {
      */
     @Exclude
     public boolean containsUserNotAsOwner(String userID) {
+
         if (userID.equals(owner)) {
             return false;
         }
@@ -149,9 +150,13 @@ public class Meeting {
         }
 
         for (User u: users.values()) {
-            for (String time : u.getMyTimes()) {
-                allTimes.put(time, allTimes.get(time) + 1);
+            List<String> times = u.getMyTimes();
+            if (times != null) {
+                for (String time : times) {
+                    allTimes.put(time, allTimes.get(time) + 1);
+                }
             }
+
         }
 
         Map<Integer, HashSet<String>> invertedTimes = new HashMap<Integer, HashSet<String>>();
