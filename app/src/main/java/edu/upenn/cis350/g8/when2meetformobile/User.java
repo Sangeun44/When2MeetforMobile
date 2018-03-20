@@ -1,40 +1,52 @@
 package edu.upenn.cis350.g8.when2meetformobile;
 
-
 import com.google.firebase.firestore.Exclude;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-/**
- * Created by Saniyah on 2/18/2018.
- */
 
 public class User {
-
-    private String name;
-    private ArrayList<String> myTimes;
-
+    private String name;               // name of the user
+    private ArrayList<String> myTimes; // availability as list of datetime strings
 
     /**
-     * basic constructor
+     * Makes a new empty user.
      */
     public User() {}
 
     /**
-     * Makes a new user given their name
-     * @param name the String of the name of the user
+     * Makes a new user given their name.
+     *
+     * @param name name of the user
      */
     public User(String name) {
         this.name = name;
-        myTimes = new ArrayList<String>();
+        myTimes = new ArrayList<>();
+    }
+
+    /**
+     * Creates a new {@code User} given their availability.
+     *
+     * @param myTimes availability as a list of datetime strings
+     */
+    public User(ArrayList<String> myTimes) {
+        this.myTimes = myTimes;
+    }
+
+    /**
+     * Creates a new {@code User} given a name and availability.
+     *
+     * @param name name of the user
+     * @param myTimes availability as a list of datetime strings
+     */
+    public User(String name, ArrayList<String> myTimes) {
+        this.name = name;
+        this.myTimes = myTimes;
     }
 
     /**
      * Get the name of this User
+     *
      * @return name as String
      */
     @Exclude
@@ -43,57 +55,21 @@ public class User {
     }
 
     /**
-     * Creates a User given their availability
-     * Used for reading data from the database
-     * @param myTimes Availability as a List of Strings
-     */
-    public User(ArrayList<String> myTimes) {
-        this.myTimes = myTimes;
-    }
-
-    public User(String name, ArrayList<String> myTimes) {
-        this.name = name;
-        this.myTimes = myTimes;
-    }
-
-    /**
-     * Determines whether times have been entered for this user
-     * @return true if times were entered
+     * Returns true if the user has entered their available times.
+     *
+     * @return true if the user entered times, false otherwise
      */
     @Exclude
     public boolean enteredTimes() {
-        return (this.myTimes != null && !this.myTimes.isEmpty());
+        return myTimes != null && !myTimes.isEmpty();
     }
 
-
     /**
-     * Gets the Availability
-     * @return availability as a List of Strings
+     * Returns the availability of the user as a list of datetime strings.
+     *
+     * @return availability as a list of datetime strings
      */
     public List<String> getMyTimes() {
-        /*List<String> times = new ArrayList<String>();
-
-        String start = "";
-
-        for (String s: myTimes) {
-            String[] parts = s.split(" ");
-            if (parts[1].equals("S")) {
-                start = s;
-            }
-
-            if (parts[1].equals("E")) {
-                String date = parts[0];
-
-                String[] startParts = start.split(" ");
-                for (int i = Integer.parseInt(startParts[2].trim());
-                        i < Integer.parseInt(parts[2].trim()); i++) {
-                    times.add(date + " " + i);
-                }
-
-                start = "";
-            }
-        }*/
-
         return myTimes;
     }
 }

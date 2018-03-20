@@ -2,41 +2,35 @@ package edu.upenn.cis350.g8.when2meetformobile;
 
 import com.google.firebase.firestore.Exclude;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-/**
- * Created by Saniyah on 2/18/2018.
- * simple object to represent a meeting
- */
-
 
 public class Meeting {
-
     private Map<String, User> users;
     private List<String> dates;
+
     private int high_time;
     private int low_time;
+
     private String name;
     private String owner;
 
     /**
-     * Generic constructor
+     * Makes a new empty meeting.
      */
     public Meeting() {}
 
     /**
-     * Constructs a meeting with all parameters
-     * @param users the Map of User objects
-     * @param dates the List of dates as Strings
-     * @param high_time the max times
-     * @param low_time the min time
-     * @param name the name associated with the meeting
-     * @param owner the owner's ID
+     * Constructs a new meeting from all required parameters.
+     *
+     * @param users collection of participating users
+     * @param dates list of meeting times as datetime strings
+     * @param high_time latest meeting time
+     * @param low_time earliest meeting time
+     * @param name meeting name
+     * @param owner userID of the owner
      */
     public Meeting(Map<String, User> users, List<String> dates, int high_time, int low_time,
                    String name, String owner) {
@@ -49,55 +43,64 @@ public class Meeting {
     }
 
     /**
-     * Gets the dates
-     * @return dates
+     * Returns all possible dates for the meeting as a list of datetime strings.
+     *
+     * @return dates list of possible dates for the meeting
      */
     public List<String> getDates() {
         return dates;
     }
 
     /**
-     * gets the High time
-     * @return high_time
+     * Returns the latest time the meeting may go until.
+     *
+     * @return high_time latest time for the meeting
      */
     public int getHigh_time() {
         return high_time;
     }
 
     /**
-     * gets the low_time
-     * @return low_time
+     * Returns the earliest time the meeting may start.
+     *
+     * @return low_time earliest time for the meeting
      */
     public int getLow_time() {
         return low_time;
     }
 
     /**
-     * gets the Name
-     * @return name
+     * Returns the name of the meeting.
+     *
+     * @return name meeting name
      */
     public String getName() {
         return name;
     }
 
     /**
-     * returns the Owner
-     * @return owner
+     * Returns userID of the owner of this meeting.
+     *
+     * @return owner userID of the meeting's owner
      */
     public String getOwner() {
         return owner;
     }
 
     /**
-     * gets the Map of Users
-     * @return users
+     * Returns the collection of users.
+     *
+     * @return users map of users participating in this meeting
      */
     public Map<String, User> getUsers() {
         return users;
     }
 
     /**
-     * Adds a user to the map
+     * Adds a user to the collection of participating users by creating
+     * a new {@code User} object.
+     *
+     * @param id userID of the new user
      */
     public void addUsers(String id) {
         if(users == null) {
@@ -106,6 +109,13 @@ public class Meeting {
         users.put(id, new User());
     }
 
+    /**
+     * Adds a user to the collection of participating users from an
+     * existing {@code User} object.
+     *
+     * @param id userID of the new user
+     * @param use {@code User} object associated with the user
+     */
     public void addUsers(String id, User use) {
         if (users == null) {
             users = new HashMap<String, User>();
@@ -115,27 +125,20 @@ public class Meeting {
     }
 
     /**
-     * determines if the Meeting contains a particular user when the user is not the owner
-     * @param userID the ID of the user to find
-     * @return true if the user has joined the meeting but isn't the creator
+     * Determines if the user is a participant of the meeting, but is not the owner.
+     *
+     * @param userID ID of the user to lookup
+     * @return true if the user has joined the meeting but isn't the owner
      */
     @Exclude
     public boolean containsUserNotAsOwner(String userID) {
-
-        if (userID.equals(owner)) {
-            return false;
-        }
-
-        if (users.keySet().contains(userID)) {
-            return true;
-        }
-
-        return false;
+        return !userID.equals(owner) && users.keySet().contains(userID);
     }
 
     /**
-     * finds the number of uses
-     * @return int representing the number of users
+     * Returns the number of participating users for this meeting.
+     *
+     * @return number of users
      */
     @Exclude
     public int getNumUsers() {
@@ -143,10 +146,9 @@ public class Meeting {
     }
 
     /**
-     * gets a Map that helps to determine the best times to meet
-     * by showing how many people are available at each time
-     * @return Map<Integer, HashSet<String>> of the number of appearances to all dates that appear
-     * that many times in the database as free
+     * Gets the best times to meet based on all user responses and preferences.
+     *
+     * @return mapping of datetime preference counts to datetime strings
      */
     @Exclude
     public Map<Integer, HashSet<String>> getBestTimes() {
