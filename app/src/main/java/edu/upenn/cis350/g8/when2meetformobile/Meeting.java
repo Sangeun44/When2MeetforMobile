@@ -151,6 +151,10 @@ public class Meeting {
     @Exclude
     public Map<Integer, HashSet<String>> getBestTimes() {
         Map<String, Integer> allTimes = new HashMap<String, Integer>();
+        if (low_time == 24) {
+            low_time = 0;
+        }
+
         for (String date : dates) {
             for (int i = low_time; i < high_time; i++) {
                 allTimes.put(date + " " + i, 0);
