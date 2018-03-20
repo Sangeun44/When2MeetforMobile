@@ -141,6 +141,7 @@ public class SessionsActivity extends AppCompatActivity {
                         Intent intent = new Intent(context, SessionDisplayActivity.class);
                         intent.putExtra("MEETING", id);
                         intent.putExtra("type", type);
+                        intent.putExtra("accountKey", userID);
                         startActivityForResult(intent, SessionDisplayActivity_ID);
                     }
                 });

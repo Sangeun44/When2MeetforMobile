@@ -50,8 +50,6 @@ public class EnterTimesActivity extends AppCompatActivity {
         getMeetings();
         currentSession = getIntent().getStringExtra("MEETING");
         setContentView(R.layout.activity_enter_times);
-        loadDates();
-        loadSpinners();
     }
 
     private void getMeetings() {
@@ -63,6 +61,9 @@ public class EnterTimesActivity extends AppCompatActivity {
                             Log.d(TAG, "onSuccess: LIST EMPTY");
                         } else {
                             meetings = documentSnapshots.toObjects(Meeting.class);
+                            loadDates();
+                            Log.d(TAG, "load dates");
+                            loadSpinners();
                             Log.d(TAG, "onSuccess: Found " + meetings.size() + " meetings!");
                         }
                     }
@@ -76,7 +77,9 @@ public class EnterTimesActivity extends AppCompatActivity {
     }
 
     public void loadDates () {
+        Log.d(TAG, "load dates method");
         //finds the meeting that was clicked on, and loads the dates
+        Log.d(TAG, "" + meetings.size());
         for (Meeting m : meetings) {
             if (m.getName().equals(currentSession)) {
                 days = m.getDates();

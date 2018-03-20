@@ -29,13 +29,17 @@ public class SessionDisplayActivity extends AppCompatActivity {
     private static final String TAG = "When2MeetSessDisp";
     private Meeting meeting;
     String type;
+    String meetingID;
+    String userID;
+    public static final int EnterTimesActivity_ID = 8;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_session_display);
         Intent i = this.getIntent();
-        String meetingID = i.getStringExtra("MEETING");
+        meetingID = i.getStringExtra("MEETING");
+        userID = i.getStringExtra("accountKey");
         readSessionData(meetingID);
 
         // sets visibility of special owner buttons based on mode
@@ -66,6 +70,10 @@ public class SessionDisplayActivity extends AppCompatActivity {
     public void onEnterTimesButtonClick(View v) {
         Toast.makeText(getApplicationContext(), "Going to Enter Times Page...",
                 Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this, EnterTimesActivity.class);
+        i.putExtra("MEETING", meetingID);
+        i.putExtra("accountName", userID);
+        startActivityForResult(i, EnterTimesActivity_ID);
     }
 
     /**
