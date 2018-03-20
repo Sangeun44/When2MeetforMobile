@@ -279,14 +279,6 @@ public class EnterTimesActivity extends AppCompatActivity {
                                 } else {
                                 }
                             }
-
-                            if (start.getSelectedItem().toString()
-                                    .compareTo(end.getSelectedItem().toString()) > 0) {
-                                Toast.makeText(this, "Start times can not be greater" +
-                                                " than end times. Please fix it and resubmit.",
-                                        Toast.LENGTH_SHORT).show();
-                                break;
-                            }
                         }
                     }
                 }
