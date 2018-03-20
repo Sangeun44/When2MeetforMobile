@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         updateUI(GoogleSignIn.getLastSignedInAccount(this));
+
     }
 
     @Override
@@ -61,8 +62,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     });
         } else if (view.getId() == R.id.home_page_button) {
+            GoogleSignInAccount user = GoogleSignIn.getLastSignedInAccount(this);
+
             Intent i = new Intent(this, HomeScreenActivity.class);
-            i.putExtra("accountNum", account_Num);
+            i.putExtra("accountKey", user.getId());
             startActivityForResult(i, HomeActivity_ID);
         }
     }
@@ -91,13 +94,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void updateDB(GoogleSignInAccount account) {
         Map<String, Object> userData = new HashMap<>();
-        userData.put("name",account.getDisplayName());
+        userData.put("name", account.getDisplayName());
         FirebaseFirestore.getInstance().collection("users").document(account.getId())
                 .set(userData, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
