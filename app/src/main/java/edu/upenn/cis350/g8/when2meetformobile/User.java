@@ -65,11 +65,35 @@ public class User {
         return (this.myTimes != null && !this.myTimes.isEmpty());
     }
 
+
     /**
      * Gets the Availability
      * @return availability as a List of Strings
      */
     public List<String> getMyTimes() {
-       return myTimes;
+        List<String> times = new ArrayList<String>();
+
+        String start = "";
+
+        for (String s: myTimes) {
+            String[] parts = s.split(" ");
+            if (parts[0].equals("s")) {
+                start = s;
+            }
+
+            if (parts[0].equals("e")) {
+                String date = parts[1];
+
+                String[] startParts = start.split(" ");
+                for (int i = Integer.parseInt(startParts[2].trim());
+                        i < Integer.parseInt(parts[3].trim()); i++) {
+                    times.add(date + " " + i);
+                }
+
+                start = "";
+            }
+        }
+
+        return times;
     }
 }
