@@ -114,10 +114,10 @@ public class SessionDisplayActivity extends AppCompatActivity {
             TextView txtPeople = findViewById(R.id.txtPeople);
             String people = "Respondents:";
             int counter = 1;
-            for (User u : users.values()) {
+            for (String id : users.keySet()) {
+                User u = users.get(id);
                 if (u.enteredTimes()) {
-                    String name = u.getName();
-                    people += "\n" + counter +  ". " + name;
+                    people += "\n" + counter +  ". " + id;
                     counter++;
                 }
             }
