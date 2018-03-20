@@ -273,13 +273,14 @@ public class EnterTimesActivity extends AppCompatActivity {
                             enteredTimes.add(startTime);
                             enteredTimes.add(endTime);
 
-                            if (startTime.compareTo(endTime) > 0) {
+                            if (start.getSelectedItem().toString()
+                                    .compareTo(end.getSelectedItem().toString()) > 0) {
                                 Toast.makeText(this, "Start times can not be greater" +
                                                 " than end times. Please fix it and resubmit.",
                                         Toast.LENGTH_SHORT).show();
                                 break;
-                            } else if (startTime.equals("START") ||
-                                    endTime.equals("END")) {
+                            } else if (start.getSelectedItem().toString().equals("START") ||
+                                    end.getSelectedItem().toString().equals("END")) {
                                 Toast.makeText(this, "Please fill in available times" +
                                                 " before submitting.",
                                         Toast.LENGTH_SHORT).show();
