@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
@@ -38,7 +39,7 @@ import java.util.Map;
 public class EnterTimesActivity extends AppCompatActivity {
     public static final int EnterTimesActivity_ID = 3917;
     private static final String TAG = "When2MeetJoinedSessions";
-    private List<Meeting> meetings;
+    private Meeting meeting;
     private String currentSession;
     private String userId = "";
     List<String> days;
@@ -50,39 +51,38 @@ public class EnterTimesActivity extends AppCompatActivity {
         getMeetings();
         currentSession = getIntent().getStringExtra("MEETING");
         setContentView(R.layout.activity_enter_times);
+        loadDates();
+        loadSpinners();
     }
 
     private void getMeetings() {
-        FirebaseFirestore.getInstance().collection("meetings").get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot documentSnapshots) {
-                        if (documentSnapshots.isEmpty()) {
-                            Log.d(TAG, "onSuccess: LIST EMPTY");
-                        } else {
-                            meetings = documentSnapshots.toObjects(Meeting.class);
-                            loadDates();
-                            Log.d(TAG, "load dates");
-                            loadSpinners();
-                            Log.d(TAG, "onSuccess: Found " + meetings.size() + " meetings!");
+            // get the meeting in the database
+            FirebaseFirestore.getInstance().collection("meetings").document(currentSession).get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshots) {
+                            if (documentSnapshots.exists()) {
+                                meeting = documentSnapshots.toObject(Meeting.class);
+                                Log.d(TAG,"onSuccess: Found meeting!");
+                            } else {
+                                Log.d(TAG, "onSuccess: No Such meeting");
+                            }
                         }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Error getting data!!!", Toast.LENGTH_LONG).show();
-                    }
-                });
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getApplicationContext(), "Error getting data!!!",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+
     }
 
     public void loadDates () {
-        Log.d(TAG, "load dates method");
         //finds the meeting that was clicked on, and loads the dates
-        Log.d(TAG, "" + meetings.size());
-        for (Meeting m : meetings) {
-            if (m.getName().equals(currentSession)) {
-                days = m.getDates();
+
+                days = meeting.getDates();
                 for (String day : days) {
                     // from Stack Exchange
                     LinearLayout myLayout = findViewById(R.id.datesBar);
@@ -92,16 +92,13 @@ public class EnterTimesActivity extends AppCompatActivity {
                             205,
                             LinearLayout.LayoutParams.MATCH_PARENT));
                     myLayout.addView(date);
-                }
-            }
         }
     }
 
     public void loadSpinners() {
         //finds the meeting clicked on, and loads selectors based on hi/lo times
-        for (Meeting m : meetings) {
-            if (m.getName().equals(currentSession)) {
-                int numOptions = m.getDates().size();
+
+                int numOptions = meeting.getDates().size();
 
                 for (int i = 0; i < numOptions; i++) {
                     LinearLayout myLayout = findViewById(R.id.selectorBar);
@@ -117,14 +114,14 @@ public class EnterTimesActivity extends AppCompatActivity {
                     //set the time interval array for all the spinners
                     List<String> spinnerArray = new ArrayList<>();
 
-                    for (int j = 0; j < m.getHigh_time() - m.getLow_time(); j+=1) {
+                    for (int j = 0; j < meeting.getHigh_time() - meeting.getLow_time(); j += 1) {
                         StringBuilder time = new StringBuilder();
-                        time.append(m.getLow_time() + j);
+                        time.append(meeting.getLow_time() + j);
                         spinnerArray.add(time.toString());
                     }
 
                     StringBuilder t = new StringBuilder();
-                    t.append(m.getHigh_time());
+                    t.append(meeting.getHigh_time());
                     spinnerArray.add(t.toString());
 
                     Spinner start = createSelector(spinnerArray, "START");
@@ -132,14 +129,14 @@ public class EnterTimesActivity extends AppCompatActivity {
 
                     List<String> spinnerArr = new ArrayList<>();
 
-                    for (int j = 0; j < m.getHigh_time() - m.getLow_time(); j+=1) {
+                    for (int j = 0; j < meeting.getHigh_time() - meeting.getLow_time(); j += 1) {
                         StringBuilder time = new StringBuilder();
-                        time.append(m.getLow_time() + j);
+                        time.append(meeting.getLow_time() + j);
                         spinnerArr.add(time.toString());
                     }
 
                     StringBuilder r = new StringBuilder();
-                    r.append(m.getHigh_time());
+                    r.append(meeting.getHigh_time());
                     spinnerArr.add(r.toString());
 
                     Spinner end = createSelector(spinnerArray, "END");
@@ -149,8 +146,8 @@ public class EnterTimesActivity extends AppCompatActivity {
 
                     //checkbox
                     CheckBox preferred = new CheckBox(this);
-                    LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(150, 150);
-                    layoutParams.gravity= Gravity.CENTER;
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(150, 150);
+                    layoutParams.gravity = Gravity.CENTER;
                     preferred.setLayoutParams(layoutParams);
                     child.addView(preferred);
 
@@ -158,8 +155,6 @@ public class EnterTimesActivity extends AppCompatActivity {
                     child.addView(btn);
                     myLayout.addView(child);
                 }
-            }
-        }
     }
 
     private Spinner createSelector(List<String> values, String which) {
@@ -203,19 +198,17 @@ public class EnterTimesActivity extends AppCompatActivity {
         LinearLayout myLayout = findViewById(ID);
 
         //create the selector
-        for (Meeting m : meetings) {
-            if (m.getName().equals(currentSession)) {
 
                 List<String> spinnerArray = new ArrayList<>();
 
-                for (int j = 0; j < m.getHigh_time() - m.getLow_time(); j+=1) {
+                for (int j = 0; j < meeting.getHigh_time() - meeting.getLow_time(); j+=1) {
                     StringBuilder time = new StringBuilder();
-                    time.append(m.getLow_time() + j);
+                    time.append(meeting.getLow_time() + j);
                     spinnerArray.add(time.toString());
                 }
 
                 StringBuilder t = new StringBuilder();
-                t.append(m.getHigh_time());
+                t.append(meeting.getHigh_time());
                 spinnerArray.add(t.toString());
 
                 Spinner start = createSelector(spinnerArray, "START");
@@ -223,14 +216,14 @@ public class EnterTimesActivity extends AppCompatActivity {
 
                 List<String> spinnerArr = new ArrayList<>();
 
-                for (int j = 0; j < m.getHigh_time() - m.getLow_time(); j+=1) {
+                for (int j = 0; j < meeting.getHigh_time() - meeting.getLow_time(); j+=1) {
                     StringBuilder time = new StringBuilder();
-                    time.append(m.getLow_time() + j);
+                    time.append(meeting.getLow_time() + j);
                     spinnerArr.add(time.toString());
                 }
 
                 StringBuilder r = new StringBuilder();
-                r.append(m.getHigh_time());
+                r.append(meeting.getHigh_time());
                 spinnerArr.add(r.toString());
 
                 Spinner end = createSelector(spinnerArray, "END");
@@ -244,8 +237,6 @@ public class EnterTimesActivity extends AppCompatActivity {
                 layoutParams.gravity= Gravity.CENTER;
                 preferred.setLayoutParams(layoutParams);
                 myLayout.addView(preferred, myLayout.getChildCount() - 1);
-                }
-        }
 
     }
 
