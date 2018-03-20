@@ -249,16 +249,17 @@ public class EnterTimesActivity extends AppCompatActivity {
     public void onEnterClick(View view) {
         String startTime, endTime;
         LinearLayout selectorBar = findViewById(R.id.selectorBar);
+        ArrayList<String> enteredTimes = new ArrayList<>();
         for (int i = 0; i < selectorBar.getChildCount(); i++) {
-            List<String> enteredTimes = new ArrayList<String>();
+            enteredTimes = new ArrayList<String>();
             LinearLayout column = (LinearLayout) selectorBar.getChildAt(i);
             for (int j = 0 ; j < column.getChildCount() - 2; j+=3) {
                 if (column.getChildAt(j) instanceof Spinner) {
                     Spinner start = (Spinner) column.getChildAt(j);
                     if (column.getChildAt(j + 1) instanceof Spinner) {
                         Spinner end = (Spinner) column.getChildAt(j);
-                        startTime = start.getSelectedItem().toString();
-                        endTime = end.getSelectedItem().toString();
+                        startTime = days.get(i) + " " + start.getSelectedItem().toString();
+                        endTime = days.get(i) + " " + end.getSelectedItem().toString();
                         if (column.getChildAt(j + 2) instanceof CheckBox) {
                             //TODO: Use this data to implement preferred times functionality
                             CheckBox check = (CheckBox) column.getChildAt(j + 2);
@@ -283,17 +284,18 @@ public class EnterTimesActivity extends AppCompatActivity {
                     }
                 }
             }
-            Map<String, List<String>> values = new HashMap<>();
-            values.put(days.get(i), enteredTimes);
-            updateDB(values);
         }
+
+        User users = new User(userId, enteredTimes);
+        meeting.addUsers(userId, users);
+        updateDB(meeting);
         finish();
     }
 
-    private void updateDB(Map<String, List<String>> data) {
+    private void updateDB(Meeting meet) {
+        //add back to database
         FirebaseFirestore.getInstance().collection("meetings").document(currentSession)
-                .collection("users").document(userId)
-                .set(data, SetOptions.merge())
+                .set(meet, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
