@@ -33,7 +33,7 @@ public class JoinedSessionsActivity extends AppCompatActivity {
         int userID = i.getIntExtra("accountNum", 0);
         //populateMap(userID);
         myMeetings = new ArrayList<Meeting>();
-        myMeetings.add(new Meeting(null, null, 8, 20, "Test Event", 10));
+        myMeetings.add(new Meeting(null, null, 8, 20, "Test Event", ""));
         createButtons();
     }
 
