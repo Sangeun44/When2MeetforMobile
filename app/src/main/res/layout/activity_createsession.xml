@@ -679,7 +679,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="onClickCreateButton"
-                android:text="Create Event" />
+                android:text="Create" />
 
         </LinearLayout>
 

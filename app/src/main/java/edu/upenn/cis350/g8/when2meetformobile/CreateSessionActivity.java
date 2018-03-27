@@ -1,9 +1,13 @@
 package edu.upenn.cis350.g8.when2meetformobile;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -29,13 +33,11 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class CreateSessionActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    final static String TAG = "CreateSessionAct";
-
-    FirebaseFirestore database;
-    DocumentReference ref;
-
-    ArrayList<String> daysSelected;
-    ArrayList<String> datesSelected;
+    private final static String TAG = "CreateSessionAct";
+    private FirebaseFirestore database;
+    private DocumentReference ref;
+    private ArrayList<String> daysSelected;
+    private ArrayList<String> datesSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,9 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
         initSpinner((Spinner) findViewById(R.id.latest), R.array.hours);
     }
 
+    /**
+     * Initialize the date buttons.
+     */
     private void initDates() {
         for(int i = 0; i < 35; i++) {
             Date dt = new Date();
@@ -69,6 +74,12 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
         }
     }
 
+    /**
+     * Initialize a spinner with list of options.
+     *
+     * @param spinner spinner to initialize
+     * @param arrayId array to initialize spinner array adapter with
+     */
     private void initSpinner(Spinner spinner, int arrayId) {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 arrayId, android.R.layout.simple_spinner_item);
@@ -77,7 +88,11 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
         spinner.setOnItemSelectedListener(this);
     }
 
-    //select weekdays
+    /**
+     * Updates currently selected weekdays.
+     *
+     * @param view weekday button pressed
+     */
     public void onSelectWeekdays(View view) {
         String name = ((Button) view).getText().toString();
         if (daysSelected.contains(name)) {
@@ -91,7 +106,11 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
         }
     }
 
-    //select dates
+    /**
+     * Updates currently selected dates.
+     *
+     * @param view date button pressed
+     */
     public void onSelectDates(View view) {
         String date = ((Button) view).getText().toString() + "/" +
                 Calendar.getInstance().get(Calendar.YEAR);
@@ -108,7 +127,12 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
         Collections.sort(datesSelected);
     }
 
-    //clicked on the create event button
+    /**
+     * Verifies the selections, creates a session in the database, and shows the option to
+     * send a code via email or SMS.
+     *
+     * @param view create button
+     */
     public void onClickCreateButton(View view) {
         String eventName = ((EditText) findViewById(R.id.eventName)).getText().toString();
         String modeStr = ((Spinner) findViewById(R.id.mode)).getSelectedItem().toString();
@@ -129,10 +153,43 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
                     "Remember to choose valid times!", Toast.LENGTH_SHORT).show();
         } else {
             updateDB(eventName, t1, t2);
-            finish();
+            sendCode(eventName);
         }
     }
 
+    /**
+     * Give the user the option to send the event code via email or SMS with a messaging app
+     * of their choice.
+     *
+     * @param event event name
+     */
+    private void sendCode(final String event) {
+        DialogInterface.OnClickListener choiceListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == DialogInterface.BUTTON_POSITIVE) {
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType("*/*");
+                    i.putExtra(Intent.EXTRA_SUBJECT, "W2MFM: " + event + " code");
+                    i.putExtra(Intent.EXTRA_TEXT, "Here's the code for " + event + ": " + ref.getId());
+                    startActivity(Intent.createChooser(i, "Send code..."));
+                }
+                dialog.dismiss();
+                finish();
+            }
+        };
+        new AlertDialog.Builder(this).setMessage("Would you like to send the code?")
+                .setPositiveButton("Yes", choiceListener)
+                .setNegativeButton("No", choiceListener)
+                .show();
+    }
+
+    /**
+     * Changes the time string to an integer representation in military time.
+     *
+     * @param time time string
+     * @return hour in military time
+     */
     private int changeTime(String time) {
         int t = Integer.parseInt(time.substring(0,2).trim());
         if (time.contains("pm") && t < 12) {
@@ -144,6 +201,13 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
         }
     }
 
+    /**
+     * Adds the event data to the database.
+     *
+     * @param eventName name of the event
+     * @param t1 low time
+     * @param t2 high time
+     */
     private void updateDB(String eventName, int t1, int t2) {
         String owner_id = getIntent().getStringExtra("accountKey");
         HashMap<String, User> users = new HashMap<>();
