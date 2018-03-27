@@ -306,6 +306,12 @@ public class EnterTimesActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Updates the meeting within the database by merging the old data
+     * with the new data in {@code meet}.
+     *
+     * @param meet meeting to update within the database
+     */
     private void updateDB(Meeting meet) {
         //add back to database
         FirebaseFirestore.getInstance().collection("meetings").document(currentSession)

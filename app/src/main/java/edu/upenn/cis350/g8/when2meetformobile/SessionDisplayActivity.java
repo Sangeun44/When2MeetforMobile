@@ -75,26 +75,26 @@ public class SessionDisplayActivity extends AppCompatActivity {
     private void readSessionData(String meetingID) {
         // get the meeting in the database
         FirebaseFirestore.getInstance().collection("meetings").document(meetingID).get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshots) {
-                        if (documentSnapshots.exists()) {
-                            meeting = documentSnapshots.toObject(Meeting.class);
-                            Log.d(TAG,"onSuccess: Found meeting!");
-                            updateUI(meeting.getUsers(), meeting.getBestTimes());
-                        } else {
-                            Log.d(TAG, "onSuccess: No Such meeting");
-                        }
+            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshots) {
+                    if (documentSnapshots.exists()) {
+                        meeting = documentSnapshots.toObject(Meeting.class);
+                        Log.d(TAG,"onSuccess: Found meeting!");
+                        updateUI(meeting.getUsers(), meeting.getBestTimes());
+                    } else {
+                        Log.d(TAG, "onSuccess: No Such meeting");
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Error getting data!!!",
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
-    }
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getApplicationContext(), "Error getting data!!!",
+                            Toast.LENGTH_LONG).show();
+                }
+            });
+}
 
     /**
      * Update the UI to reflect the data loaded into {@code meeting}.

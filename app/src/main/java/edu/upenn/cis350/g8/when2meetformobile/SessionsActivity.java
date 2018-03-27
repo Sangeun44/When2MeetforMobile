@@ -57,6 +57,9 @@ public class SessionsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Populates the screen with all activities the user has joined.
+     */
     private void populateJoined() {
         database.collection("meetings").get()
             .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -92,6 +95,9 @@ public class SessionsActivity extends AppCompatActivity {
             });
     }
 
+    /**
+     * Populates the screen with all activities the user has created.
+     */
     private void populateCreated() {
         database.collection("meetings")
                 .whereEqualTo("owner", userID).get()

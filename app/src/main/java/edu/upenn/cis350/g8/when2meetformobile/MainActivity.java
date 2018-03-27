@@ -50,10 +50,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.sign_in_button) {
+            // sign in user
             Intent signInIntent = mGoogleSignInClient.getSignInIntent();
             signInIntent.putExtra("accountNum", account_Num);
             startActivityForResult(signInIntent, RC_SIGN_IN);
         } else if (view.getId() == R.id.sign_out_button) {
+            // sign out the user
             mGoogleSignInClient.signOut()
                     .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                         @Override
@@ -62,8 +64,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     });
         } else if (view.getId() == R.id.home_page_button) {
+            // go to the home page
             GoogleSignInAccount user = GoogleSignIn.getLastSignedInAccount(this);
-
             Intent i = new Intent(this, HomeScreenActivity.class);
             i.putExtra("accountKey", user.getId());
             startActivityForResult(i, HomeActivity_ID);
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
+            // sign in the user
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
@@ -82,9 +85,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 updateUI(account);
                 Log.d(TAG, "signInResult:success");
             } catch (ApiException e) {
+                // firebase connection issue
                 Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
             }
         } else if (requestCode == HomeActivity_ID) {
+            // navigate to the home page
             if (data.getBooleanExtra("logout", false)) {
                 onClick(findViewById(R.id.sign_out_button));
             }
