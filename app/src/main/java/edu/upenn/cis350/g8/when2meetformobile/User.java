@@ -54,6 +54,10 @@ public class User {
         return this.name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     /**
      * Returns true if the user has entered their available times.
      *
