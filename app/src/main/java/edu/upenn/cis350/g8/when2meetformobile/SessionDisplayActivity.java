@@ -16,6 +16,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,7 @@ public class SessionDisplayActivity extends AppCompatActivity {
     private String meetingID;
     private String userID;
 
-    private List<String> usersInName;
+    private HashMap<String, String> usersInName;
 
     private FirebaseFirestore database;
 
@@ -39,6 +40,7 @@ public class SessionDisplayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_session_display);
         Intent i = this.getIntent();
+        usersInName = new HashMap<String, String>();
 
         meetingID = i.getStringExtra("MEETING"); //meeting_ID
         userID = i.getStringExtra("accountKey"); //owner_ID
@@ -91,8 +93,8 @@ public class SessionDisplayActivity extends AppCompatActivity {
                 public void onSuccess(DocumentSnapshot documentSnapshots) {
                     if (documentSnapshots.exists()) {
                         meeting = documentSnapshots.toObject(Meeting.class);
-                        Log.d(TAG,"onSuccess: Found meeting!" + meeting.getUsers().containsKey("100025392726335601974"));
-                        updateUI(meeting.getUsers(), meeting.getBestTimes());
+                        Log.d(TAG,"onSuccess: Found meeting!");
+                        updateUI();
                     } else {
                         Log.d(TAG, "onSuccess: No Such meeting");
                     }
@@ -114,10 +116,10 @@ public class SessionDisplayActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshots) {
                             if (documentSnapshots.exists()) {
-                                User user = documentSnapshots.toObject(User.class);
                                 String name = documentSnapshots.get("name").toString();
-                                usersInName.add(name);
-                                Log.d(TAG,"onSuccess: Found user name!");
+                                usersInName.put(user_ID, name);
+                                updateUIPeople();
+                                Log.d(TAG,"onSuccess: Found user name!" + user_ID + name);
                             } else {
                                 Log.d(TAG, "onSuccess: No Such owner");
                             }
@@ -148,33 +150,48 @@ public class SessionDisplayActivity extends AppCompatActivity {
         startActivityForResult(i, AddMoreUsersActivity_ID);
     }
 
+    public void updateUIPeople() {
+        Map<String, User> users = meeting.getUsers();
+
+        TextView txtNumPeople = findViewById(R.id.txtNumPeople);
+        int numUsers = users.size();
+        txtNumPeople.setText(numUsers + " people in this group.");
+
+        TextView txtPeople = findViewById(R.id.txtPeople);
+        String peopleList = "";
+        int counter = 1;
+
+        Log.d(TAG, "string" + usersInName.get("110859387616197731453"));
+        for (String id : users.keySet()) {
+            User u = users.get(id);
+            if (u.enteredTimes()) {
+                peopleList += "\n" + counter +  ". " + usersInName.get(id);
+                counter++;
+            }
+        }
+        txtPeople.setText(peopleList);
+
+    }
+
     /**
      * Update the UI to reflect the data loaded into {@code meeting}.
      *
      */
-    public void updateUI(Map<String, User> users, Map<Integer, HashSet<String>> allTimes) {
-            TextView txtPeople = findViewById(R.id.txtPeople);
-            String peopleList = " ";
-            int counter = 1;
+    public void updateUI() {
+        Map<Integer, HashSet<String>> allTimes = meeting.getBestTimes();
+        Map<String, User> users = meeting.getUsers();
 
-            for (Map.Entry<String, User> entry: users.entrySet()) {
-                User u = entry.getValue();
-                if (u.enteredTimes()) {
-                    peopleList += "\n" + counter +  ". " + u.getName();
-                    counter++;
-                }
-            }
+        for (String id : users.keySet()) {
+            getUserName(id);
+            Log.d(TAG,"get user name!" + id);
+        }
 
-            txtPeople.setText(peopleList);
+        TextView txtBestTimes = findViewById(R.id.txtBestTimes);
+        String bestTimes = "";
 
-            TextView txtNumPeople = findViewById(R.id.txtNumPeople);
-            int numUsers = users.size();
-            txtNumPeople.setText(numUsers + " people in this group.");
+        int numUsers = users.size();
 
-            TextView txtBestTimes = findViewById(R.id.txtBestTimes);
-            String bestTimes = " ";
-
-            for (int i = numUsers; i > numUsers / 2; i--) {
+        for (int i = numUsers; i > numUsers / 2; i--) {
                 if (allTimes.containsKey(i)) {
                     String bestTime = (double) i * 100 / numUsers + "% Free:\n";
                     for (String time : allTimes.get(i)) {
