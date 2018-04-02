@@ -150,7 +150,7 @@ public class EnterTimesActivity extends AppCompatActivity {
         for (int i = 0; i < selectorBar.getChildCount(); i++) {
             ScrollView sView = (ScrollView) selectorBar.getChildAt(i);
             LinearLayout container = (LinearLayout) sView.getChildAt(0);
-            for (int j = 0; j < container.getChildCount(); j++) {
+            for (int j = 1; j < container.getChildCount(); j++) {
                 Log.d(TAG, "CONTAINER FOR LOOP, NUMBER OF EXECUTIONS: " + j);
                 LinearLayout child = (LinearLayout) container.getChildAt(j);
                 TextView time = (TextView) child.getChildAt(0);
