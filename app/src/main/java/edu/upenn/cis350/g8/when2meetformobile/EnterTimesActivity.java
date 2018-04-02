@@ -71,23 +71,13 @@ public class EnterTimesActivity extends AppCompatActivity {
                                 Toast.LENGTH_LONG).show();
                     }
                 });
-
     }
 
 
-
+    //finds the meeting clicked on, and loads selectors based on hi/lo times
     public void loadChoice() {
-        //finds the meeting clicked on, and loads selectors based on hi/lo times
-
         //enables horizontal scrolling
-        //HorizontalScrollView hView = new HorizontalScrollView(this);
-        //LinearLayout page = findViewById(R.id.page);
-        //ViewGroup parent = (ViewGroup)page.getParent();
-        //parent.removeView((ViewGroup)page);
         LinearLayout myLayout = findViewById(R.id.selectorBar);
-        //hView.addView(page);
-        //parent.addView(hView);
-
         days = meeting.getDates();
         int i = 0;
         for (String day : days) {
@@ -96,10 +86,8 @@ public class EnterTimesActivity extends AppCompatActivity {
             LinearLayout container = new LinearLayout(this);
             container.setOrientation(LinearLayout.VERTICAL);
             container.setLayoutParams(new LinearLayout.LayoutParams(
-                    300,
-                    LinearLayout.LayoutParams.MATCH_PARENT));
+                    300, LinearLayout.LayoutParams.MATCH_PARENT));
             container.setId(i);
-
             ScrollView sView  = new ScrollView(this);
 
             //gets the date and adds it to the ScrollView
@@ -107,16 +95,12 @@ public class EnterTimesActivity extends AppCompatActivity {
             weekDay.setText(day);
             container.addView(weekDay);
 
-
-
-
             for (int j = 0; j < meeting.getHigh_time() - meeting.getLow_time(); j += 1) {
                 //create new child for each time/checkbox pair
                 LinearLayout child = new LinearLayout(this);
                 child.setOrientation(LinearLayout.HORIZONTAL);
                 child.setLayoutParams(new LinearLayout.LayoutParams(
-                        200,
-                        LinearLayout.LayoutParams.MATCH_PARENT));
+                        200, LinearLayout.LayoutParams.MATCH_PARENT));
                 child.setId(i);
 
                 //time + checkbox
@@ -130,20 +114,17 @@ public class EnterTimesActivity extends AppCompatActivity {
                 CheckBox select = new CheckBox(this);
                 LinearLayout.LayoutParams layoutParams =
                         new LinearLayout.LayoutParams(150, 150);
-                //layoutParams.gravity = Gravity.CENTER;
                 select.setLayoutParams(layoutParams);
                 child.addView(select);
-
                 container.addView(child);
-
             }
+
             sView.addView(container);
             myLayout.addView(sView);
             i+=1;
         }
     }
-
-
+    
     public void onEnterClick(View view) {
         LinearLayout selectorBar = findViewById(R.id.selectorBar);
         ArrayList<String> enteredTimes = new ArrayList<>();
