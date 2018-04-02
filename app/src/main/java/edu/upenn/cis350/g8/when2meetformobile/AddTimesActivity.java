@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,32 +37,19 @@ public class AddTimesActivity extends AppCompatActivity {
     private String meetingID;
     private String userID;
     private Meeting meeting;
-    private Map<String, Integer> dayToDate;
     private List<String> selection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_addtimes);
+        setContentView(R.layout.activity_add_times);
         Intent i = this.getIntent();
-        meetingID = "hQhAlS98wXZ0aQ1XRvkW"; //i.getStringExtra("MEETING");
+        meetingID = "9uX6uLv1V3xraTKtDU2Q"; //i.getStringExtra("MEETING");
         //userID = i.getStringExtra("accountKey");
         readSessionData(meetingID);
-        initDayToDate();
         selection = new ArrayList<String>();
-
     }
 
-    private void initDayToDate() {
-        dayToDate = new HashMap<String, Integer>();
-        dayToDate.put("sun", Calendar.SUNDAY);
-        dayToDate.put("mon", Calendar.MONDAY);
-        dayToDate.put("tue", Calendar.TUESDAY);
-        dayToDate.put("wed", Calendar.WEDNESDAY);
-        dayToDate.put("thu", Calendar.THURSDAY);
-        dayToDate.put("fri", Calendar.FRIDAY);
-        dayToDate.put("sat", Calendar.SATURDAY);
-    }
 
     /**
      * Initialize the date buttons.
@@ -69,23 +57,29 @@ public class AddTimesActivity extends AppCompatActivity {
     private void initSelection() {
         List<String> dates = meeting.getDates();
         String ending = "/" + Calendar.getInstance().get(Calendar.YEAR);
+        Date dt = new Date();
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
 
         if (!meeting.getIsDays()) {
             int btnCount = 0;
             int i = 1;
             while (btnCount < 30 && i < 30) {
-                Date dt = new Date();
-                Calendar c = Calendar.getInstance();
                 c.setTime(dt);
                 c.add(Calendar.DATE, i);
-                dt = c.getTime();
-                String date = new SimpleDateFormat("MM/dd").format(dt);
+                String date = sdf.format(c.getTime());
                 if (!dates.contains(date + ending)) {
                     int id = getResources().getIdentifier("btn" + btnCount, "id", getPackageName());
                     ((Button) findViewById(id)).setText(date);
                     btnCount++;
                 }
                 i++;
+            }
+        } else {
+            for (String date : dates) {
+                String day = DayData.getDayOfWeekFromDateString(date);
+                int id = getResources().getIdentifier(day, "id", getPackageName());
+                ((Button) findViewById(id)).setEnabled(false);
             }
         }
 
@@ -128,7 +122,7 @@ public class AddTimesActivity extends AppCompatActivity {
                     public void onSuccess(DocumentSnapshot documentSnapshots) {
                         if (documentSnapshots.exists()) {
                             meeting = documentSnapshots.toObject(Meeting.class);
-                            Log.d(TAG,"FOUND THE MEETING WOOOOOO onSuccess: Found meeting!");
+                            Log.d(TAG,"onSuccess: Found meeting!");
                             findViewById(R.id.weekdays).setVisibility(meeting.getIsDays() ? View.VISIBLE : View.INVISIBLE);
                             findViewById(R.id.month).setVisibility(meeting.getIsDays() ? View.INVISIBLE : View.VISIBLE);
                             initSelection();
@@ -136,7 +130,7 @@ public class AddTimesActivity extends AppCompatActivity {
                             initSpinner("late");
                             setCurrentData();
                         } else {
-                            Log.d(TAG, "LOOK HEREEEEEEE onSuccess: No Such meeting");
+                            Log.d(TAG, "onSuccess: No Such meeting");
                         }
                     }
                 })
@@ -156,8 +150,15 @@ public class AddTimesActivity extends AppCompatActivity {
         currentData.append("Times from " + changeTime(meeting.getLow_time()) + " to " +
                 changeTime(meeting.getHigh_time()));
         currentData.append("\nDates: ");
+
         for (String date : meeting.getDates()) {
-            currentData.append(date + " ");
+            if (meeting.getIsDays()) {
+                String day = DayData.getDayOfWeekFromDateString(date);
+                currentData.append(day + " ");
+            } else {
+                currentData.append(date + " ");
+            }
+
         }
         meetingData.setText(currentData.toString());
     }
@@ -240,7 +241,7 @@ public class AddTimesActivity extends AppCompatActivity {
         int weekYear = c.getWeekYear();
         int weekOfYear = c.get(Calendar.WEEK_OF_YEAR) + 1;
         for (String s: selection) {
-            c.setWeekDate(weekYear, weekOfYear, dayToDate.get(s.toLowerCase()));
+            c.setWeekDate(weekYear, weekOfYear, DayData.getDateFromDay(s.toLowerCase()));
             dt = c.getTime();
             String date = sdf.format(dt) + ending;
             datesFromDays.add(date);
@@ -248,7 +249,7 @@ public class AddTimesActivity extends AppCompatActivity {
         return datesFromDays;
     }
 
-    private void onClickSubmitTimes (View view) {
+    public void onClickCreateButton(View view) {
         int minTime = changeTime(((Spinner) findViewById(R.id.spnEarly)).getSelectedItem().toString());
         int maxTime = changeTime(((Spinner) findViewById(R.id.spnLate)).getSelectedItem().toString());
         meeting.setLow_time(minTime);
@@ -274,7 +275,10 @@ public class AddTimesActivity extends AppCompatActivity {
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
-    }
 
+        Intent i = this.getIntent();
+        setResult(RESULT_OK, i);
+        finish();
+    }
 
 }

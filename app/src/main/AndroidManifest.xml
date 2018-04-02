@@ -23,8 +23,6 @@
         <activity android:name=".JoinWithCodeActivity" />
         <activity android:name=".EnterTimesActivity" />
         <activity android:name=".SessionDisplayActivity" />
-        <activity android:name=".AddTimesActivity" />
-
     </application>
 
 </manifest>
