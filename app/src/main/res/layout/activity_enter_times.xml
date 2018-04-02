@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/page"
     android:layout_width="match_parent"
@@ -7,23 +9,23 @@
     android:orientation="vertical">
 
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/datesBar"
+    <HorizontalScrollView
+        android:id="@+id/hView"
         android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/selectorBar"
+            android:layout_width="match_parent"
+            android:layout_height="446dp"
+            android:orientation="horizontal">
 
 
-    </LinearLayout>
+        </LinearLayout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/selectorBar"
-        android:layout_width="match_parent"
-        android:layout_height="446dp"
-        android:orientation="horizontal">
+    </HorizontalScrollView>
 
 
-    </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/submit_area"
