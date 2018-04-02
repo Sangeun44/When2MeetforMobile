@@ -153,10 +153,12 @@ public class EnterTimesActivity extends AppCompatActivity {
             for (int j = 1; j < container.getChildCount(); j++) {
                 Log.d(TAG, "CONTAINER FOR LOOP, NUMBER OF EXECUTIONS: " + j);
                 LinearLayout child = (LinearLayout) container.getChildAt(j);
+                TextView date = (TextView) container.getChildAt(0);
                 TextView time = (TextView) child.getChildAt(0);
                 CheckBox selected = (CheckBox) child.getChildAt(1);
                 if (selected.isChecked()) {
-                    enteredTimes.add((String) time.getText());
+                    String format = date + " " + (String) time.getText();
+                    enteredTimes.add(format);
                 }
             }
         }
