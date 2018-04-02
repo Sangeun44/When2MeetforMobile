@@ -156,7 +156,7 @@ public class EnterTimesActivity extends AppCompatActivity {
                 TextView time = (TextView) child.getChildAt(0);
                 CheckBox selected = (CheckBox) child.getChildAt(1);
                 if (selected.isChecked()) {
-                    enteredTimes.add(time.toString());
+                    enteredTimes.add((String) time.getText());
                 }
             }
         }
