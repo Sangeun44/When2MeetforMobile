@@ -81,7 +81,8 @@ public class EnterTimesActivity extends AppCompatActivity {
         //enables horizontal scrolling
         HorizontalScrollView hView = new HorizontalScrollView(this);
         LinearLayout myLayout = findViewById(R.id.selectorBar);
-        hView.addView(myLayout);
+        LinearLayout page = findViewById(R.id.page);
+        hView.addView(page);
 
         days = meeting.getDates();
         int i = 0;
