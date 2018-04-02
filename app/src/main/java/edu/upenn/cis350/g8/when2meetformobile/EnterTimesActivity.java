@@ -80,12 +80,12 @@ public class EnterTimesActivity extends AppCompatActivity {
         //finds the meeting clicked on, and loads selectors based on hi/lo times
 
         //enables horizontal scrolling
-        HorizontalScrollView hView = new HorizontalScrollView(this);
-        LinearLayout page = findViewById(R.id.page);
-        ViewGroup parent = (ViewGroup)page.getParent();
-        parent.removeView((ViewGroup)page);
+        //HorizontalScrollView hView = new HorizontalScrollView(this);
+        //LinearLayout page = findViewById(R.id.page);
+        //ViewGroup parent = (ViewGroup)page.getParent();
+        //parent.removeView((ViewGroup)page);
         LinearLayout myLayout = findViewById(R.id.selectorBar);
-        hView.addView(page);
+        //hView.addView(page);
         //parent.addView(hView);
 
         days = meeting.getDates();
