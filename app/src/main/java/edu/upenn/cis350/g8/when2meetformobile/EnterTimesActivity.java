@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
@@ -80,9 +81,12 @@ public class EnterTimesActivity extends AppCompatActivity {
 
         //enables horizontal scrolling
         HorizontalScrollView hView = new HorizontalScrollView(this);
-        LinearLayout myLayout = findViewById(R.id.selectorBar);
         LinearLayout page = findViewById(R.id.page);
+        ViewGroup parent = (ViewGroup)page.getParent();
+        parent.removeView((ViewGroup)page);
+        LinearLayout myLayout = findViewById(R.id.selectorBar);
         hView.addView(page);
+        //parent.addView(hView);
 
         days = meeting.getDates();
         int i = 0;
