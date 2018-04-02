@@ -55,6 +55,10 @@ public class Meeting {
         return dates;
     }
 
+    public void addDates(List<String> moreDates) {
+        this.dates.addAll(moreDates);
+    }
+
     /**
      * Returns the latest time the meeting may go until.
      *
@@ -62,6 +66,14 @@ public class Meeting {
      */
     public int getHigh_time() {
         return high_time;
+    }
+
+    public void setHigh_time(int high_time) {
+        this.high_time = high_time;
+    }
+
+    public void setLow_time(int low_time) {
+        this.low_time = low_time;
     }
 
     /**

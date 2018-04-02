@@ -20,6 +20,7 @@ import java.util.Map;
 
 public class SessionDisplayActivity extends AppCompatActivity {
     public static final int EnterTimesActivity_ID = 8;
+    public static final int AddTimesActivity_ID = 9;
     private static final String TAG = "When2MeetSessDisp";
 
     private Meeting meeting;
@@ -94,7 +95,7 @@ public class SessionDisplayActivity extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                 }
             });
-}
+    }
 
     /**
      * Update the UI to reflect the data loaded into {@code meeting}.
@@ -133,5 +134,14 @@ public class SessionDisplayActivity extends AppCompatActivity {
             }
 
             txtBestTimes.setText(bestTimes);
-        }
+    }
+
+    public void onAddTimesButtonClick (View v) {
+        Toast.makeText(getApplicationContext(), "Going to Add Times Page...",
+                Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this, AddTimesActivity.class);
+        i.putExtra("MEETING", meetingID);
+        i.putExtra("accountKey", userID);
+        startActivityForResult(i, AddTimesActivity_ID);
+    }
 }

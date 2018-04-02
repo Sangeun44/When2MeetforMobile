@@ -243,7 +243,7 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
      * @param t2 high time
      */
     private void updateDB(String eventName, int t1, int t2, boolean isDays) {
-        String owner_id = "100025392726335601974";//getIntent().getStringExtra("accountKey");
+        String owner_id = getIntent().getStringExtra("accountKey");
         HashMap<String, User> users = new HashMap<>();
         Meeting meet;
         if (isDays) {

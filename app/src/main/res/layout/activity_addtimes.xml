@@ -1,0 +1,648 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.236">
+
+        <LinearLayout
+            android:id="@+id/intro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="16dp">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Dates and Times to "
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                tools:layout_editor_absoluteX="99dp"
+                tools:layout_editor_absoluteY="16dp" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Click dates to choose possibilities."
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                tools:layout_editor_absoluteX="54dp"
+                tools:layout_editor_absoluteY="43dp" />
+
+            <TextView
+                android:id="@+id/txtCurrentDates"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Current Dates and Times: " />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dates"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:id="@+id/month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:visibility="invisible">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btn0"
+                            style="@style/Widget.AppCompat.Button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:onClick="onSelectDates"
+                            android:text="1"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:onClick="onSelectDates"
+
+                            android:text="2"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="3"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="3"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="3"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="3"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="3"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btn7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="3"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="3"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn9"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="3"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="3"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn11"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="4"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn12"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="5"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn13"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btn14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn15"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn16"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn17"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn18"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn19"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn20"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btn21"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn22"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn23"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn24"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn25"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn26"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn27"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btn28"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn29"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn30"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn31"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn32"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn33"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        <Button
+                            android:id="@+id/btn34"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:onClick="onSelectDates"
+
+                            android:text="7"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/weekdays"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:visibility="invisible"
+                    tools:layout_editor_absoluteX="8dp"
+                    tools:layout_editor_absoluteY="145dp">
+
+                    <Button
+                        android:id="@+id/sun"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="onSelectWeekdays"
+                        android:text="Sun" />
+
+                    <Button
+                        android:id="@+id/mon"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="onSelectWeekdays"
+                        android:text="Mon" />
+
+                    <Button
+                        android:id="@+id/tue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="onSelectWeekdays"
+                        android:text="Tue" />
+
+                    <Button
+                        android:id="@+id/wed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="onSelectWeekdays"
+                        android:text="Wed" />
+
+                    <Button
+                        android:id="@+id/thu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="onSelectWeekdays"
+                        android:text="Thu" />
+
+                    <Button
+                        android:id="@+id/fri"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="onSelectWeekdays"
+                        android:text="Fri" />
+
+                    <Button
+                        android:id="@+id/sat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="onSelectWeekdays"
+                        android:text="Sat" />
+
+                </LinearLayout>
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="invisible">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/time"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="249dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:layout_weight="1"
+                    android:text="No earlier than: "
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                <Spinner
+                    android:id="@+id/spnEarly"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="No later than: "
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                <Spinner
+                    android:id="@+id/spnLate"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSubmitNewTimes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClickSubmitTimes"
+                android:text="Add Times" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
