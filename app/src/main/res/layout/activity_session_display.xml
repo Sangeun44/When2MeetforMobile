@@ -37,14 +37,13 @@
             <TextView
                 android:id="@+id/txtPeople"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Respondents:\n1. Bob \n2. Alice \n3. Tim\n4. Carol\n5. Debbie" />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/txtNumPeople"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="6 people in this group" />
+                android:text="0 people in this group" />
         </LinearLayout>
 
     </ScrollView>
@@ -70,7 +69,7 @@
                 android:id="@+id/txtBestTimes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Best Times To Meet: \n\nAll Free:\n1. Feb 28, 3 pm \n2. Mar 1, 10 am\n\n80% free: \n1. Feb 27, 1 pm" />
+                android:text="Best Times To Meet: " />
 
         </LinearLayout>
     </ScrollView>
@@ -118,7 +117,8 @@
                 android:layout_column="3"
                 android:layout_row="0"
                 android:layout_weight="1"
-                android:text="Add Times" />
+                android:text="Add Times"
+                android:onClick="onAddTimesButtonClick"/>
 
             <Button
                 android:id="@+id/btnViewUsers"
