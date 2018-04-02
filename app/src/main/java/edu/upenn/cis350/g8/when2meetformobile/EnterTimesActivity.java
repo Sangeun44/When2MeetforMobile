@@ -110,7 +110,7 @@ public class EnterTimesActivity extends AppCompatActivity {
 
 
 
-            for (int j = 0; j < meeting.getHigh_time() + 1 - meeting.getLow_time(); j += 1) {
+            for (int j = 0; j < meeting.getHigh_time() - meeting.getLow_time(); j += 1) {
                 //create new child for each time/checkbox pair
                 LinearLayout child = new LinearLayout(this);
                 child.setOrientation(LinearLayout.HORIZONTAL);
@@ -151,6 +151,7 @@ public class EnterTimesActivity extends AppCompatActivity {
             ScrollView sView = (ScrollView) selectorBar.getChildAt(i);
             LinearLayout container = (LinearLayout) sView.getChildAt(0);
             for (int j = 0; j < container.getChildCount(); j++) {
+                Log.d(TAG, "CONTAINER FOR LOOP, NUMBER OF EXECUTIONS: " + j);
                 LinearLayout child = (LinearLayout) container.getChildAt(j);
                 TextView time = (TextView) child.getChildAt(0);
                 CheckBox selected = (CheckBox) child.getChildAt(1);
