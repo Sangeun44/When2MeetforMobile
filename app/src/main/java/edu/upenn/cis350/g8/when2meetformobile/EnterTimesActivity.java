@@ -96,7 +96,7 @@ public class EnterTimesActivity extends AppCompatActivity {
             LinearLayout container = new LinearLayout(this);
             container.setOrientation(LinearLayout.VERTICAL);
             container.setLayoutParams(new LinearLayout.LayoutParams(
-                    200,
+                    300,
                     LinearLayout.LayoutParams.MATCH_PARENT));
             container.setId(i);
 
