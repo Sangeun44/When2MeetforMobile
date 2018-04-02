@@ -92,23 +92,33 @@ public class EnterTimesActivity extends AppCompatActivity {
         int i = 0;
         for (String day : days) {
 
-            //layout for new selector/plus button pair
-            LinearLayout child = new LinearLayout(this);
+            //layout to hold dates and all selector/plus button pair
+            LinearLayout container = new LinearLayout(this);
+            container.setOrientation(LinearLayout.VERTICAL);
+            container.setLayoutParams(new LinearLayout.LayoutParams(
+                    200,
+                    LinearLayout.LayoutParams.MATCH_PARENT));
+            container.setId(i);
+
             ScrollView sView  = new ScrollView(this);
 
             //gets the date and adds it to the ScrollView
             TextView weekDay = new TextView(this);
             weekDay.setText(day);
-            sView.addView(weekDay);
+            container.addView(weekDay);
 
-            child.setOrientation(LinearLayout.HORIZONTAL);
-            child.setLayoutParams(new LinearLayout.LayoutParams(
-                    200,
-                    LinearLayout.LayoutParams.MATCH_PARENT));
-            child.setId(i);
+
 
 
             for (int j = 0; j < meeting.getHigh_time() + 1 - meeting.getLow_time(); j += 1) {
+                //create new child for each time/checkbox pair
+                LinearLayout child = new LinearLayout(this);
+                child.setOrientation(LinearLayout.HORIZONTAL);
+                child.setLayoutParams(new LinearLayout.LayoutParams(
+                        200,
+                        LinearLayout.LayoutParams.MATCH_PARENT));
+                child.setId(i);
+
                 //time + checkbox
                 StringBuilder time = new StringBuilder();
                 time.append(meeting.getLow_time() + j);
@@ -124,9 +134,10 @@ public class EnterTimesActivity extends AppCompatActivity {
                 select.setLayoutParams(layoutParams);
                 child.addView(select);
 
-                sView.addView(child);
+                container.addView(child);
 
             }
+            sView.addView(container);
             myLayout.addView(sView);
             i+=1;
         }
@@ -138,9 +149,11 @@ public class EnterTimesActivity extends AppCompatActivity {
         ArrayList<String> enteredTimes = new ArrayList<>();
         for (int i = 0; i < selectorBar.getChildCount(); i++) {
             ScrollView sView = (ScrollView) selectorBar.getChildAt(i);
-            for (int j = 0; j < sView.getChildCount(); j++) {
-                TextView time = (TextView) sView.getChildAt(0);
-                CheckBox selected = (CheckBox) sView.getChildAt(1);
+            LinearLayout container = (LinearLayout) sView.getChildAt(0);
+            for (int j = 0; j < container.getChildCount(); j++) {
+                LinearLayout child = (LinearLayout) container.getChildAt(j);
+                TextView time = (TextView) child.getChildAt(0);
+                CheckBox selected = (CheckBox) child.getChildAt(1);
                 if (selected.isChecked()) {
                     enteredTimes.add(time.toString());
                 }
