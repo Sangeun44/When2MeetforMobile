@@ -76,12 +76,10 @@ public class EnterTimesActivity extends AppCompatActivity {
 
     //finds the meeting clicked on, and loads selectors based on hi/lo times
     public void loadChoice() {
-        //enables horizontal scrolling
         LinearLayout myLayout = findViewById(R.id.selectorBar);
         days = meeting.getDates();
         int i = 0;
         for (String day : days) {
-
             //layout to hold dates and all selector/plus button pair
             LinearLayout container = new LinearLayout(this);
             container.setOrientation(LinearLayout.VERTICAL);
@@ -103,14 +101,14 @@ public class EnterTimesActivity extends AppCompatActivity {
                         200, LinearLayout.LayoutParams.MATCH_PARENT));
                 child.setId(i);
 
-                //time + checkbox
+                //create a label for each possible time available
                 StringBuilder time = new StringBuilder();
                 time.append(meeting.getLow_time() + j);
-
                 TextView timeView = new TextView(this);
                 timeView.setText(time.toString());
                 child.addView(timeView);
-
+                
+                //create a checkbox to select this time as available
                 CheckBox select = new CheckBox(this);
                 LinearLayout.LayoutParams layoutParams =
                         new LinearLayout.LayoutParams(150, 150);
@@ -118,13 +116,14 @@ public class EnterTimesActivity extends AppCompatActivity {
                 child.addView(select);
                 container.addView(child);
             }
-
             sView.addView(container);
             myLayout.addView(sView);
             i+=1;
         }
     }
     
+    /*iterates through all the time/checkbox pairs and adds any
+      selected times to the database*/
     public void onEnterClick(View view) {
         LinearLayout selectorBar = findViewById(R.id.selectorBar);
         ArrayList<String> enteredTimes = new ArrayList<>();
@@ -132,7 +131,6 @@ public class EnterTimesActivity extends AppCompatActivity {
             ScrollView sView = (ScrollView) selectorBar.getChildAt(i);
             LinearLayout container = (LinearLayout) sView.getChildAt(0);
             for (int j = 1; j < container.getChildCount(); j++) {
-                Log.d(TAG, "CONTAINER FOR LOOP, NUMBER OF EXECUTIONS: " + j);
                 LinearLayout child = (LinearLayout) container.getChildAt(j);
                 TextView date = (TextView) container.getChildAt(0);
                 TextView time = (TextView) child.getChildAt(0);
@@ -143,9 +141,6 @@ public class EnterTimesActivity extends AppCompatActivity {
                 }
             }
         }
-        if (enteredTimes.isEmpty()) {
-            Log.d(TAG, "Empty!!");
-        }
         User users = new User(userId, enteredTimes);
         meeting.addUsers(userId, users);
         updateDB(meeting);
@@ -153,7 +148,7 @@ public class EnterTimesActivity extends AppCompatActivity {
     }
 
     private void updateDB(Meeting meet) {
-        //add back to database
+        //add to database
         FirebaseFirestore.getInstance().collection("meetings").document(currentSession)
                 .set(meet, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
