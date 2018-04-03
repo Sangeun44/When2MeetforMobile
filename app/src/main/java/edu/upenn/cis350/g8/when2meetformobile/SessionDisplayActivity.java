@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,7 +53,7 @@ public class SessionDisplayActivity extends AppCompatActivity {
 
         // sets visibility of special owner buttons based on mode
         isOwner = i.getBooleanExtra("isOwner", false);
-        HorizontalScrollView scrollOwner = findViewById(R.id.scrollOwner);
+        LinearLayout scrollOwner = findViewById(R.id.scrollOwner);
         scrollOwner.setVisibility(isOwner ? View.VISIBLE : View.INVISIBLE);
     }
 
@@ -188,7 +189,6 @@ public class SessionDisplayActivity extends AppCompatActivity {
      *
      */
     public void updateUI(Map<String, User> users, Map<Integer, HashSet<String>> allTimes) {
-
         for (String id : users.keySet()) {
             getUserName(id);
             Log.d(TAG,"get user name!" + id);
