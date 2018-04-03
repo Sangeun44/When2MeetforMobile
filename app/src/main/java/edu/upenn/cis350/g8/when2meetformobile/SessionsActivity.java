@@ -68,6 +68,7 @@ public class SessionsActivity extends AppCompatActivity {
                     if (documentSnapshots.isEmpty()) {
                         Log.d(TAG, "onSuccess: LIST EMPTY");
                     } else {
+                        // load meetings user has joined
                         for (DocumentSnapshot thisDoc : documentSnapshots.getDocuments()) {
                             Meeting m = thisDoc.toObject(Meeting.class);
                             if (m.containsUserNotAsOwner(userID)) {
@@ -81,7 +82,7 @@ public class SessionsActivity extends AppCompatActivity {
                         for (String id: myMeetings.keySet()) {
                             Log.d( TAG,"ID: " + id + "Meeting name: " + myMeetings.get(id).getName());
                         }
-
+                        // put the buttons on the screen
                         createButtons();
                     }
                 }
@@ -100,32 +101,33 @@ public class SessionsActivity extends AppCompatActivity {
      */
     private void populateCreated() {
         database.collection("meetings")
-                .whereEqualTo("owner", userID).get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot documentSnapshots) {
-                        if (documentSnapshots.isEmpty()) {
-                            Log.d(TAG, "onSuccess: LIST EMPTY");
-                        } else {
-                            for (DocumentSnapshot thisDoc : documentSnapshots.getDocuments()) {
-                                Meeting m = thisDoc.toObject(Meeting.class);
-                                Log.d( TAG,"ID: " + thisDoc.getId() + "Meeting name: " + m.getName());
-                                myMeetings.put(thisDoc.getId(), m);
-                            }
-                            int numMeetings =  myMeetings.size();
-                            Log.d(TAG,"onSuccess: Found " + numMeetings + " meetings!");
-
-                            createButtons();
+            .whereEqualTo("owner", userID).get()
+            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot documentSnapshots) {
+                    if (documentSnapshots.isEmpty()) {
+                        Log.d(TAG, "onSuccess: LIST EMPTY");
+                    } else {
+                        // load meetings user has created
+                        for (DocumentSnapshot thisDoc : documentSnapshots.getDocuments()) {
+                            Meeting m = thisDoc.toObject(Meeting.class);
+                            Log.d( TAG,"ID: " + thisDoc.getId() + "Meeting name: " + m.getName());
+                            myMeetings.put(thisDoc.getId(), m);
                         }
+                        int numMeetings =  myMeetings.size();
+                        Log.d(TAG,"onSuccess: Found " + numMeetings + " meetings!");
+                        // put the buttons on the screen
+                        createButtons();
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(),
-                                "Error getting data!!!", Toast.LENGTH_LONG).show();
-                    }
-                });
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getApplicationContext(),
+                            "Error getting data!!!", Toast.LENGTH_LONG).show();
+                }
+            });
     }
 
     /**
