@@ -17,6 +17,8 @@ public class Meeting {
     private String name;
     private String owner;
 
+    private boolean isDays;
+
     /**
      * Makes a new empty meeting.
      */
@@ -31,15 +33,17 @@ public class Meeting {
      * @param low_time earliest meeting time
      * @param name meeting name
      * @param owner userID of the owner
+     * @param isDays true if the meeting is based off of days of the week
      */
     public Meeting(Map<String, User> users, List<String> dates, int high_time, int low_time,
-                   String name, String owner) {
+                   String name, String owner, boolean isDays) {
         this.users = users;
         this.dates = dates;
         this.high_time = high_time;
         this.low_time = low_time;
         this.name = name;
         this.owner = owner;
+        this.isDays = isDays;
     }
 
     /**
@@ -51,6 +55,10 @@ public class Meeting {
         return dates;
     }
 
+    public void addDates(List<String> moreDates) {
+        this.dates.addAll(moreDates);
+    }
+
     /**
      * Returns the latest time the meeting may go until.
      *
@@ -58,6 +66,14 @@ public class Meeting {
      */
     public int getHigh_time() {
         return high_time;
+    }
+
+    public void setHigh_time(int high_time) {
+        this.high_time = high_time;
+    }
+
+    public void setLow_time(int low_time) {
+        this.low_time = low_time;
     }
 
     /**
@@ -78,6 +94,8 @@ public class Meeting {
         return name;
     }
 
+
+
     /**
      * Returns userID of the owner of this meeting.
      *
@@ -86,6 +104,14 @@ public class Meeting {
     public String getOwner() {
         return owner;
     }
+
+
+    /**
+     * Returns true if the meeting is based on days of the week
+     *
+     * @return isDays true if days of the week
+     */
+    public boolean getIsDays() {return isDays;}
 
     /**
      * Returns the collection of users.

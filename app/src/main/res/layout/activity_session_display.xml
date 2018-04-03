@@ -155,7 +155,8 @@
                 android:layout_column="3"
                 android:layout_row="0"
                 android:layout_weight="1"
-                android:text="Add Times" />
+                android:text="Add Times"
+                android:onClick="onAddTimesButtonClick" />
 
             <Button
                 android:id="@+id/btnViewUsers"

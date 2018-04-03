@@ -21,8 +21,9 @@
         <activity android:name=".SessionsActivity" />
         <activity android:name=".JoinWithCodeActivity" />
         <activity android:name=".EnterTimesActivity" />
-        <activity android:name=".SessionDisplayActivity"></activity>
+        <activity android:name=".SessionDisplayActivity"/>
         <activity android:name=".CreateSessionActivity" />
+        <activity android:name=".AddTimesActivity"/>
     </application>
 
 </manifest>

@@ -24,6 +24,7 @@ import java.util.Map;
 public class SessionDisplayActivity extends AppCompatActivity {
     public static final int EnterTimesActivity_ID = 8;
     public static final int AddMoreUsersActivity_ID = 9;
+    public static final int AddTimesActivity_ID = 10;
     private static final String TAG = "When2MeetSessDisp";
 
     private Meeting meeting;
@@ -78,6 +79,15 @@ public class SessionDisplayActivity extends AppCompatActivity {
         i.putExtra("MEETING", meetingID);
         i.putExtra("accountName", userID);
         startActivityForResult(i, EnterTimesActivity_ID);
+    }
+
+    public void onAddTimesButtonClick (View v) {
+        Toast.makeText(getApplicationContext(), "Going to Add Times Page...",
+                Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this, AddTimesActivity.class);
+        i.putExtra("MEETING", meetingID);
+        i.putExtra("accountKey", userID);
+        startActivityForResult(i, AddTimesActivity_ID);
     }
 
     /**
