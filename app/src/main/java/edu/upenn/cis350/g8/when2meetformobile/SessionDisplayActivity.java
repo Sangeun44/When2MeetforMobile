@@ -15,11 +15,15 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 public class SessionDisplayActivity extends AppCompatActivity {
     public static final int EnterTimesActivity_ID = 8;
+    public static final int AddMoreUsersActivity_ID = 9;
     private static final String TAG = "When2MeetSessDisp";
 
     private Meeting meeting;
@@ -27,13 +31,22 @@ public class SessionDisplayActivity extends AppCompatActivity {
     private String meetingID;
     private String userID;
 
+    private HashMap<String, String> usersInName;
+
+    private FirebaseFirestore database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_session_display);
         Intent i = this.getIntent();
-        meetingID = i.getStringExtra("MEETING");
-        userID = i.getStringExtra("accountKey");
+        usersInName = new HashMap<String, String>();
+
+        meetingID = i.getStringExtra("MEETING"); //meeting_ID
+        userID = i.getStringExtra("accountKey"); //owner_ID
+
+        database = FirebaseFirestore.getInstance();
+
         readSessionData(meetingID);
 
         // sets visibility of special owner buttons based on mode
@@ -74,14 +87,14 @@ public class SessionDisplayActivity extends AppCompatActivity {
      */
     private void readSessionData(String meetingID) {
         // get the meeting in the database
-        FirebaseFirestore.getInstance().collection("meetings").document(meetingID).get()
+        database.collection("meetings").document(meetingID).get()
             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshots) {
                     if (documentSnapshots.exists()) {
                         meeting = documentSnapshots.toObject(Meeting.class);
                         Log.d(TAG,"onSuccess: Found meeting!");
-                        updateUI(meeting.getUsers(), meeting.getBestTimes());
+                        updateUI();
                     } else {
                         Log.d(TAG, "onSuccess: No Such meeting");
                     }
@@ -94,35 +107,91 @@ public class SessionDisplayActivity extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                 }
             });
-}
+    }
+
+    private void getUserName(final String user_ID) {
+            Log.d(TAG, "user id " + user_ID);
+            database.collection("users").document(user_ID).get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshots) {
+                            if (documentSnapshots.exists()) {
+                                String name = documentSnapshots.get("name").toString();
+                                usersInName.put(user_ID, name);
+                                updateUIPeople();
+                                Log.d(TAG,"onSuccess: Found user name!" + user_ID + name);
+                            } else {
+                                Log.d(TAG, "onSuccess: No Such owner");
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getApplicationContext(), "Error getting data!!!",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+    }
+
+    /**
+     * Add user to the session
+     * Add More Users button, it should display a screen that
+     * lists the code for the event
+     * with an option to add more usernames/emails.
+     *
+     */
+    public void addUserButton(View view) {
+        Toast.makeText(getApplicationContext(), "Going to Enter More Users Page...",
+                Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this, AddMoreUsersActivity.class);
+        i.putExtra("MEETING", meetingID);
+        i.putExtra("accountName", userID);
+        startActivityForResult(i, AddMoreUsersActivity_ID);
+    }
+
+    public void updateUIPeople() {
+        Map<String, User> users = meeting.getUsers();
+
+        TextView txtNumPeople = findViewById(R.id.txtNumPeople);
+        int numUsers = users.size();
+        txtNumPeople.setText(numUsers + " people in this group.");
+
+        TextView txtPeople = findViewById(R.id.txtPeople);
+        String peopleList = "";
+        int counter = 1;
+
+        Log.d(TAG, "string" + usersInName.get("110859387616197731453"));
+        for (String id : users.keySet()) {
+            User u = users.get(id);
+            if (u.enteredTimes()) {
+                peopleList += "\n" + counter +  ". " + usersInName.get(id);
+                counter++;
+            }
+        }
+        txtPeople.setText(peopleList);
+
+    }
 
     /**
      * Update the UI to reflect the data loaded into {@code meeting}.
      *
-     * @param users the map of users in this meeting
-     * @param allTimes all the possible meeting times
      */
-    public void updateUI(Map<String, User> users, Map<Integer, HashSet<String>> allTimes) {
-            TextView txtPeople = findViewById(R.id.txtPeople);
-            String people = "Respondents:";
-            int counter = 1;
-            for (String id : users.keySet()) {
-                User u = users.get(id);
-                if (u.enteredTimes()) {
-                    people += "\n" + counter +  ". " + id;
-                    counter++;
-                }
-            }
-            txtPeople.setText(people);
+    public void updateUI() {
+        Map<Integer, HashSet<String>> allTimes = meeting.getBestTimes();
+        Map<String, User> users = meeting.getUsers();
 
-            TextView txtNumPeople = findViewById(R.id.txtNumPeople);
-            int numUsers = users.size();
-            txtNumPeople.setText(numUsers + " people in this group.");
+        for (String id : users.keySet()) {
+            getUserName(id);
+            Log.d(TAG,"get user name!" + id);
+        }
 
-            TextView txtBestTimes = findViewById(R.id.txtBestTimes);
-            String bestTimes = "Best Times To Meet: \n\n";
+        TextView txtBestTimes = findViewById(R.id.txtBestTimes);
+        String bestTimes = "";
 
-            for (int i = numUsers; i > numUsers / 2; i--) {
+        int numUsers = users.size();
+
+        for (int i = numUsers; i > numUsers / 2; i--) {
                 if (allTimes.containsKey(i)) {
                     String bestTime = (double) i * 100 / numUsers + "% Free:\n";
                     for (String time : allTimes.get(i)) {
