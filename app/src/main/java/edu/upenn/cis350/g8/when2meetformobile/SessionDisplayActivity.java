@@ -94,7 +94,7 @@ public class SessionDisplayActivity extends AppCompatActivity {
                     if (documentSnapshots.exists()) {
                         meeting = documentSnapshots.toObject(Meeting.class);
                         Log.d(TAG,"onSuccess: Found meeting!");
-                        updateUI();
+                        updateUI(meeting.getUsers(), meeting.getBestTimes());
                     } else {
                         Log.d(TAG, "onSuccess: No Such meeting");
                     }
@@ -177,9 +177,7 @@ public class SessionDisplayActivity extends AppCompatActivity {
      * Update the UI to reflect the data loaded into {@code meeting}.
      *
      */
-    public void updateUI() {
-        Map<Integer, HashSet<String>> allTimes = meeting.getBestTimes();
-        Map<String, User> users = meeting.getUsers();
+    public void updateUI(Map<String, User> users, Map<Integer, HashSet<String>> allTimes) {
 
         for (String id : users.keySet()) {
             getUserName(id);
