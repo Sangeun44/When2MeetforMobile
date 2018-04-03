@@ -40,7 +40,6 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
     private DocumentReference ref;
     private ArrayList<String> daysSelected;
     private ArrayList<String> datesSelected;
-    private Map<String, Integer> dayToDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,23 +53,12 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
         daysSelected = new ArrayList<>();
         datesSelected = new ArrayList<>();
         initDates();
-        initDayToDate();
 
         initSpinner((Spinner) findViewById(R.id.mode), R.array.mode);
         initSpinner((Spinner) findViewById(R.id.earliest), R.array.hours);
         initSpinner((Spinner) findViewById(R.id.latest), R.array.hours);
     }
 
-    private void initDayToDate() {
-        dayToDate = new HashMap<String, Integer>();
-        dayToDate.put("sun", Calendar.SUNDAY);
-        dayToDate.put("mon", Calendar.MONDAY);
-        dayToDate.put("tue", Calendar.TUESDAY);
-        dayToDate.put("wed", Calendar.WEDNESDAY);
-        dayToDate.put("thu", Calendar.THURSDAY);
-        dayToDate.put("fri", Calendar.FRIDAY);
-        dayToDate.put("sat", Calendar.SATURDAY);
-    }
 
     /**
      * Initialize the date buttons.
@@ -210,7 +198,7 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
         int weekYear = c.getWeekYear();
         int weekOfYear = c.get(Calendar.WEEK_OF_YEAR) + 1;
         for (String s: daysSelected) {
-            c.setWeekDate(weekYear, weekOfYear, dayToDate.get(s.toLowerCase()));
+            c.setWeekDate(weekYear, weekOfYear, DayData.getDateFromDay(s.toLowerCase()));
             dt = c.getTime();
             String date = sdf.format(dt) + ending;
             datesFromDays.add(date);
@@ -243,7 +231,7 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
      * @param t2 high time
      */
     private void updateDB(String eventName, int t1, int t2, boolean isDays) {
-        String owner_id = "100025392726335601974";//getIntent().getStringExtra("accountKey");
+        String owner_id = getIntent().getStringExtra("accountKey");
         HashMap<String, User> users = new HashMap<>();
         Meeting meet;
         if (isDays) {

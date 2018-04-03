@@ -44,8 +44,8 @@ public class AddTimesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_times);
         Intent i = this.getIntent();
-        meetingID = "9uX6uLv1V3xraTKtDU2Q"; //i.getStringExtra("MEETING");
-        //userID = i.getStringExtra("accountKey");
+        meetingID = i.getStringExtra("MEETING");
+        userID = i.getStringExtra("accountKey");
         readSessionData(meetingID);
         selection = new ArrayList<String>();
     }
