@@ -53,7 +53,7 @@ public class SessionDisplayActivity extends AppCompatActivity {
         userID = i.getStringExtra("accountKey"); //owner_ID
 
         database = FirebaseFirestore.getInstance();
-
+        Log.d(TAG, meetingID);
         readSessionData(meetingID);
 
         // sets visibility of special owner buttons based on mode
@@ -190,18 +190,17 @@ public class SessionDisplayActivity extends AppCompatActivity {
      * Update the UI to reflect the data loaded into {@code meeting}.
      */
     public void updateUI(Map<String, User> users, Map<Integer, HashSet<String>> allTimes) {
+
         for (String id : users.keySet()) {
             getUserName(id);
-            Log.d(TAG, "get user name!" + id);
         }
 
-        //TextView txtBestTimes = findViewById(R.id.txtBestTimes);
         String bestTimes = "";
 
         int numUsers = users.size();
         List<String> list_times = new ArrayList<String>();
 
-        //final List<String> fruits_list = new ArrayList<String>(Arrays.asList(fruits));
+        Log.d(TAG, "user size: " + users.size());
 
         for (int i = numUsers; i > numUsers / 2; i--) {
             if (allTimes.containsKey(i)) {
@@ -210,6 +209,7 @@ public class SessionDisplayActivity extends AppCompatActivity {
                 for (String time : allTimes.get(i)) {
                     String right = time + ":00";
                     list_times.add(right);
+                    Log.d(TAG, right);
                 }
             }
         }
