@@ -29,6 +29,8 @@ public class SessionDisplayActivity extends AppCompatActivity {
     public static final int EnterTimesActivity_ID = 8;
     public static final int AddMoreUsersActivity_ID = 9;
     public static final int AddTimesActivity_ID = 10;
+    public static final int ViewUserActivity_ID = 11;
+
     private static final String TAG = "When2MeetSessDisp";
 
     private Meeting meeting;
@@ -163,6 +165,20 @@ public class SessionDisplayActivity extends AppCompatActivity {
         i.putExtra("MEETING", meetingID);
         i.putExtra("accountName", userID);
         startActivityForResult(i, AddMoreUsersActivity_ID);
+    }
+
+    /**
+     * Remove user to the session
+     * Remove users button, it should display a screen that lists the code for the event
+     * with an option to add more usernames/emails.
+     */
+    public void viewUsersButton(View view) {
+        Toast.makeText(getApplicationContext(), "Going to View Users Page...",
+                Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this, ViewUserActivity.class);
+        i.putExtra("MEETING", meetingID);
+        i.putExtra("accountName", userID);
+        startActivityForResult(i, ViewUserActivity_ID);
     }
 
     public void updateUIPeople() {
