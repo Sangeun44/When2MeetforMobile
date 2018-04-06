@@ -2,6 +2,7 @@ package edu.upenn.cis350.g8.when2meetformobile;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -17,13 +18,16 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class SessionDisplayActivity extends AppCompatActivity {
     public static final int EnterTimesActivity_ID = 8;
@@ -32,6 +36,8 @@ public class SessionDisplayActivity extends AppCompatActivity {
     public static final int ViewUserActivity_ID = 11;
 
     private static final String TAG = "When2MeetSessDisp";
+
+    private int waiting;
 
     private Meeting meeting;
     private boolean isOwner;
@@ -106,50 +112,51 @@ public class SessionDisplayActivity extends AppCompatActivity {
     private void readSessionData(String meetingID) {
         // get the meeting in the database
         database.collection("meetings").document(meetingID).get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshots) {
-                        if (documentSnapshots.exists()) {
-                            meeting = documentSnapshots.toObject(Meeting.class);
-                            Log.d(TAG, "onSuccess: Found meeting!");
-                            updateUI(meeting.getUsers(), meeting.getBestTimes());
-                        } else {
-                            Log.d(TAG, "onSuccess: No Such meeting");
-                        }
+            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshots) {
+                    if (documentSnapshots.exists()) {
+                        meeting = documentSnapshots.toObject(Meeting.class);
+                        waiting = meeting.getNumUsers();
+                        Log.d(TAG, "onSuccess: Found meeting!");
+                        updateUI(meeting.getUsers(), meeting.getBestTimes());
+                    } else {
+                        Log.d(TAG, "onSuccess: No Such meeting");
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Error getting data!!!",
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getApplicationContext(), "Error getting data!!!",
+                            Toast.LENGTH_LONG).show();
+                }
+            });
     }
 
     private void getUserName(final String user_ID) {
         Log.d(TAG, "user id " + user_ID);
         database.collection("users").document(user_ID).get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshots) {
-                        if (documentSnapshots.exists()) {
-                            String name = documentSnapshots.get("name").toString();
-                            usersInName.put(user_ID, name);
-                            updateUIPeople();
-                            Log.d(TAG, "onSuccess: Found user name!" + user_ID + name);
-                        } else {
-                            Log.d(TAG, "onSuccess: No Such owner");
-                        }
+            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshots) {
+                    if (documentSnapshots.exists()) {
+                        String name = documentSnapshots.get("name").toString();
+                        usersInName.put(user_ID, name);
+                        updateUIPeople();
+                        Log.d(TAG, "onSuccess: Found user name!" + user_ID + name);
+                    } else {
+                        Log.d(TAG, "onSuccess: No Such owner");
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Error getting data!!!",
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getApplicationContext(), "Error getting data!!!",
+                            Toast.LENGTH_LONG).show();
+                }
+            });
     }
 
     /**
@@ -235,5 +242,87 @@ public class SessionDisplayActivity extends AppCompatActivity {
         ls.setAdapter(arrayAdapter);
     }
 
+    /**
+     * Finds the best time for all participants to meet.
+     *
+     * @return datetime string
+     */
+    private String genBestTimeStr() {
+        Map<Integer, HashSet<String>> times = meeting.getBestTimes();
+        for (int i = meeting.getNumUsers(); i >= 0; i--) {
+            if (times.get(i) != null) {
+                return times.get(i).iterator().next();
+            }
+        }
+        return "No Time";
+    }
+
+    /**
+     * Decrement the number of notifications still needing to be added. If all notifications
+     * have been added to the database, then remove the meeting and return to the homepage.
+     */
+    private void decWaiting() {
+        waiting--;
+        if (waiting == 0) {
+            FirebaseFirestore.getInstance().collection("meetings").document(meetingID).delete();
+            Intent data = new Intent();
+            data.putExtra("deleted",true);
+            setResult(RESULT_OK, data);
+            finish();
+        }
+    }
+
+    /**
+     * Selects the best meeting time, removing the session from the database
+     * and notifying all participants of the selection on their home screens.
+     *
+     * @param v end meeting button
+     */
+    public void pickTimeEndMeeting(View v) {
+        Set<String> users = meeting.getUsers().keySet();
+        final String bestTimeStr = meeting.getName() + ": " + genBestTimeStr() + ":00";
+        for (final String user : users) {
+            FirebaseFirestore.getInstance().collection("notifs").document(user).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        ArrayList<String> strs;
+                        if (!documentSnapshot.exists()) {
+                            strs = new ArrayList<>();
+                        } else {
+                            strs = (ArrayList<String>) documentSnapshot.get("notifs");
+                        }
+                        if (strs == null) {
+                            strs = new ArrayList<>();
+                        }
+                        strs.add(bestTimeStr);
+                        Map<String, Object> userData = new HashMap<>();
+                        userData.put("notifs", strs);
+                        FirebaseFirestore.getInstance().collection("notifs").document(user)
+                            .set(userData, SetOptions.merge())
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    decWaiting();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error writing document", e);
+                                }
+                            });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+        }
+
+    }
 
 }

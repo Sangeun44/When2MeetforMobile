@@ -63,38 +63,37 @@ public class HomeScreenActivity extends AppCompatActivity {
         final String user_id = i.getStringExtra("accountKey");
         final AppCompatActivity context = this;
         FirebaseFirestore.getInstance().collection("notifs").document(user_id).get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        LinearLayout layout = findViewById(R.id.notifications);
-                        if (documentSnapshot.exists()) {
-                            try {
-                                // get notification strings from db
-                                ArrayList<String> strs =
-                                        (ArrayList<String>) documentSnapshot.get("notifs");
-                                // put notifications on screen
-                                for (String str : strs) {
-                                    TextView tv = new TextView(context);
-                                    tv.setText(str);
-                                    layout.addView(tv);
-                                }
-                                if (strs.isEmpty()) {
-                                    setEmptyNotif(layout);
-                                }
-                            } catch (Exception e) {
+            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    LinearLayout layout = findViewById(R.id.notifications);
+                    if (documentSnapshot.exists()) {
+                        try {
+                            // get notification strings from db
+                            ArrayList<String> strs = (ArrayList<String>) documentSnapshot.get("notifs");
+                            // put notifications on screen
+                            for (String str : strs) {
+                                TextView tv = new TextView(context);
+                                tv.setText(str);
+                                layout.addView(tv);
+                            }
+                            if (strs.isEmpty()) {
                                 setEmptyNotif(layout);
                             }
-                        } else {
+                        } catch (Exception e) {
                             setEmptyNotif(layout);
                         }
+                    } else {
+                        setEmptyNotif(layout);
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // do nothing
-                    }
-                });
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    // do nothing
+                }
+            });
     }
 
     /**
