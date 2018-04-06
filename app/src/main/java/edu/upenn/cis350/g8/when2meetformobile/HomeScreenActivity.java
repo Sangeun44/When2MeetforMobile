@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -19,7 +21,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class HomeScreenActivity extends AppCompatActivity {
     static final int joinwithcode_ID = 1;  // The request code for joining with a code
@@ -34,6 +41,60 @@ public class HomeScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        loadNotifs();
+    }
+
+    /**
+     * Displays no notifications.
+     *
+     * @param layout linear layout to set
+     */
+    private void setEmptyNotif(LinearLayout layout) {
+        TextView tv = new TextView(this);
+        tv.setText("None!");
+        layout.addView(tv);
+    }
+
+    /**
+     * Load notifications for completed meetings.
+     */
+    private void loadNotifs() {
+        Intent i = getIntent();
+        final String user_id = i.getStringExtra("accountKey");
+        final AppCompatActivity context = this;
+        FirebaseFirestore.getInstance().collection("notifs").document(user_id).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        LinearLayout layout = findViewById(R.id.notifications);
+                        if (documentSnapshot.exists()) {
+                            try {
+                                // get notification strings from db
+                                ArrayList<String> strs =
+                                        (ArrayList<String>) documentSnapshot.get("notifs");
+                                // put notifications on screen
+                                for (String str : strs) {
+                                    TextView tv = new TextView(context);
+                                    tv.setText(str);
+                                    layout.addView(tv);
+                                }
+                                if (strs.isEmpty()) {
+                                    setEmptyNotif(layout);
+                                }
+                            } catch (Exception e) {
+                                setEmptyNotif(layout);
+                            }
+                        } else {
+                            setEmptyNotif(layout);
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // do nothing
+                    }
+                });
     }
 
     /**

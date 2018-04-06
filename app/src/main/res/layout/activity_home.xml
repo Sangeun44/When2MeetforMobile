@@ -72,15 +72,14 @@
         android:layout_marginTop="15dp"
         android:orientation="horizontal">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="245dp"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/notificationsText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -88,16 +87,16 @@
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
-            <TextView
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/notifications"
                 android:layout_width="match_parent"
                 android:layout_height="260dp"
-                android:layout_marginLeft="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg"
-                android:ems="10"
-                android:inputType="textMultiLine" />
+                android:orientation="vertical"
+                android:padding="25dp" >
 
+            </LinearLayout>
 
         </LinearLayout>
 
