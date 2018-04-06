@@ -32,6 +32,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     static final int joinwithcode_ID = 1;  // The request code for joining with a code
     public static final int SessionActivity_ID = 3;
     public static final int CreateSessionActivity_ID = 4;
+    public static final int HomeScreenActivity_ID = 5;
     final String TAG = "FireBase";
 
     private List<Meeting> myMeetings = new ArrayList<>();
@@ -183,6 +184,14 @@ public class HomeScreenActivity extends AppCompatActivity {
             }
         }
     }
+
+
+    protected void onProfileButtonClick(View view) {
+        Intent i = new Intent(this, ProfileActivity.class);
+        startActivityForResult(i, HomeScreenActivity_ID);
+
+    }
+
 
     /**
      * Attempts to add the current user to the specified meeting via a code.
