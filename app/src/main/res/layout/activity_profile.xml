@@ -54,6 +54,7 @@
 
 
         <EditText
+            android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="232dp"
             android:layout_weight="1"
@@ -75,6 +76,7 @@
                 android:layout_width="100dp"
                 android:layout_height="44dp"
                 android:layout_marginLeft="70dp"
+                android:onClick="onClickSubmit"
                 android:text="SUBMIT"/>
 
             <Button
@@ -82,6 +84,7 @@
                 android:layout_width="100dp"
                 android:layout_height="44dp"
                 android:layout_marginLeft="30dp"
+                android:onClick="onClickCancel"
                 android:text="CANCEL" />
 
         </LinearLayout>
