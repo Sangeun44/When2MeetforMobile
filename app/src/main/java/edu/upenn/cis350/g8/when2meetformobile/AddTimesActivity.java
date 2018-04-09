@@ -260,7 +260,6 @@ public class AddTimesActivity extends AppCompatActivity {
             meeting.addDates(selection);
         }
 
-        HashMap<String, User> users = new HashMap<>();
         FirebaseFirestore.getInstance().collection("meetings").document(meetingID)
                 .set(meeting, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

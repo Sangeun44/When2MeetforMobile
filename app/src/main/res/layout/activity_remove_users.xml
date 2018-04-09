@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.upenn.cis350.g8.when2meetformobile.RemoveUsersActivity">
+
+    <ScrollView
+        android:id="@+id/scrollRmUsers"
+        android:layout_width="370dp"
+        android:layout_height="444dp"
+        android:layout_marginBottom="55dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/llRmUsers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtRmUsersInstr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select all users to remove:" />
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnRmUsersSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Remove Users"
+        android:onClick="onClickSubmitButton"
+        tools:layout_editor_absoluteX="147dp"
+        tools:layout_editor_absoluteY="456dp" />
+
+</android.support.constraint.ConstraintLayout>

@@ -213,4 +213,10 @@ public class Meeting {
 
         return invertedTimes;
     }
+
+    public void removeUsers(List<String> usersToRemove) {
+        for (String id : usersToRemove) {
+            users.remove(id);
+        }
+    }
 }

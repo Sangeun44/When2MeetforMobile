@@ -34,6 +34,7 @@ public class SessionDisplayActivity extends AppCompatActivity {
     public static final int AddMoreUsersActivity_ID = 9;
     public static final int AddTimesActivity_ID = 10;
     public static final int ViewUserActivity_ID = 11;
+    public static final int RemoveUsersActivity_ID = 12;
 
     private static final String TAG = "When2MeetSessDisp";
 
@@ -102,6 +103,15 @@ public class SessionDisplayActivity extends AppCompatActivity {
         i.putExtra("MEETING", meetingID);
         i.putExtra("accountKey", userID);
         startActivityForResult(i, AddTimesActivity_ID);
+    }
+
+    public void onRemoveUsersButtonClick(View v) {
+        Toast.makeText(getApplicationContext(), "Going to Add Times Page...",
+                Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this, RemoveUsersActivity.class);
+        i.putExtra("MEETING", meetingID);
+        i.putExtra("accountKey", userID);
+        startActivityForResult(i, RemoveUsersActivity_ID);
     }
 
     /**
