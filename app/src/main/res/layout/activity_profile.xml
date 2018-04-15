@@ -20,10 +20,9 @@
                 android:id="@+id/profileImage"
                 android:layout_width="173dp"
                 android:layout_height="179dp"
-                android:background="@null"
+                android:background="@drawable/image_preview"
                 android:onClick="onImageButtonClick"
-                android:scaleType="fitXY"
-                app:srcCompat="@drawable/image_preview" />
+                android:scaleType="fitXY" />
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
