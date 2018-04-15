@@ -187,7 +187,9 @@ public class HomeScreenActivity extends AppCompatActivity {
 
 
     protected void onProfileButtonClick(View view) {
+        final String user_id = getIntent().getStringExtra("accountKey");
         Intent i = new Intent(this, ProfileActivity.class);
+        i.putExtra("accountId", user_id);
         startActivityForResult(i, HomeScreenActivity_ID);
 
     }
