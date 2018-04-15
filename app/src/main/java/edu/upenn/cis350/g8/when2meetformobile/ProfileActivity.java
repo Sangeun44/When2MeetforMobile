@@ -48,36 +48,36 @@ public class ProfileActivity extends AppCompatActivity{
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_profile);
             getUser();
-
-            //populate views with what's currently in the db
-            EditText name = findViewById(R.id.name);
-            name.setText(you.getName());
-            EditText number = findViewById(R.id.phoneNumber);
-            number.setText(you.getPhoneNumber());
-            EditText description = findViewById(R.id.description);
-            description.setText(you.getDescription());
-
-            if (!you.getImage().isEmpty()) {
-                ImageButton img = findViewById(R.id.profileImage);
-                byte[] decodedString = Base64.decode(you.getImage(), Base64.DEFAULT);
-                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                img.setBackground(new BitmapDrawable(getResources(), decodedByte));
-            }
         }
 
     private void getUser() {
         // get the user from the database
         String userId = getIntent().getStringExtra("accountId");
-        FirebaseFirestore.getInstance().collection("users")
-                .document(userId).get()
+        FirebaseFirestore.getInstance().collection("users").document(userId).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshots) {
                         if (documentSnapshots.exists()) {
                             you = documentSnapshots.toObject(User.class);
-                            Log.d(TAG,"onSuccess: Found meeting!");
+                            
+                            //populate views with what's currently in the db
+                            EditText name = findViewById(R.id.name);
+                            name.setText(you.getName());
+                            EditText number = findViewById(R.id.phoneNumber);
+                            number.setText(you.getPhoneNumber());
+                            EditText description = findViewById(R.id.description);
+                            description.setText(you.getDescription());
+
+                            if (!you.getImage().isEmpty()) {
+                                ImageButton img = findViewById(R.id.profileImage);
+                                byte[] decodedString = Base64.decode(you.getImage(), Base64.DEFAULT);
+                                Bitmap decodedByte = BitmapFactory.decodeByteArray
+                                        (decodedString, 0, decodedString.length);
+                                img.setBackground(new BitmapDrawable(getResources(), decodedByte));
+                            }
+                            Log.d(TAG,"onSuccess: Found user!");
                         } else {
-                            Log.d(TAG, "onSuccess: No Such meeting");
+                            Log.d(TAG, "onSuccess: No Such user");
                         }
                     }
                 })
