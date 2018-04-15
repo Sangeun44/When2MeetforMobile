@@ -168,11 +168,37 @@ public class ProfileActivity extends AppCompatActivity{
         //add to database
         String userId = getIntent().getStringExtra("accountId");
 
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("users").child(userId).child("username").child("name").setValue(user.getName());
-        mDatabase.child("users").child(userId).child("username").child("phoneNumber").setValue(user.getPhoneNumber());
-        mDatabase.child("users").child(userId).child("username").child("description").setValue(user.getDescription());
-        mDatabase.child("users").child(userId).child("username").child("image").setValue(user.getImage());
+        //clean out what was in the db
+        FirebaseFirestore.getInstance().collection("users").document(userId)
+                .set(null, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+        //add new stuff
+        FirebaseFirestore.getInstance().collection("users").document(userId)
+                .set(user, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
 
     }
 
