@@ -60,6 +60,8 @@ public class User {
         return this.name;
     }
 
+    public String getImage() { return this.image; }
+
     public String getPhoneNumber() {
         return this.phoneNumber;
     }

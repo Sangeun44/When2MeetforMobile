@@ -68,7 +68,8 @@ public class ProfileActivity extends AppCompatActivity{
     private void getUser() {
         // get the user from the database
         String userId = getIntent().getStringExtra("accountId");
-        FirebaseFirestore.getInstance().collection("users").document(userId).get()
+        FirebaseFirestore.getInstance().collection("users")
+                .document(userId).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshots) {
