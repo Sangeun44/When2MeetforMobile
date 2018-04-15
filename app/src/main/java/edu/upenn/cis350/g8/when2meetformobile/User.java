@@ -7,6 +7,7 @@ import java.util.List;
 
 public class User {
     private String name;               // name of the user
+    private String userName;
     private String phoneNumber;
     private String description;
     private String image;
@@ -60,7 +61,9 @@ public class User {
         return this.name;
     }
 
-    public String getImage() { return this.image; }
+    public String getUserName() {
+        return this.userName;
+    }
 
     public String getPhoneNumber() {
         return this.phoneNumber;
@@ -70,7 +73,11 @@ public class User {
         return this.description;
     }
 
+    public String getImage() {return this.image;}
+
     public void setName(String name) {this.name = name;}
+
+    public void setUserName(String name) {this.userName = name;}
 
     public void setNumber(String number) {phoneNumber = number;}
 
