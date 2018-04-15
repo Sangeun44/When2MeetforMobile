@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
@@ -59,7 +61,7 @@ public class ProfileActivity extends AppCompatActivity{
                     public void onSuccess(DocumentSnapshot documentSnapshots) {
                         if (documentSnapshots.exists()) {
                             you = documentSnapshots.toObject(User.class);
-                            
+
                             //populate views with what's currently in the db
                             EditText name = findViewById(R.id.name);
                             name.setText(you.getName());
@@ -68,7 +70,7 @@ public class ProfileActivity extends AppCompatActivity{
                             EditText description = findViewById(R.id.description);
                             description.setText(you.getDescription());
 
-                            if (you.getImage() !=  null) {
+                            if (!you.getImage().isEmpty()) {
                                 ImageButton img = findViewById(R.id.profileImage);
                                 byte[] decodedString = Base64.decode(you.getImage(), Base64.DEFAULT);
                                 Bitmap decodedByte = BitmapFactory.decodeByteArray
@@ -165,20 +167,13 @@ public class ProfileActivity extends AppCompatActivity{
     private void updateDB(User user) {
         //add to database
         String userId = getIntent().getStringExtra("accountId");
-        FirebaseFirestore.getInstance().collection("users").document(userId)
-                .set(user, SetOptions.merge())
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot successfully written!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error writing document", e);
-                    }
-                });
+
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("users").child(userId).child("username").child("name").setValue(user.getName());
+        mDatabase.child("users").child(userId).child("username").child("phoneNumber").setValue(user.getPhoneNumber());
+        mDatabase.child("users").child(userId).child("username").child("description").setValue(user.getDescription());
+        mDatabase.child("users").child(userId).child("username").child("image").setValue(user.getImage());
+
     }
 
     }
