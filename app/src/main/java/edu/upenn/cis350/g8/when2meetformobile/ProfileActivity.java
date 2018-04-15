@@ -68,7 +68,7 @@ public class ProfileActivity extends AppCompatActivity{
                             EditText description = findViewById(R.id.description);
                             description.setText(you.getDescription());
 
-                            if (!you.getImage().isEmpty()) {
+                            if (you.getImage() !=  null) {
                                 ImageButton img = findViewById(R.id.profileImage);
                                 byte[] decodedString = Base64.decode(you.getImage(), Base64.DEFAULT);
                                 Bitmap decodedByte = BitmapFactory.decodeByteArray

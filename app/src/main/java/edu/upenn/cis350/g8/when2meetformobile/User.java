@@ -69,10 +69,6 @@ public class User {
     public String getDescription() {
         return this.description;
     }
-    
-    public String getImage() {
-        return this.image;
-    }
 
     public void setName(String name) {this.name = name;}
 
