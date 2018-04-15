@@ -36,19 +36,19 @@ import java.util.List;
  */
 
 public class ProfileActivity extends AppCompatActivity{
-        public static final int ProfileActivity_ID = 4675047;
-        public static final int GET_FROM_GALLERY = 3;
-        private static Handler mHandler = new Handler();
-        final String TAG = "Profile";
-        private User you;
-        private Bitmap image;
+    public static final int ProfileActivity_ID = 4675047;
+    public static final int GET_FROM_GALLERY = 3;
+    private static Handler mHandler = new Handler();
+    final String TAG = "Profile";
+    private User you;
+    private Bitmap image;
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_profile);
-            getUser();
-        }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_profile);
+        getUser();
+    }
 
     private void getUser() {
         // get the user from the database
@@ -62,11 +62,19 @@ public class ProfileActivity extends AppCompatActivity{
 
                             //populate views with what's currently in the db
                             EditText name = findViewById(R.id.name);
-                            name.setText(you.getName());
+                            if (you.getUserName() == null) {
+                                name.setText("Username: ");
+                            } else {name.setText(you.getUserName()); }
+
                             EditText number = findViewById(R.id.phoneNumber);
-                            number.setText(you.getPhoneNumber());
+                            if (you.getPhoneNumber() == null) {
+                                number.setText("Number: ");
+                            } else {number.setText(you.getPhoneNumber()); }
+
                             EditText description = findViewById(R.id.description);
-                            description.setText(you.getDescription());
+                            if (you.getDescription() == null) {
+                                description.setText("Description: ");
+                            } else {description.setText(you.getDescription()); }
 
                             if (you.getImage() != null) {
                                 ImageButton img = findViewById(R.id.profileImage);
@@ -90,47 +98,47 @@ public class ProfileActivity extends AppCompatActivity{
                 });
     }
 
-        protected void onClickSubmit(View view) {
-            EditText name = findViewById(R.id.name);
-            EditText number = findViewById(R.id.phoneNumber);
-            EditText description = findViewById(R.id.description);
+    protected void onClickSubmit(View view) {
+        EditText name = findViewById(R.id.name);
+        EditText number = findViewById(R.id.phoneNumber);
+        EditText description = findViewById(R.id.description);
 
-            User updatedYou = new User();
-            updatedYou.setName(name.getText().toString());
-            updatedYou.setNumber(number.getText().toString());
-            updatedYou.setDescription(description.getText().toString());
+        User updatedYou = new User();
+        updatedYou.setUserName(name.getText().toString());
+        updatedYou.setNumber(number.getText().toString());
+        updatedYou.setDescription(description.getText().toString());
 
-            String encoded = "";
+        String encoded = "";
 
-            if (image != null) {
-                //save new image to db - Stack exchange!
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-                byte[] byteArray = byteArrayOutputStream .toByteArray();
-                encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
-            }
-
-            if (!encoded.isEmpty()) {
-                updatedYou.setImage(encoded);
-            }
-
-            updateDB(updatedYou);
-
-            Toast.makeText(getApplicationContext(), "Profile successfully updated!",
-                    Toast.LENGTH_SHORT).show();
-
-            mHandler.postDelayed(new Runnable() {
-                public void run() {
-                    finish();
-                }
-            }, Toast.LENGTH_SHORT + 3000);
+        if (image != null) {
+            //save new image to db - Stack exchange!
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+            byte[] byteArray = byteArrayOutputStream .toByteArray();
+            encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
         }
 
-        //Stack exchange
+        if (!encoded.isEmpty()) {
+            updatedYou.setImage(encoded);
+        }
+
+        updateDB(updatedYou);
+
+        Toast.makeText(getApplicationContext(), "Profile successfully updated!",
+                Toast.LENGTH_SHORT).show();
+
+        mHandler.postDelayed(new Runnable() {
+            public void run() {
+                finish();
+            }
+        }, Toast.LENGTH_SHORT + 3000);
+    }
+
+    //Stack exchange
 
     protected void onImageButtonClick (View view) {
-            startActivityForResult(new Intent(Intent.ACTION_PICK,
-                    android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
+        startActivityForResult(new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
     }
 
     @Override
@@ -158,9 +166,9 @@ public class ProfileActivity extends AppCompatActivity{
 
 
 
-        protected void onClickCancel(View view) {
-            finish();
-        }
+    protected void onClickCancel(View view) {
+        finish();
+    }
 
     private void updateDB(User user) {
         //add to database
@@ -170,23 +178,10 @@ public class ProfileActivity extends AppCompatActivity{
         fields.add("phoneNumber");
         fields.add("description");
         fields.add("image");
+        fields.add("userName");
 
-        Log.d(TAG, user.getName());
-        //clean out what was in the db
-//        FirebaseFirestore.getInstance().collection("users").document(userId)
-//                .set(new User(), )
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        Log.d(TAG, "DocumentSnapshot successfully written!");
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.w(TAG, "Error writing document", e);
-//                    }
-//                });
+        Log.d(TAG, user.getUserName());
+
 
         //add new stuff
         FirebaseFirestore.getInstance().collection("users").document(userId)
@@ -206,4 +201,4 @@ public class ProfileActivity extends AppCompatActivity{
 
     }
 
-    }
+}
