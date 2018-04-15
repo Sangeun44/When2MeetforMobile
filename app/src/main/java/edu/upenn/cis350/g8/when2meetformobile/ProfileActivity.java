@@ -21,8 +21,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
@@ -70,7 +68,7 @@ public class ProfileActivity extends AppCompatActivity{
                             EditText description = findViewById(R.id.description);
                             description.setText(you.getDescription());
 
-                            if (!you.getImage().isEmpty()) {
+                            if (you.getImage() != null) {
                                 ImageButton img = findViewById(R.id.profileImage);
                                 byte[] decodedString = Base64.decode(you.getImage(), Base64.DEFAULT);
                                 Bitmap decodedByte = BitmapFactory.decodeByteArray
@@ -168,25 +166,31 @@ public class ProfileActivity extends AppCompatActivity{
         //add to database
         String userId = getIntent().getStringExtra("accountId");
 
+        List<String> fields = new ArrayList<String>();
+        fields.add("phoneNumber");
+        fields.add("description");
+        fields.add("image");
+
+        Log.d(TAG, user.getName());
         //clean out what was in the db
-        FirebaseFirestore.getInstance().collection("users").document(userId)
-                .set(null, SetOptions.merge())
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot successfully written!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error writing document", e);
-                    }
-                });
+//        FirebaseFirestore.getInstance().collection("users").document(userId)
+//                .set(new User(), )
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        Log.d(TAG, "DocumentSnapshot successfully written!");
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.w(TAG, "Error writing document", e);
+//                    }
+//                });
 
         //add new stuff
         FirebaseFirestore.getInstance().collection("users").document(userId)
-                .set(user, SetOptions.merge())
+                .set(user, SetOptions.mergeFields(fields))
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
