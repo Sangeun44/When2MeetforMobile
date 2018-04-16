@@ -171,6 +171,13 @@ public class Meeting {
         return users.size();
     }
 
+    @Exclude
+    public void removeUsers(List<String> usersToRemove) {
+        for (String id : usersToRemove) {
+            users.remove(id);
+        }
+    }
+
     /**
      * Gets the best times to meet based on all user responses and preferences.
      *

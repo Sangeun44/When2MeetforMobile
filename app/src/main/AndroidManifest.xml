@@ -26,6 +26,7 @@
         <activity android:name=".CreateSessionActivity" />
         <activity android:name=".AddTimesActivity"/>
         <activity android:name=".ProfileActivity"/>
+        <activity android:name=".RemoveUsersActivity"/>
     </application>
 
 </manifest>
