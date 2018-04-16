@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -77,7 +78,7 @@ public class RemoveUsersActivity extends AppCompatActivity {
                     public void onSuccess(DocumentSnapshot documentSnapshots) {
                         if (documentSnapshots.exists()) {
                             String name = documentSnapshots.get("name").toString();
-                            if (user_ID != ownerID) {
+                            if (!user_ID.equals(ownerID)) {
                                 createCheckbox(name, user_ID);
                             }
                             Log.d(TAG, "onSuccess: Found user name!" + user_ID + name);
@@ -113,10 +114,11 @@ public class RemoveUsersActivity extends AppCompatActivity {
     }
 
     public void onClickSubmitButton(View v) {
+        Toast.makeText(this, TextUtils.join(",", usersToRemove), Toast.LENGTH_SHORT).show();
         meeting.removeUsers(usersToRemove);
 
         FirebaseFirestore.getInstance().collection("meetings").document(meetingID)
-                .set(meeting, SetOptions.merge())
+                .set(meeting)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
