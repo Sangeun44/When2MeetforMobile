@@ -24,13 +24,27 @@
             android:layout_height="wrap_content"
             android:text="Users:" />
 
-        <ListView
-            android:id="@+id/listUsers"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/holo_blue_light">
+            android:orientation="horizontal">
 
-        </ListView>
+            <LinearLayout
+                android:id="@+id/list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/listUsers"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/holo_blue_light">
+
+            </ListView>
+        </LinearLayout>
 
         <ImageButton
             android:id="@+id/btnBack"

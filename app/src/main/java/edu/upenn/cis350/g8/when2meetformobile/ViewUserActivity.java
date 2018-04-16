@@ -1,14 +1,21 @@
 package edu.upenn.cis350.g8.when2meetformobile;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -47,6 +54,7 @@ public class ViewUserActivity extends AppCompatActivity {
 
         List<String> days;
         HashMap<String, String> usersToView;
+        HashMap<String, Bitmap> imagesToView;
 
         private ListView ls;
 
@@ -60,6 +68,8 @@ public class ViewUserActivity extends AppCompatActivity {
             user_ID = i.getStringExtra("accountKey"); //owner_ID
 
             usersToView = new HashMap<String, String>();
+            imagesToView = new HashMap<String, Bitmap>();
+
             ls = (ListView) findViewById(R.id.listUsers);
 
             database = FirebaseFirestore.getInstance();
@@ -107,16 +117,16 @@ public class ViewUserActivity extends AppCompatActivity {
         }
 
         private void getUserName(final String user_ID) {
-            Log.d(TAG, "user id " + user_ID);
             database.collection("users").document(user_ID).get()
                     .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshots) {
                             if (documentSnapshots.exists()) {
-                                String name = documentSnapshots.get("name").toString();
+                                String name = documentSnapshots.get("userName").toString();
                                 usersToView.put(user_ID, name);
-                                updateUIPeople();
                                 Log.d(TAG, "onSuccess: Found user name!" + user_ID + name);
+                                updateUIPeople();
+                                getImages(user_ID);
                             } else {
                                 Log.d(TAG, "onSuccess: No Such owner");
                             }
@@ -128,6 +138,43 @@ public class ViewUserActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Error getting data!!!",
                                 Toast.LENGTH_LONG).show();
                         }
+                });
+        }
+
+        private void getImages(final String user_ID) {
+            Log.d(TAG, "user id " + user_ID);
+            database.collection("users").document(user_ID).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshots) {
+                        if (documentSnapshots.exists()) {
+                            User you = documentSnapshots.toObject(User.class);
+
+                            if (you.getImage() != null) {
+                                byte[] decodedString = Base64.decode(you.getImage(), Base64.DEFAULT);
+                                Bitmap decodedByte = BitmapFactory.decodeByteArray
+                                        (decodedString, 0, decodedString.length);
+                                imagesToView.put(user_ID, decodedByte);
+                            }
+                            else {
+                                Bitmap.Config conf = Bitmap.Config.ARGB_8888; // see other conf types
+                                Bitmap bmp = Bitmap.createBitmap(2, 2, conf); // this creates a MUTABLE bitmap
+                                int id = R.drawable.image_preview;
+                                imagesToView.put(user_ID, bmp);
+                            }
+                            updateUIImages();
+                            Log.d(TAG, "onSuccess: Found user name!" + user_ID);
+                        } else {
+                            Log.d(TAG, "onSuccess: No Such owner");
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Error getting data!!!",
+                                Toast.LENGTH_LONG).show();
+                    }
                 });
         }
 
@@ -150,13 +197,44 @@ public class ViewUserActivity extends AppCompatActivity {
             List<String> listUsers = new ArrayList<String>();
 
             for (String id : users.keySet()) {
-                listUsers.add(usersToView.get(id));
-                Log.d(TAG, usersToView.get(id));
+                if(usersToView.get(id) != null) {
+                    listUsers.add(usersToView.get(id));
+                }
             }
 
             final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>
                     (this, android.R.layout.simple_list_item_1, listUsers);
+
             ls.setAdapter(arrayAdapter);
+
+        }
+
+        public void updateUIImages() {
+            int i = 0;
+
+            LinearLayout lay = (LinearLayout) findViewById(R.id.list);
+            lay.removeAllViews();
+            List<ImageView> listImages = new ArrayList<ImageView>();
+
+            Log.d(TAG, ""+ usersToView.size());
+
+            for(Map.Entry<String, String> entry: usersToView.entrySet()) {
+                ImageView imageView = new ImageView(this);
+                if(imagesToView.get(entry.getKey())!= null) {
+                    int width = 100;
+                    int height = 100;
+                    LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(width,height);
+                    imageView.setLayoutParams(parms);
+                    imageView.setBackground(new BitmapDrawable(getResources(), imagesToView.get(entry.getKey())));
+                    listImages.add(imageView);
+                }
+            }
+
+            for(ImageView iv : listImages) {
+                lay.addView(iv);
+            }
+
+            Log.d(TAG, i + " times");
         }
 
 

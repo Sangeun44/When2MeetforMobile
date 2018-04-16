@@ -182,7 +182,6 @@ public class ProfileActivity extends AppCompatActivity{
 
         Log.d(TAG, user.getUserName());
 
-
         //add new stuff
         FirebaseFirestore.getInstance().collection("users").document(userId)
                 .set(user, SetOptions.mergeFields(fields))

@@ -100,6 +100,7 @@ public class AddMoreUsersActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
         }
+        finish();
     }
 
     /**
@@ -177,6 +178,8 @@ public class AddMoreUsersActivity extends AppCompatActivity {
            meeting.addUsers(user.getKey());
            Log.d(TAG, "NUM OF USERS: " + meeting.getNumUsers());
         }
+        Toast.makeText(getApplicationContext(), "Adding Users...",
+                Toast.LENGTH_LONG).show();
 
         // add back to database
         FirebaseFirestore.getInstance().collection("meetings").document(meeting_ID)
