@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by Sang on 4/4/18.
@@ -53,8 +54,8 @@ public class ViewUserActivity extends AppCompatActivity {
     private int numUsers;
 
     List<String> days;
-    HashMap<String, String> usersToView;
-    HashMap<String, Bitmap> imagesToView;
+    TreeMap<String, String> usersToView;
+    TreeMap<String, Bitmap> imagesToView;
 
     private ListView ls;
 
@@ -67,8 +68,8 @@ public class ViewUserActivity extends AppCompatActivity {
         meeting_ID = i.getStringExtra("MEETING"); //meeting_ID
         user_ID = i.getStringExtra("accountKey"); //owner_ID
 
-        usersToView = new HashMap<String, String>();
-        imagesToView = new HashMap<String, Bitmap>();
+        usersToView = new TreeMap<String, String>();
+        imagesToView = new TreeMap<String, Bitmap>();
 
         ls = (ListView) findViewById(R.id.listUsers);
 
@@ -142,7 +143,6 @@ public class ViewUserActivity extends AppCompatActivity {
     }
 
     private void getImages(final String user_ID) {
-        Log.d(TAG, "user id " + user_ID);
         database.collection("users").document(user_ID).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
@@ -199,6 +199,7 @@ public class ViewUserActivity extends AppCompatActivity {
         for (String id : users.keySet()) {
             if(usersToView.get(id) != null) {
                 listUsers.add(usersToView.get(id));
+                Log.d(TAG, "user: " + usersToView.get(id));
             }
         }
 
@@ -226,6 +227,7 @@ public class ViewUserActivity extends AppCompatActivity {
                 LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(width,height);
                 imageView.setLayoutParams(parms);
                 imageView.setBackground(new BitmapDrawable(getResources(), imagesToView.get(entry.getKey())));
+                Log.d(TAG, "" + entry.getKey());
                 listImages.add(imageView);
             }
         }
