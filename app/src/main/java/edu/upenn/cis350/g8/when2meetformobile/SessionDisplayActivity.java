@@ -199,7 +199,7 @@ public class SessionDisplayActivity extends AppCompatActivity {
     }
 
     public void updateUIPeople() {
-        Map<String, User> users = meeting.getUsers();
+        Map<String, InternalUser> users = meeting.getUsers();
 
         TextView txtNumPeople = findViewById(R.id.txtNumPeople);
         int numUsers = users.size();
@@ -210,7 +210,7 @@ public class SessionDisplayActivity extends AppCompatActivity {
         int counter = 1;
 
         for (String id : users.keySet()) {
-            User u = users.get(id);
+            InternalUser u = users.get(id);
             if (u.enteredTimes()) {
                 peopleList += "\n" + counter + ". " + usersInName.get(id);
                 counter++;
@@ -222,7 +222,7 @@ public class SessionDisplayActivity extends AppCompatActivity {
     /**
      * Update the UI to reflect the data loaded into {@code meeting}.
      */
-    public void updateUI(Map<String, User> users, Map<Integer, HashSet<String>> allTimes) {
+    public void updateUI(Map<String, InternalUser> users, Map<Integer, HashSet<String>> allTimes) {
 
         for (String id : users.keySet()) {
             getUserName(id);

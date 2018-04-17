@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="MeetingID: "
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <TextView
             android:id="@+id/userNum"
@@ -30,20 +30,21 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/list"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/listImages"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
             </LinearLayout>
 
-            <ListView
+            <LinearLayout
                 android:id="@+id/listUsers"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@android:color/holo_blue_light">
+                android:orientation="vertical">
 
-            </ListView>
+            </LinearLayout>
+
         </LinearLayout>
 
         <ImageButton

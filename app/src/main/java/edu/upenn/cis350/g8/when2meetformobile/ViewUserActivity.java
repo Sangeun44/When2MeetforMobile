@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -57,7 +58,8 @@ public class ViewUserActivity extends AppCompatActivity {
     TreeMap<String, String> usersToView;
     TreeMap<String, Bitmap> imagesToView;
 
-    private ListView ls;
+    private LinearLayout names;
+    private LinearLayout images;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +73,8 @@ public class ViewUserActivity extends AppCompatActivity {
         usersToView = new TreeMap<String, String>();
         imagesToView = new TreeMap<String, Bitmap>();
 
-        ls = (ListView) findViewById(R.id.listUsers);
+        names = (LinearLayout) findViewById(R.id.listUsers);
+        images = (LinearLayout) findViewById(R.id.listImages);
 
         database = FirebaseFirestore.getInstance();
         readSessionData(meeting_ID);
@@ -98,10 +101,12 @@ public class ViewUserActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshots) {
                         if (documentSnapshots.exists()) {
-                            meeting = documentSnapshots.toObject(Meeting.class);
                             Log.d(TAG, "onSuccess: Found meeting!");
+                            meeting = documentSnapshots.toObject(Meeting.class);
+
                             TextView meeting_ID = (TextView) findViewById(R.id.meetingName);
                             meeting_ID.setText(meeting.getName()); //set display name to meetingName
+
                             updateUI(meeting.getUsers());
                         } else {
                             Log.d(TAG, "onSuccess: No Such meeting");
@@ -126,7 +131,7 @@ public class ViewUserActivity extends AppCompatActivity {
                             String name = documentSnapshots.get("userName").toString();
                             usersToView.put(user_ID, name);
                             Log.d(TAG, "onSuccess: Found user name!" + user_ID + name);
-                            updateUIPeople();
+                            updateUIListView(name);
                             getImages(user_ID);
                         } else {
                             Log.d(TAG, "onSuccess: No Such owner");
@@ -154,15 +159,13 @@ public class ViewUserActivity extends AppCompatActivity {
                                 byte[] decodedString = Base64.decode(you.getImage(), Base64.DEFAULT);
                                 Bitmap decodedByte = BitmapFactory.decodeByteArray
                                         (decodedString, 0, decodedString.length);
-                                imagesToView.put(user_ID, decodedByte);
+                                updateUIImages(decodedByte);
                             }
                             else {
                                 Bitmap.Config conf = Bitmap.Config.ARGB_8888; // see other conf types
                                 Bitmap bmp = Bitmap.createBitmap(2, 2, conf); // this creates a MUTABLE bitmap
-                                int id = R.drawable.image_preview;
-                                imagesToView.put(user_ID, bmp);
+                                updateUIImages(bmp);
                             }
-                            updateUIImages();
                             Log.d(TAG, "onSuccess: Found user name!" + user_ID);
                         } else {
                             Log.d(TAG, "onSuccess: No Such owner");
@@ -181,62 +184,48 @@ public class ViewUserActivity extends AppCompatActivity {
     /**
      * Update the UI to reflect the data loaded into {@code meeting}.
      */
-    public void updateUI(Map<String, User> users) {
+    public void updateUI(Map<String, InternalUser> users) {
+        TextView meetingName = findViewById(R.id.meetingName);
+        meetingName.setTextSize(50);
+        TextView numPeople = findViewById(R.id.userNum);
+        numPeople.setTextSize(30);
+        int numUsers = users.size();
+        numPeople.setText(numUsers + " people in this group.");
+
         for (String id : users.keySet()) {
             getUserName(id);
         }
     }
 
-    public void updateUIPeople() {
-        Map<String, User> users = meeting.getUsers();
-
-        TextView numPeople = findViewById(R.id.userNum);
-        int numUsers = users.size();
-        numPeople.setText(numUsers + " people in this group.");
-
-        List<String> listUsers = new ArrayList<String>();
-
-        for (String id : users.keySet()) {
-            if(usersToView.get(id) != null) {
-                listUsers.add(usersToView.get(id));
-                Log.d(TAG, "user: " + usersToView.get(id));
-            }
-        }
-
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>
-                (this, android.R.layout.simple_list_item_1, listUsers);
-
-        ls.setAdapter(arrayAdapter);
-
+    public void updateUIListView(String name) {
+        TextView newText = new TextView(this);
+        newText.setText(name);
+        newText.setTextSize(40);
+        newText.setGravity(Gravity.BOTTOM);
+        names.addView(newText);
     }
 
-    public void updateUIImages() {
-        int i = 0;
-
-        LinearLayout lay = (LinearLayout) findViewById(R.id.list);
-        lay.removeAllViews();
-        List<ImageView> listImages = new ArrayList<ImageView>();
-
-        Log.d(TAG, ""+ usersToView.size());
-
-        for(Map.Entry<String, String> entry: usersToView.entrySet()) {
+    public void updateUIImages(Bitmap bmp) {
+        Log.d(TAG, " bmp " + bmp.getByteCount());
+        if(bmp.getByteCount() < 50) {
             ImageView imageView = new ImageView(this);
-            if(imagesToView.get(entry.getKey())!= null) {
-                int width = 100;
-                int height = 100;
-                LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(width,height);
-                imageView.setLayoutParams(parms);
-                imageView.setBackground(new BitmapDrawable(getResources(), imagesToView.get(entry.getKey())));
-                Log.d(TAG, "" + entry.getKey());
-                listImages.add(imageView);
-            }
-        }
+            int width = 100;
+            int height = 100;
+            LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(width,height);
+            imageView.setLayoutParams(parms);
+            imageView.setBackgroundResource(R.drawable.image_preview);
 
-        for(ImageView iv : listImages) {
-            lay.addView(iv);
-        }
+            images.addView(imageView);
+        } else {
+            ImageView imageView = new ImageView(this);
+            int width = 100;
+            int height = 100;
+            LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(width, height);
+            imageView.setLayoutParams(parms);
+            imageView.setBackground(new BitmapDrawable(getResources(), bmp));
 
-        Log.d(TAG, i + " times");
+            images.addView(imageView);
+        }
     }
 
 

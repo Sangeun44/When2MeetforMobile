@@ -27,6 +27,10 @@ public class InternalUser {
         this.myTimes = myTimes;
     }
 
+    public InternalUser(String name, ArrayList<String> myTimes) {
+        this.name = name;
+        this.myTimes = myTimes;
+    }
 
     /**
      * Get the name of this User

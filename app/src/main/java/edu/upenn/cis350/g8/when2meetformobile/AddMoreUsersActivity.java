@@ -95,11 +95,14 @@ public class AddMoreUsersActivity extends AppCompatActivity {
         for(int i = 0; i < inputArr.length; ++i) {
             if(!ownerName.equals(inputArr[i])) {
                 getUserID(inputArr[i]);
+                Toast.makeText(getApplicationContext(), "Adding user...",
+                        Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(getApplicationContext(), "You're adding yourself",
                         Toast.LENGTH_LONG).show();
             }
         }
+        finish();
     }
 
     /**

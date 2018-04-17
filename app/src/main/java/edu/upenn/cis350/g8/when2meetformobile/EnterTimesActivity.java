@@ -141,7 +141,8 @@ public class EnterTimesActivity extends AppCompatActivity {
                 }
             }
         }
-        User users = new User(userId, enteredTimes);
+
+        InternalUser users = new InternalUser(userId, enteredTimes);
         meeting.addUsers(userId, users);
         updateDB(meeting);
         finish();

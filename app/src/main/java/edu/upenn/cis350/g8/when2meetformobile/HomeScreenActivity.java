@@ -34,6 +34,8 @@ public class HomeScreenActivity extends AppCompatActivity {
     public static final int CreateSessionActivity_ID = 4;
     public static final int HomeScreenActivity_ID = 5;
     final String TAG = "FireBase";
+    String account_id;
+
 
     private List<Meeting> myMeetings = new ArrayList<>();
     private Meeting curr_meet = new Meeting();
@@ -43,6 +45,9 @@ public class HomeScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         loadNotifs();
+
+        Intent he = getIntent();
+        account_id = he.getStringExtra("accountKey");
     }
 
     /**
@@ -224,9 +229,8 @@ public class HomeScreenActivity extends AppCompatActivity {
      *
      * @param meeting_ID ID of the meeting to update in the database
      */
-    private void updateDB(String meeting_ID) {
+    private void updateDB(final String meeting_ID) {
         Intent he = getIntent();
-        String account_id = he.getStringExtra("accountKey");
 
         // get the meeting in the database
         FirebaseFirestore.getInstance().collection("meetings").document(meeting_ID).get()
@@ -239,6 +243,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                             curr_meet = documentSnapshots.toObject(Meeting.class);
                             int numMeetings =  myMeetings.size();
                             Log.d(TAG,"onSuccess: Found " + numMeetings + " meetings!");
+                            updateMore(meeting_ID);
                         }
                     }
                 })
@@ -249,7 +254,9 @@ public class HomeScreenActivity extends AppCompatActivity {
                                 Toast.LENGTH_LONG).show();
                     }
                 });
+    }
 
+    private void updateMore(String meeting_ID) {
         // add users
         curr_meet.addUsers(account_id);
 
