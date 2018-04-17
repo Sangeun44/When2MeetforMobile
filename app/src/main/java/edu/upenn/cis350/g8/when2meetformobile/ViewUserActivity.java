@@ -207,16 +207,7 @@ public class ViewUserActivity extends AppCompatActivity {
 
     public void updateUIImages(Bitmap bmp) {
         Log.d(TAG, " bmp " + bmp.getByteCount());
-        if(bmp.getByteCount() < 50) {
-            ImageView imageView = new ImageView(this);
-            int width = 100;
-            int height = 100;
-            LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(width,height);
-            imageView.setLayoutParams(parms);
-            imageView.setBackgroundResource(R.drawable.image_preview);
 
-            images.addView(imageView);
-        } else {
             ImageView imageView = new ImageView(this);
             int width = 100;
             int height = 100;
@@ -225,7 +216,7 @@ public class ViewUserActivity extends AppCompatActivity {
             imageView.setBackground(new BitmapDrawable(getResources(), bmp));
 
             images.addView(imageView);
-        }
+        
     }
 
 
