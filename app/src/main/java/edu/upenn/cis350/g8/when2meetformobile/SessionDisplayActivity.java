@@ -151,7 +151,7 @@ public class SessionDisplayActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshots) {
                     if (documentSnapshots.exists()) {
-                        String name = documentSnapshots.get("name").toString();
+                        String name = documentSnapshots.get("userName").toString();
                         usersInName.put(user_ID, name);
                         updateUIPeople();
                         Log.d(TAG, "onSuccess: Found user name!" + user_ID + name);

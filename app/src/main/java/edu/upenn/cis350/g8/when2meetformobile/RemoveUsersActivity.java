@@ -77,7 +77,7 @@ public class RemoveUsersActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshots) {
                         if (documentSnapshots.exists()) {
-                            String name = documentSnapshots.get("name").toString();
+                            String name = documentSnapshots.get("userName").toString();
                             if (!user_ID.equals(ownerID)) {
                                 createCheckbox(name, user_ID);
                             }
