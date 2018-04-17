@@ -109,7 +109,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void updateDB(GoogleSignInAccount account) {
         Map<String, Object> userData = new HashMap<>();
         userData.put("name", account.getDisplayName());
-        userData.put("userName", account.getDisplayName());
+        String name = account.getDisplayName();
+        userData.put("userName", name);
+        userData.put("phoneNumber", "");
+        userData.put("description", "");
         //add default image for user
         Bitmap img = BitmapFactory.decodeResource(getResources(),
                 R.drawable.image_preview);
