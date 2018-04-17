@@ -232,7 +232,7 @@ public class CreateSessionActivity extends AppCompatActivity implements AdapterV
      */
     private void updateDB(String eventName, int t1, int t2, boolean isDays) {
         String owner_id = getIntent().getStringExtra("accountKey");
-        HashMap<String, User> users = new HashMap<>();
+        HashMap<String, InternalUser> users = new HashMap<>();
         Meeting meet;
         if (isDays) {
             meet = new Meeting(users, changeDaysToDates(), t2, t1, eventName, owner_id, isDays);
