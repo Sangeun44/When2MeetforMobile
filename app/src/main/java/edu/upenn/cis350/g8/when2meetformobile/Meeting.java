@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Meeting {
-    private Map<String, User> users;
+    private Map<String, InternalUser> users;
     private List<String> dates;
 
     private int high_time;
@@ -35,7 +35,7 @@ public class Meeting {
      * @param owner userID of the owner
      * @param isDays true if the meeting is based off of days of the week
      */
-    public Meeting(Map<String, User> users, List<String> dates, int high_time, int low_time,
+    public Meeting(Map<String, InternalUser> users, List<String> dates, int high_time, int low_time,
                    String name, String owner, boolean isDays) {
         this.users = users;
         this.dates = dates;
@@ -118,7 +118,7 @@ public class Meeting {
      *
      * @return users map of users participating in this meeting
      */
-    public Map<String, User> getUsers() {
+    public Map<String, InternalUser> getUsers() {
         return users;
     }
 
@@ -130,9 +130,9 @@ public class Meeting {
      */
     public void addUsers(String id) {
         if(users == null) {
-            users = new HashMap<String, User>();
+            users = new HashMap<String, InternalUser>();
         }
-        users.put(id, new User());
+        users.put(id, new InternalUser());
     }
 
     /**
@@ -142,9 +142,9 @@ public class Meeting {
      * @param id userID of the new user
      * @param use {@code User} object associated with the user
      */
-    public void addUsers(String id, User use) {
+    public void addUsers(String id, InternalUser use) {
         if (users == null) {
-            users = new HashMap<String, User>();
+            users = new HashMap<String, InternalUser>();
             users.put(id, use);
         }
         users.put(id, use);
@@ -196,7 +196,7 @@ public class Meeting {
             }
         }
 
-        for (User u: users.values()) {
+        for (InternalUser u: users.values()) {
             List<String> times = u.getMyTimes();
             if (times != null) {
                 for (String time : times) {
