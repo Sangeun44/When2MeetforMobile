@@ -114,7 +114,6 @@ public class RemoveUsersActivity extends AppCompatActivity {
     }
 
     public void onClickSubmitButton(View v) {
-        Toast.makeText(this, TextUtils.join(",", usersToRemove), Toast.LENGTH_SHORT).show();
         meeting.removeUsers(usersToRemove);
 
         FirebaseFirestore.getInstance().collection("meetings").document(meetingID)
