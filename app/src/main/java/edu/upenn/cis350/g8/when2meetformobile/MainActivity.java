@@ -106,6 +106,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Map<String, Object> userData = new HashMap<>();
         userData.put("name", account.getDisplayName());
         userData.put("userName", account.getDisplayName());
+        //add default image for user
+        Bitmap img = BitmapFactory.decodeResource(getResources(),
+                R.drawable.image_preview);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        img.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream .toByteArray();
+        String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+        userData.put("image", encoded);
+        
         FirebaseFirestore.getInstance().collection("users").document(account.getId())
             .set(userData, SetOptions.merge())
             .addOnSuccessListener(new OnSuccessListener<Void>() {
