@@ -55,11 +55,9 @@ public class ViewUserActivity extends AppCompatActivity {
     private int numUsers;
 
     List<String> days;
-    TreeMap<String, String> usersToView;
-    TreeMap<String, Bitmap> imagesToView;
 
-    private LinearLayout names;
-    private LinearLayout images;
+    LinearLayout newlss;
+    LinearLayout listing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,13 +67,7 @@ public class ViewUserActivity extends AppCompatActivity {
 
         meeting_ID = i.getStringExtra("MEETING"); //meeting_ID
         user_ID = i.getStringExtra("accountKey"); //owner_ID
-
-        usersToView = new TreeMap<String, String>();
-        imagesToView = new TreeMap<String, Bitmap>();
-
-        names = (LinearLayout) findViewById(R.id.listUsers);
-        images = (LinearLayout) findViewById(R.id.listImages);
-
+        listing = (LinearLayout) findViewById(R.id.listing);
         database = FirebaseFirestore.getInstance();
         readSessionData(meeting_ID);
     }
@@ -129,10 +121,8 @@ public class ViewUserActivity extends AppCompatActivity {
                     public void onSuccess(DocumentSnapshot documentSnapshots) {
                         if (documentSnapshots.exists()) {
                             String name = documentSnapshots.get("userName").toString();
-                            usersToView.put(user_ID, name);
                             Log.d(TAG, "onSuccess: Found user name!" + user_ID + name);
-                            updateUIListView(name);
-                            getImages(user_ID);
+                            updateUIPeople(name);
                         } else {
                             Log.d(TAG, "onSuccess: No Such owner");
                         }
@@ -154,17 +144,11 @@ public class ViewUserActivity extends AppCompatActivity {
                     public void onSuccess(DocumentSnapshot documentSnapshots) {
                         if (documentSnapshots.exists()) {
                             User you = documentSnapshots.toObject(User.class);
-
                             if (you.getImage() != null) {
                                 byte[] decodedString = Base64.decode(you.getImage(), Base64.DEFAULT);
                                 Bitmap decodedByte = BitmapFactory.decodeByteArray
                                         (decodedString, 0, decodedString.length);
                                 updateUIImages(decodedByte);
-                            }
-                            else {
-                                Bitmap.Config conf = Bitmap.Config.ARGB_8888; // see other conf types
-                                Bitmap bmp = Bitmap.createBitmap(2, 2, conf); // this creates a MUTABLE bitmap
-                                updateUIImages(bmp);
                             }
                             Log.d(TAG, "onSuccess: Found user name!" + user_ID);
                         } else {
@@ -194,32 +178,43 @@ public class ViewUserActivity extends AppCompatActivity {
 
         for (String id : users.keySet()) {
             getUserName(id);
+            getImages(id);
+            newlss = new LinearLayout(this);
+            newlss.setOrientation(LinearLayout.HORIZONTAL);
+            listing.addView(newlss);
         }
     }
 
-    public void updateUIListView(String name) {
+    public void updateUIPeople(String name) {
         TextView newText = new TextView(this);
         newText.setText(name);
         newText.setTextSize(40);
         newText.setGravity(Gravity.BOTTOM);
-        names.addView(newText);
+
+        if(newlss.getChildCount() < 2) {
+            newlss.addView(newText);
+        } else {
+            newlss = new LinearLayout(this);
+            newlss.addView(newText);
+            listing.addView(newlss);
+        }
     }
 
     public void updateUIImages(Bitmap bmp) {
-        Log.d(TAG, " bmp " + bmp.getByteCount());
-
             ImageView imageView = new ImageView(this);
             int width = 100;
             int height = 100;
             LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(width, height);
             imageView.setLayoutParams(parms);
             imageView.setBackground(new BitmapDrawable(getResources(), bmp));
-
-            images.addView(imageView);
-        
+        if(newlss.getChildCount() < 2) {
+            newlss.addView(imageView);
+        } else {
+            newlss = new LinearLayout(this);
+            newlss.addView(imageView);
+            listing.addView(newlss);
+        }
     }
-
-
 
 }
 
