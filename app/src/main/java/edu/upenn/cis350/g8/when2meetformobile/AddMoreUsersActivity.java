@@ -111,7 +111,7 @@ public class AddMoreUsersActivity extends AppCompatActivity {
      */
     private void getOwnerName() {
         Log.d(TAG, "user id " + user_ID);
-        FirebaseFirestore.getInstance().collection("users").document(user_ID).get()
+        database.collection("users").document(user_ID).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshots) {

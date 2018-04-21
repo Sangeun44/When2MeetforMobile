@@ -88,8 +88,6 @@ public class SessionDisplayActivity extends AppCompatActivity {
      * @param v current {@code View}
      */
     public void onEnterTimesButtonClick(View v) {
-        Toast.makeText(getApplicationContext(), "Going to Enter Times Page...",
-                Toast.LENGTH_SHORT).show();
         Intent i = new Intent(this, EnterTimesActivity.class);
         i.putExtra("MEETING", meetingID);
         i.putExtra("accountName", userID);
@@ -97,8 +95,6 @@ public class SessionDisplayActivity extends AppCompatActivity {
     }
 
     public void onAddTimesButtonClick(View v) {
-        Toast.makeText(getApplicationContext(), "Going to Add Times Page...",
-                Toast.LENGTH_SHORT).show();
         Intent i = new Intent(this, AddTimesActivity.class);
         i.putExtra("MEETING", meetingID);
         i.putExtra("accountKey", userID);
@@ -106,8 +102,6 @@ public class SessionDisplayActivity extends AppCompatActivity {
     }
 
     public void onRemoveUsersButtonClick(View v) {
-        Toast.makeText(getApplicationContext(), "Going to Add Times Page...",
-                Toast.LENGTH_SHORT).show();
         Intent i = new Intent(this, RemoveUsersActivity.class);
         i.putExtra("MEETING", meetingID);
         i.putExtra("accountKey", userID);
@@ -176,8 +170,6 @@ public class SessionDisplayActivity extends AppCompatActivity {
      * with an option to add more usernames/emails.
      */
     public void addUserButton(View view) {
-        Toast.makeText(getApplicationContext(), "Going to Enter More Users Page...",
-                Toast.LENGTH_SHORT).show();
         Intent i = new Intent(this, AddMoreUsersActivity.class);
         i.putExtra("MEETING", meetingID);
         i.putExtra("accountName", userID);
@@ -190,8 +182,6 @@ public class SessionDisplayActivity extends AppCompatActivity {
      * with an option to add more usernames/emails.
      */
     public void viewUsersButton(View view) {
-        Toast.makeText(getApplicationContext(), "Going to View Users Page...",
-                Toast.LENGTH_SHORT).show();
         Intent i = new Intent(this, ViewUserActivity.class);
         i.putExtra("MEETING", meetingID);
         i.putExtra("accountName", userID);

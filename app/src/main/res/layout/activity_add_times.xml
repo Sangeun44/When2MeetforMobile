@@ -85,7 +85,6 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:onClick="onSelectDates"
-                            android:text="1"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -95,7 +94,6 @@
                             android:layout_weight="1"
                             android:onClick="onSelectDates"
 
-                            android:text="2"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -106,7 +104,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="3"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -117,7 +114,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="3"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -128,7 +124,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="3"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -139,7 +134,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="3"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -150,7 +144,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="3"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                     </LinearLayout>
@@ -169,7 +162,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="3"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -180,7 +172,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="3"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -191,7 +182,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="3"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -202,7 +192,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="3"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -213,7 +202,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="4"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -224,7 +212,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="5"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -235,7 +222,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="7"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
                     </LinearLayout>
 
@@ -253,7 +239,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="7"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -264,7 +249,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="7"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -275,7 +259,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="7"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -286,7 +269,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="7"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -297,7 +279,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="7"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -308,7 +289,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="7"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -319,7 +299,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="7"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                     </LinearLayout>
@@ -338,7 +317,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="7"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -349,7 +327,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="7"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -360,7 +337,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="7"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -371,7 +347,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="7"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -382,7 +357,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="7"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -393,7 +367,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="7"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -404,7 +377,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="7"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                     </LinearLayout>
@@ -423,7 +395,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="7"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -434,7 +405,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="7"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -445,7 +415,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="7"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -456,7 +425,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="7"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -467,7 +435,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="7"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -478,7 +445,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="7"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         <Button
@@ -489,7 +455,6 @@
 
                             android:onClick="onSelectDates"
 
-                            android:text="7"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                     </LinearLayout>
