@@ -85,6 +85,10 @@ public class AddTimesActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * initialize the given spinner
+     * @param type denotes the spinner (either "early" or "late")
+     */
     private void initSpinner(String type) {
         List<String> items = new ArrayList<String>();
         Spinner s;
@@ -143,6 +147,9 @@ public class AddTimesActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * sets the text displaying the current data for this meeting
+     */
     private void setCurrentData() {
         TextView meetingData = (TextView) findViewById(R.id.txtCurrentDates);
         StringBuilder currentData = new StringBuilder();
@@ -219,6 +226,11 @@ public class AddTimesActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Changes the int time to the time string
+     * @param time the hour in military time
+     * @return the time String (ie "12 pm")
+     */
     private String changeTime(int time) {
         if (time == 24 || time == 0) {
             return "12 am";
@@ -231,6 +243,10 @@ public class AddTimesActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * changes all of the days (ie "mon" ) to dates (ie "04/23/2018")
+     * @return a list of Strings in dd/mm/yyyy format
+     */
     private List<String> changeDaysToDates() {
         List<String> datesFromDays = new ArrayList<String>();
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
@@ -249,6 +265,11 @@ public class AddTimesActivity extends AppCompatActivity {
         return datesFromDays;
     }
 
+    /**
+     * Updates the meeting with the new times and adds the new dates
+     * Overwrites old meeting in the database with new data
+     * @param view the view of the submit button
+     */
     public void onClickCreateButton(View view) {
         int minTime = changeTime(((Spinner) findViewById(R.id.spnEarly)).getSelectedItem().toString());
         int maxTime = changeTime(((Spinner) findViewById(R.id.spnLate)).getSelectedItem().toString());
