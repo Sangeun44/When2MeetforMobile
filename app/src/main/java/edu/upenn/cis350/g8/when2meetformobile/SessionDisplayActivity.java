@@ -83,8 +83,7 @@ public class SessionDisplayActivity extends AppCompatActivity {
     }
 
     /**
-     * Navigate to the enter times page view.
-     *
+     * Navigate to the enter times page view
      * @param v current {@code View}
      */
     public void onEnterTimesButtonClick(View v) {
@@ -94,6 +93,10 @@ public class SessionDisplayActivity extends AppCompatActivity {
         startActivityForResult(i, EnterTimesActivity_ID);
     }
 
+    /**
+     * Navigate to the add times page view
+     * @param v current {@code View}
+     */
     public void onAddTimesButtonClick(View v) {
         Intent i = new Intent(this, AddTimesActivity.class);
         i.putExtra("MEETING", meetingID);
@@ -101,6 +104,10 @@ public class SessionDisplayActivity extends AppCompatActivity {
         startActivityForResult(i, AddTimesActivity_ID);
     }
 
+    /**
+     * Navigate to the remove users page view
+     * @param v current {@code View}
+     */
     public void onRemoveUsersButtonClick(View v) {
         Intent i = new Intent(this, RemoveUsersActivity.class);
         i.putExtra("MEETING", meetingID);
@@ -110,7 +117,6 @@ public class SessionDisplayActivity extends AppCompatActivity {
 
     /**
      * Read the data from a meeting, loading any parsed data into {@code meeting}.
-     *
      * @param meetingID ID of the meeting to be read
      */
     private void readSessionData(String meetingID) {
@@ -138,6 +144,10 @@ public class SessionDisplayActivity extends AppCompatActivity {
             });
     }
 
+    /**
+     * Get the user's name and update the map and UI for them
+     * @param user_ID the user's ID
+     */
     private void getUserName(final String user_ID) {
         Log.d(TAG, "user id " + user_ID);
         database.collection("users").document(user_ID).get()
@@ -164,10 +174,8 @@ public class SessionDisplayActivity extends AppCompatActivity {
     }
 
     /**
-     * Add user to the session
-     * Add More Users button, it should display a screen that
-     * lists the code for the event
-     * with an option to add more usernames/emails.
+     * Navigate to the add users page view
+     * @param view current {@code View}
      */
     public void addUserButton(View view) {
         Intent i = new Intent(this, AddMoreUsersActivity.class);
@@ -177,9 +185,8 @@ public class SessionDisplayActivity extends AppCompatActivity {
     }
 
     /**
-     * Remove user to the session
-     * Remove users button, it should display a screen that lists the code for the event
-     * with an option to add more usernames/emails.
+     * Navigate to the view users page view
+     * @param view current {@code View}
      */
     public void viewUsersButton(View view) {
         Intent i = new Intent(this, ViewUserActivity.class);
@@ -188,6 +195,10 @@ public class SessionDisplayActivity extends AppCompatActivity {
         startActivityForResult(i, ViewUserActivity_ID);
     }
 
+
+    /**
+     * update the UI with the people in the meeting read from the database
+     */
     public void updateUIPeople() {
         Map<String, InternalUser> users = meeting.getUsers();
 
@@ -217,8 +228,6 @@ public class SessionDisplayActivity extends AppCompatActivity {
         for (String id : users.keySet()) {
             getUserName(id);
         }
-
-        String bestTimes = "";
 
         int numUsers = users.size();
         List<String> list_times = new ArrayList<String>();
