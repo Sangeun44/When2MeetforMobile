@@ -70,6 +70,10 @@ public class RemoveUsersActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Get the user's name and make a checkbox for them
+     * @param user_ID the user's ID
+     */
     private void getUserName(final String user_ID) {
         Log.d(TAG, "user id " + user_ID);
         FirebaseFirestore.getInstance().collection("users").document(user_ID).get()
@@ -96,6 +100,11 @@ public class RemoveUsersActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * creates a checkbox for the given user and adds it to the Linear Layout
+     * @param name the username to be displayed as the text for the checkbox
+     * @param user_id the userID to put in the onClickListener
+     */
     private void createCheckbox(String name, final String user_id) {
         LinearLayout mainLayout = findViewById(R.id.llRmUsers);
         CheckBox myBox = new CheckBox(this);
@@ -113,6 +122,11 @@ public class RemoveUsersActivity extends AppCompatActivity {
         mainLayout.addView(myBox);
     }
 
+    /**
+     * removes the users in usersToRemove from the meeting
+     * rewrites the meeting to the database
+     * @param v the view for the submit button
+     */
     public void onClickSubmitButton(View v) {
         meeting.removeUsers(usersToRemove);
 
