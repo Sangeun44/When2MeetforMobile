@@ -34,6 +34,11 @@ public class DayData {
         dateToDay.put(Calendar.SATURDAY, "sat");
     }
 
+    /**
+     * Get the Date associated with the String day
+     * @param day a String representation of the day of the week (ie: "mon")
+     * @return the int data associated with it in Calendar (ie: Calendar.MONDAY)
+     */
     public static int getDateFromDay(String day) {
         if (dayToDate == null) {
             initMaps();
@@ -41,6 +46,11 @@ public class DayData {
         return dayToDate.get(day);
     }
 
+    /**
+     * Get the day associated with the Calendar date for that day
+     * @param date the int data associated with it in Calendar (ie: Calendar.MONDAY)
+     * @return a String representation of the day of the week (ie: "mon")
+     */
     public static String getDayFromDate(int date) {
         if (dateToDay == null) {
             initMaps();
@@ -48,8 +58,12 @@ public class DayData {
         return dateToDay.get(date);
     }
 
+    /**
+     * Get the String for the String date
+     * @param date a String for this date (ie: "04/21/2018"
+     * @return the String for what day this is (ie: "sat")
+     */
     public static String getDayOfWeekFromDateString(String date) {
-        Date dt = new Date();
         Calendar c = Calendar.getInstance();
         String[] parts = date.split("/");
         c.set(Integer.parseInt(parts[2]), Integer.parseInt(parts[0]) - 1, Integer.parseInt(parts[1]));
